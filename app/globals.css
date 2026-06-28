@@ -1,26 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap");
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --black: #231f20;
+  --white: #ffffff;
+  --grey-50: #f6f6f6;
+  --grey-100: #eeeeee;
+  --grey-200: #e2e2e2;
+  --grey-300: #cfcfcf;
+  --grey-400: #a8a8a8;
+  --grey-500: #7c7a7b;
+  --grey-600: #565455;
+  --grey-700: #3a3738;
+  --grey-900: #231f20;
+
+  --ink: var(--black);
+  --ink-muted: var(--grey-500);
+  --ink-subtle: var(--grey-400);
+  --ink-inverse: var(--white);
+  --surface: var(--white);
+  --surface-raised: var(--grey-50);
+  --surface-inverse: var(--black);
+  --border: var(--grey-200);
+  --border-strong: var(--black);
+  --focus-ring: var(--black);
+
+  --font-sans:
+    "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background: var(--surface);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
 }
