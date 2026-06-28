@@ -20,11 +20,11 @@ export default async function HomePage() {
     >
       <p
         style={{
-          fontSize: "clamp(1.5rem, 4vw, 3.5rem)",
-          lineHeight: 1.1,
-          letterSpacing: "-0.03em",
-          maxWidth: "18ch",
-          marginTop: "64px",
+          fontSize: "clamp(1.5rem, 3.5vw, 2.625rem)",
+          lineHeight: 1.2,
+          letterSpacing: "-0.02em",
+          maxWidth: "820px",
+          marginTop: "80px",
         }}
       >
         {heroText}
