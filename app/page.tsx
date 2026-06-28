@@ -1,35 +1,103 @@
+import Image from "next/image";
+import Link from "next/link";
 import { getStory } from "@/lib/storyblok";
-import WorkGrid from "@/components/WorkGrid";
+
+type Project = {
+  slug: string;
+  title: string;
+  thumbnail?: { filename: string; alt?: string };
+  localImage?: string;
+};
+
+const FALLBACK_PROJECTS: Project[] = [
+  { slug: "finn-drive", title: "FINN", localImage: "/work/work-01.jpg" },
+  { slug: "eclipse", title: "Eclipse", localImage: "/work/work-02.jpg" },
+  { slug: "optic", title: "Optic", localImage: "/work/work-03.jpg" },
+  { slug: "profile", title: "Profile", localImage: "/work/work-04.jpg" },
+  { slug: "altitude", title: "Altitude", localImage: "/work/work-05.jpg" },
+  { slug: "go", title: "Go!", localImage: "/work/work-06.jpg" },
+  {
+    slug: "studio-hours",
+    title: "Studio Hours",
+    localImage: "/work/work-07.jpg",
+  },
+  { slug: "care", title: "Care", localImage: "/work/work-08.jpg" },
+  { slug: "creekside", title: "Creekside", localImage: "/work/work-09.jpg" },
+  { slug: "bloom", title: "Bloom", localImage: "/work/work-10.jpg" },
+  { slug: "horizon", title: "Horizon", localImage: "/work/work-11.jpg" },
+  { slug: "detail", title: "Detail", localImage: "/work/work-12.jpg" },
+  { slug: "expedition", title: "Expedition", localImage: "/work/work-13.jpg" },
+  { slug: "pasture", title: "Pasture", localImage: "/work/work-14.jpg" },
+  { slug: "make", title: "Make", localImage: "/work/work-15.jpg" },
+  { slug: "sovereign", title: "Sovereign", localImage: "/work/work-16.jpg" },
+];
 
 export default async function HomePage() {
   const story = await getStory("home").catch(() => null);
   const content = story?.content ?? {};
 
   const heroText =
-    content.hero_text ??
+    content.intro ??
     "Hello, I'm Tony Goff-Yu. I have over twenty years of design experience across branding, user experience and interaction design. I help businesses improve customer experience and conversion. This is my work.";
-  const projects = content.projects ?? [];
+
+  const projects: Project[] = content.projects?.length
+    ? content.projects
+    : FALLBACK_PROJECTS;
 
   return (
-    <div
-      style={{
-        maxWidth: "1200px",
-        margin: "0 auto",
-        padding: "48px 24px 96px",
-      }}
-    >
+    <main style={{ padding: "0 192px 140px" }}>
       <p
         style={{
-          fontSize: "clamp(1.5rem, 3.5vw, 2.625rem)",
-          lineHeight: 1.2,
-          letterSpacing: "-0.02em",
-          maxWidth: "820px",
-          marginTop: "80px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          maxWidth: 1060,
+          marginTop: 248,
+          marginBottom: 112,
+          fontSize: "clamp(28px, 3.4vw, 48px)",
+          lineHeight: 1.32,
+          fontWeight: 400,
+          letterSpacing: "2px",
+          color: "var(--ink)",
         }}
       >
         {heroText}
       </p>
-      {projects.length > 0 && <WorkGrid projects={projects} />}
-    </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          columnGap: 24,
+          rowGap: 24,
+        }}
+      >
+        {projects.map((p) => {
+          const src = p.thumbnail?.filename ?? p.localImage ?? "";
+          return (
+            <Link
+              key={p.slug}
+              href={`/work/${p.slug}`}
+              style={{
+                position: "relative",
+                display: "block",
+                aspectRatio: "1 / 1",
+                overflow: "hidden",
+                background: "var(--surface-raised)",
+              }}
+            >
+              {src && (
+                <Image
+                  src={src}
+                  alt={p.thumbnail?.alt ?? p.title}
+                  fill
+                  sizes="(max-width: 760px) 100vw, 50vw"
+                  style={{ objectFit: "cover" }}
+                />
+              )}
+            </Link>
+          );
+        })}
+      </div>
+    </main>
   );
 }

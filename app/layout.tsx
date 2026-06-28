@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Nav from "@/components/Nav";
+
+const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500"] });
 
 export const metadata: Metadata = {
   title: "Ganda — Tony Goff-Yu",
@@ -14,14 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={dmSans.className}>
       <body>
         <Script
           src="//app.storyblok.com/f/storyblok-v2-latest.js"
           strategy="beforeInteractive"
         />
         <Nav />
-        <main>{children}</main>
+        {children}
       </body>
     </html>
   );

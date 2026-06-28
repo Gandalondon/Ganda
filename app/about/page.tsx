@@ -11,28 +11,31 @@ const DEFAULT_BIO = [
 export default async function AboutPage() {
   const story = await getStory("about").catch(() => null);
   const content = story?.content ?? {};
-
   const paras: string[] = content.bio
     ? content.bio.split("\n\n").filter(Boolean)
     : DEFAULT_BIO;
 
   return (
-    <div
-      style={{ maxWidth: "720px", margin: "0 auto", padding: "64px 24px 96px" }}
-    >
-      {paras.map((p, i) => (
-        <p
-          key={i}
-          style={{
-            fontSize: "clamp(1.25rem, 3vw, 2.25rem)",
-            lineHeight: 1.25,
-            letterSpacing: "-0.015em",
-            marginBottom: "1.5em",
-          }}
-        >
-          {p}
-        </p>
-      ))}
-    </div>
+    <main style={{ padding: "0 192px 140px" }}>
+      <div
+        style={{
+          marginLeft: "auto",
+          marginRight: "auto",
+          maxWidth: 1060,
+          paddingTop: 248,
+          fontSize: "clamp(28px, 3.4vw, 48px)",
+          lineHeight: 1.32,
+          fontWeight: 400,
+          letterSpacing: "2px",
+          color: "var(--ink)",
+        }}
+      >
+        {paras.map((para, i) => (
+          <p key={i} style={{ marginTop: i === 0 ? 0 : "1.2em" }}>
+            {para}
+          </p>
+        ))}
+      </div>
+    </main>
   );
 }
