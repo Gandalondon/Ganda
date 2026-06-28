@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Nav from "@/components/Nav";
 
@@ -15,6 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Script
+          src="//app.storyblok.com/f/storyblok-v2-latest.js"
+          strategy="beforeInteractive"
+        />
         <Nav />
         <main>{children}</main>
       </body>
