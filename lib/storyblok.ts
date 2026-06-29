@@ -2,7 +2,7 @@ import StoryblokClient from "storyblok-js-client";
 import { draftMode } from "next/headers";
 
 const Storyblok = new StoryblokClient({
-  accessToken: process.env.STORYBLOK_PREVIEW_TOKEN,
+  accessToken: process.env.NEXT_PUBLIC_STORYBLOK_PREVIEW_TOKEN,
   cache: { clear: "auto", type: "memory" },
 });
 
