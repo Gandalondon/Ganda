@@ -4,7 +4,8 @@ import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const slug = searchParams.get("slug") ?? "/";
+  const raw = searchParams.get("slug") ?? "/";
+  const slug = raw === "home" ? "/" : `/${raw}`;
   (await draftMode()).enable();
   redirect(slug);
 }
