@@ -44,7 +44,7 @@ export default function LiveHomePage({
     (story as { content?: Record<string, unknown> })?.content ?? {};
 
   const heroText =
-    (content.intro as string) ??
+    (content.hero_text as string) ??
     "Hello, I'm Tony Goff-Yu. I have over twenty years of design experience across branding, user experience and interaction design. I help businesses improve customer experience and conversion. This is my work.";
 
   const projects: Project[] = (content.projects as Project[])?.length
