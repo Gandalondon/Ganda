@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import StoryblokProvider from "@/components/StoryblokProvider";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500"] });
 
@@ -19,12 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={dmSans.className}>
       <body>
-        <Script
-          src="//app.storyblok.com/f/storyblok-v2-latest.js"
-          strategy="beforeInteractive"
-        />
-        <Nav />
-        {children}
+        <StoryblokProvider>
+          <Nav />
+          {children}
+        </StoryblokProvider>
       </body>
     </html>
   );
