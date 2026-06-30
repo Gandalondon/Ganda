@@ -62,7 +62,48 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      {/* Row 2: Clients label left, client list right */}
+      {/* Row 2: Capabilities label left, list right */}
+      <div className="gd-container" style={{ marginTop: 96 }}>
+        <div className="gd-split" style={{ gap: 24 }}>
+          <h2
+            style={{
+              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+              fontWeight: 400,
+              letterSpacing: "1px",
+              lineHeight: 1.25,
+              color: "var(--ink)",
+            }}
+          >
+            Capabilities
+          </h2>
+          <div className="gd-clients">
+            {[
+              "Product Design",
+              "Product Strategy",
+              "UX Research",
+              "Experimentation & A/B Testing",
+              "Conversion Optimisation",
+              "Design Systems",
+              "AI-Assisted Workflows",
+              "Stakeholder Leadership",
+            ].map((item, i) => (
+              <p
+                key={i}
+                style={{
+                  fontSize: 18,
+                  fontWeight: 300,
+                  lineHeight: 1.5,
+                  color: "var(--ink)",
+                }}
+              >
+                {item}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Row 3: Clients label left, client list right */}
       <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2
