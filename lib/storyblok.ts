@@ -31,7 +31,7 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return data.stories
-    .filter((s: any) => s.slug !== "archive")
+    .filter((s: any) => !s.full_slug?.endsWith("/archive")) // justified-any: Storyblok SDK returns untyped story objects
     .map((s: any) => ({
       slug: s.slug as string,
       name: s.name as string,
