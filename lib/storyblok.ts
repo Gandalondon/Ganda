@@ -30,8 +30,8 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
     per_page: 50,
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return data.stories
-    .filter((s: any) => !s.full_slug?.endsWith("/archive")) // justified-any: Storyblok SDK returns untyped story objects
+  return data.stories // justified-any: Storyblok SDK returns untyped story objects
+    .filter((s: any) => s.slug !== "archive" && s.name !== "Archive")
     .map((s: any) => ({
       slug: s.slug as string,
       name: s.name as string,
