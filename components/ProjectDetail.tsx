@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useStoryblokState } from "@storyblok/react";
 import WorkGrid from "@/components/WorkGrid";
+import BlurImage from "@/components/BlurImage";
 import type { WorkProject } from "@/lib/storyblok";
 
 type TextBlock = {
@@ -64,7 +64,7 @@ export default function ProjectDetail({
           if (!block.image?.filename) return null;
           return (
             <div key={i} className="gd-container" style={{ marginTop: 120 }}>
-              <Image
+              <BlurImage
                 src={block.image.filename}
                 alt={block.image.alt ?? ""}
                 width={1200}
@@ -77,7 +77,7 @@ export default function ProjectDetail({
         return (
           <div key={i} className="gd-container" style={{ marginTop: 120 }}>
             <div className="gd-split" style={{ gap: 24 }}>
-              <div>
+              <div style={{ maxWidth: "calc(100% - 24px)" }}>
                 {block.Title && (
                   <h2
                     style={{
@@ -108,7 +108,7 @@ export default function ProjectDetail({
               </div>
               <div>
                 {block.image?.filename && (
-                  <Image
+                  <BlurImage
                     src={block.image.filename}
                     alt={block.image.alt ?? ""}
                     width={1200}
