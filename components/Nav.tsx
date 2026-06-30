@@ -34,7 +34,10 @@ export default function Nav() {
           }}
         >
           <li>
-            <Link href="/about" style={{ fontSize: 18, color: "var(--ink)" }}>
+            <Link
+              href="/about"
+              style={{ fontSize: 18, color: "var(--ink)", fontWeight: 300 }}
+            >
               About
             </Link>
           </li>
@@ -43,7 +46,7 @@ export default function Nav() {
               href="https://cal.com/tony-goff-yu-an7khw/intro"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ fontSize: 18, color: "var(--ink)" }}
+              style={{ fontSize: 18, color: "var(--ink)", fontWeight: 300 }}
             >
               Book a call
             </a>
