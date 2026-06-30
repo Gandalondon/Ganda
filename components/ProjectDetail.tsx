@@ -54,49 +54,28 @@ export default function ProjectDetail({
         className="gd-container"
         style={{ paddingTop: 128, paddingBottom: 0 }}
       >
-        {/* Hero: title + summary left, thumbnail right */}
+        {/* Hero: title + summary */}
         <div className="gd-split" style={{ gap: 24 }}>
-          <div>
-            <h1
-              style={{
-                fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                fontWeight: 400,
-                letterSpacing: "1px",
-                lineHeight: 1.25,
-                marginBottom: 24,
-              }}
-            >
-              {title}
-            </h1>
-            <p
-              style={{
-                fontSize: 18,
-                fontWeight: 300,
-                lineHeight: 1.5,
-                color: "var(--ink)",
-              }}
-            >
-              {summary}
-            </p>
-          </div>
-          <div
+          <h1
             style={{
-              aspectRatio: "4 / 5",
-              background: "var(--surface-raised)",
-              border: "1px solid var(--border)",
-              overflow: "hidden",
-              position: "relative",
+              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+              fontWeight: 400,
+              letterSpacing: "1px",
+              lineHeight: 1.25,
             }}
           >
-            {content.thumbnail?.filename && (
-              <Image
-                src={content.thumbnail.filename}
-                alt={content.thumbnail.alt ?? title}
-                fill
-                style={{ objectFit: "cover" }}
-              />
-            )}
-          </div>
+            {title}
+          </h1>
+          <p
+            style={{
+              fontSize: 18,
+              fontWeight: 300,
+              lineHeight: 1.5,
+              color: "var(--ink)",
+            }}
+          >
+            {summary}
+          </p>
         </div>
       </div>
 
