@@ -102,6 +102,19 @@ img {
   box-sizing: border-box;
 }
 
+/* Client list — 2 columns on desktop, 1 on mobile */
+.gd-clients {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 24px;
+}
+
+@media (max-width: 640px) {
+  .gd-clients {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Grid and split layout helpers */
 .gd-grid-3 {
   display: grid;

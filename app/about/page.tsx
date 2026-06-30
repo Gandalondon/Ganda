@@ -76,13 +76,7 @@ export default async function AboutPage() {
           >
             Clients
           </h2>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 8,
-            }}
-          >
+          <div className="gd-clients">
             {clients.map((c, i) => (
               <p
                 key={i}
