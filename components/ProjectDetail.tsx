@@ -63,12 +63,7 @@ export default function ProjectDetail({
         if (block.component === "image") {
           return (
             <div key={i} className="gd-container" style={{ marginTop: 120 }}>
-              <div
-                style={{
-                  border: "1px solid var(--border)",
-                  overflow: "hidden",
-                }}
-              >
+              <div style={{ overflow: "hidden" }}>
                 {block.image?.filename && (
                   <Image
                     src={block.image.filename}
