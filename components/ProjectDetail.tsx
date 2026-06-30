@@ -8,6 +8,7 @@ import type { WorkProject } from "@/lib/storyblok";
 type TextBlock = {
   component: "text_block";
   title?: string;
+  client?: string;
   text?: string;
   image?: { filename: string; alt?: string };
 };
@@ -86,7 +87,7 @@ export default function ProjectDetail({
           <div key={i} className="gd-container" style={{ marginTop: 120 }}>
             <div className="gd-split" style={{ gap: 24 }}>
               <div>
-                {block.title && (
+                {(block.title || block.client) && (
                   <h2
                     style={{
                       fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
@@ -96,7 +97,7 @@ export default function ProjectDetail({
                       marginBottom: 24,
                     }}
                   >
-                    {block.title}
+                    {block.title ?? block.client}
                   </h2>
                 )}
                 {block.text &&
@@ -114,23 +115,25 @@ export default function ProjectDetail({
                     </p>
                   ))}
               </div>
+              <div />
+            </div>
+            {block.image?.filename && (
               <div
                 style={{
+                  marginTop: 24,
                   border: "1px solid var(--border)",
                   overflow: "hidden",
                 }}
               >
-                {block.image?.filename && (
-                  <Image
-                    src={block.image.filename}
-                    alt={block.image.alt ?? ""}
-                    width={1200}
-                    height={900}
-                    style={{ width: "100%", height: "auto", display: "block" }}
-                  />
-                )}
+                <Image
+                  src={block.image.filename}
+                  alt={block.image.alt ?? ""}
+                  width={1200}
+                  height={900}
+                  style={{ width: "100%", height: "auto", display: "block" }}
+                />
               </div>
-            </div>
+            )}
           </div>
         );
       })}
