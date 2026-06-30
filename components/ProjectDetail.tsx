@@ -84,14 +84,19 @@ export default function ProjectDetail({
                   </p>
                 ))}
             </div>
-            <div>
+            <div
+              style={{
+                border: "1px solid var(--border)",
+                overflow: "hidden",
+              }}
+            >
               {block.image?.filename && (
                 <Image
                   src={block.image.filename}
                   alt={block.image.alt ?? ""}
                   width={1200}
                   height={900}
-                  style={{ width: "100%", height: "auto" }}
+                  style={{ width: "100%", height: "auto", display: "block" }}
                 />
               )}
             </div>
