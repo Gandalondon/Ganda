@@ -132,7 +132,7 @@ export default function ProjectDetail({
                 )}
               </div>
             </div>
-            {/* debug */}
+            {/* debug: remove once title confirmed */}
             <pre
               style={{
                 fontSize: 10,
@@ -141,7 +141,7 @@ export default function ProjectDetail({
                 marginTop: 8,
               }}
             >
-              {JSON.stringify(Object.keys(block), null, 2)}
+              {JSON.stringify(block, null, 2)}
             </pre>
           </div>
         );
