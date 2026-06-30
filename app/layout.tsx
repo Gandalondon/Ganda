@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import StoryblokProvider from "@/components/StoryblokProvider";
+import { Analytics } from "@vercel/analytics/next";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
           <Nav />
           {children}
         </StoryblokProvider>
+        <Analytics />
       </body>
     </html>
   );
