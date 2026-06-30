@@ -17,8 +17,10 @@ export default async function AboutPage() {
   const story = await getStory("about").catch(() => null);
   const content = story?.content ?? {};
 
-  const bio = DEFAULT_BIO;
-  const clients: string[] = DEFAULT_CLIENTS;
+  const bio = (content.bio as string) || DEFAULT_BIO;
+  const clients: string[] = (content.clients as string)
+    ? (content.clients as string).split("\n").filter(Boolean)
+    : DEFAULT_CLIENTS;
 
   return (
     <main style={{ paddingBottom: 144 }}>
