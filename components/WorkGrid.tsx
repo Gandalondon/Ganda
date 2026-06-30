@@ -1,66 +1,54 @@
 import Link from "next/link";
-import Image from "next/image";
 
-type Project = {
-  _uid: string;
-  title: string;
-  discipline: string;
-  slug: string;
-  image: { filename: string; alt: string };
-};
+const FEATURED_PROJECTS = [
+  { slug: "finn-drive" },
+  { slug: "eclipse" },
+  { slug: "optic" },
+  { slug: "profile" },
+  { slug: "altitude" },
+  { slug: "go" },
+  { slug: "studio-hours" },
+  { slug: "care" },
+];
 
-export default function WorkGrid({ projects }: { projects: Project[] }) {
+export default function WorkGrid() {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(2, 1fr)",
-        gap: "2px",
-        marginTop: "48px",
-      }}
-    >
-      {projects.map((p) => (
+    <div className="gd-grid-3" style={{ columnGap: 24, rowGap: 24 }}>
+      {FEATURED_PROJECTS.map((p) => (
         <Link
-          key={p._uid}
+          key={p.slug}
           href={`/work/${p.slug}`}
+          aria-label={`View project: ${p.slug.replace(/-/g, " ")}`}
           style={{
-            display: "block",
-            position: "relative",
-            aspectRatio: "4/3",
-            overflow: "hidden",
-            background: "var(--grey-100)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            aspectRatio: "1 / 1",
+            background: "var(--surface-raised)",
+            border: "1px solid var(--border)",
           }}
         >
-          {p.image?.filename && (
-            <Image
-              src={p.image.filename}
-              alt={p.image.alt || p.title}
-              fill
-              style={{ objectFit: "cover" }}
-            />
-          )}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
-              padding: "16px",
-              background:
-                "linear-gradient(to top, rgba(35,31,32,0.6) 0%, transparent 60%)",
-              color: "var(--white)",
-            }}
+          <span
+            aria-hidden="true"
+            style={{ fontSize: 16, color: "var(--ink-subtle)" }}
           >
-            <span
-              style={{ fontSize: "0.75rem", opacity: 0.7, marginBottom: "4px" }}
-            >
-              {p.discipline}
-            </span>
-            <span style={{ fontSize: "1rem", fontWeight: 500 }}>{p.title}</span>
-          </div>
+            Work
+          </span>
         </Link>
       ))}
+      <Link
+        href="/archive"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          aspectRatio: "1 / 1",
+          background: "var(--surface-raised)",
+          border: "1px solid var(--border)",
+        }}
+      >
+        <span style={{ fontSize: 16, color: "var(--ink)" }}>Archive</span>
+      </Link>
     </div>
   );
 }

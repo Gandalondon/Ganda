@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 :root {
+  --gd-gutter: 80px;
+  --gd-header-top: 80px;
   --black: #231f20;
   --white: #ffffff;
   --grey-50: #f6f6f6;
@@ -37,6 +39,20 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gd-skeleton,
+  .gd-fade-in {
+    animation: none;
+  }
 }
 
 img {
@@ -77,13 +93,67 @@ img {
   animation: gd-fade 0.4s ease forwards;
 }
 
-/* Mobile (<760px) */
-@media (max-width: 760px) {
-  main {
-    padding: 0 24px 96px !important;
+/* Centred content container */
+.gd-container {
+  max-width: 1680px;
+  margin: 0 auto;
+  padding-left: var(--gd-gutter);
+  padding-right: var(--gd-gutter);
+  box-sizing: border-box;
+}
+
+/* Grid and split layout helpers */
+.gd-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 24px;
+  row-gap: 24px;
+}
+
+.gd-split {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Tablet (<1024px) — reduce gutters, stack grids */
+@media (max-width: 1024px) {
+  :root {
+    --gd-gutter: 48px;
+    --gd-header-top: 48px;
   }
 
-  header {
-    padding: 24px 24px 0 !important;
+  main {
+    padding-bottom: 120px !important;
+  }
+
+  .gd-grid-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .gd-split {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+/* Mobile (<640px) — single column, tighter gutters */
+@media (max-width: 640px) {
+  :root {
+    --gd-gutter: 24px;
+    --gd-header-top: 24px;
+  }
+
+  main {
+    padding-bottom: 96px !important;
+  }
+
+  .gd-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gd-split {
+    gap: 32px;
   }
 }
