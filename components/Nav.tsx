@@ -19,8 +19,8 @@ export default function Nav() {
         <Image
           src="/logo-mark.svg"
           alt="Ganda"
-          width={40}
-          height={40}
+          width={32}
+          height={32}
           priority
         />
       </Link>
