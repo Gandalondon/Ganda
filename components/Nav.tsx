@@ -7,23 +7,16 @@ export default function Nav() {
   return (
     <header
       style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        pointerEvents: "none",
         display: "flex",
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: "space-between",
-        padding: "76px 76px 0",
+        maxWidth: 1680,
+        margin: "0 auto",
+        padding: "80px 80px 0",
+        boxSizing: "border-box",
       }}
     >
-      <Link
-        href="/"
-        aria-label="Ganda — home"
-        style={{ display: "block", pointerEvents: "auto" }}
-      >
+      <Link href="/" aria-label="Ganda — home" style={{ display: "block" }}>
         <Image
           src="/logo-mark.svg"
           alt="Ganda"
@@ -35,10 +28,9 @@ export default function Nav() {
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-          gap: 6,
-          pointerEvents: "auto",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 32,
         }}
       >
         <Link href="/about" style={{ fontSize: 18, color: "var(--ink)" }}>
