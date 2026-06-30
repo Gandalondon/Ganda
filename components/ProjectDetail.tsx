@@ -50,35 +50,6 @@ export default function ProjectDetail({
 
   return (
     <main style={{ paddingBottom: 144 }}>
-      <div
-        className="gd-container"
-        style={{ paddingTop: 128, paddingBottom: 0 }}
-      >
-        {/* Hero: title + summary */}
-        <div className="gd-split" style={{ gap: 24 }}>
-          <h1
-            style={{
-              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-              fontWeight: 400,
-              letterSpacing: "1px",
-              lineHeight: 1.25,
-            }}
-          >
-            {title}
-          </h1>
-          <p
-            style={{
-              fontSize: 18,
-              fontWeight: 300,
-              lineHeight: 1.5,
-              color: "var(--ink)",
-            }}
-          >
-            {summary}
-          </p>
-        </div>
-      </div>
-
       {/* Body blocks */}
       {blocks.map((block, i) => (
         <div key={i} className="gd-container" style={{ marginTop: 120 }}>
@@ -99,21 +70,14 @@ export default function ProjectDetail({
                   </p>
                 ))}
             </div>
-            <div
-              style={{
-                aspectRatio: "16 / 9",
-                background: "var(--surface-raised)",
-                border: "1px solid var(--border)",
-                overflow: "hidden",
-                position: "relative",
-              }}
-            >
+            <div>
               {block.image?.filename && (
                 <Image
                   src={block.image.filename}
                   alt={block.image.alt ?? ""}
-                  fill
-                  style={{ objectFit: "cover" }}
+                  width={1200}
+                  height={900}
+                  style={{ width: "100%", height: "auto" }}
                 />
               )}
             </div>
