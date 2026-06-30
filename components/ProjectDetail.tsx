@@ -50,6 +50,19 @@ export default function ProjectDetail({
 
   return (
     <main style={{ paddingBottom: 144 }}>
+      {/* TEMP DEBUG — remove after fixing */}
+      <pre
+        style={{
+          fontSize: 11,
+          background: "#f0f0f0",
+          padding: 16,
+          overflowX: "auto",
+          whiteSpace: "pre-wrap",
+          wordBreak: "break-all",
+        }}
+      >
+        {JSON.stringify(content, null, 2)}
+      </pre>
       <div
         className="gd-container"
         style={{ paddingTop: 128, paddingBottom: 0 }}
