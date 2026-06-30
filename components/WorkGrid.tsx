@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { WorkProject } from "@/lib/storyblok";
 
 export default function WorkGrid({ projects }: { projects: WorkProject[] }) {
@@ -16,14 +17,25 @@ export default function WorkGrid({ projects }: { projects: WorkProject[] }) {
             aspectRatio: "1 / 1",
             background: "var(--surface-raised)",
             border: "1px solid var(--border)",
+            overflow: "hidden",
+            position: "relative",
           }}
         >
-          <span
-            aria-hidden="true"
-            style={{ fontSize: 16, color: "var(--ink-subtle)" }}
-          >
-            Work
-          </span>
+          {p.thumbnail ? (
+            <Image
+              src={p.thumbnail}
+              alt={p.name}
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          ) : (
+            <span
+              aria-hidden="true"
+              style={{ fontSize: 16, color: "var(--ink-subtle)" }}
+            >
+              Work
+            </span>
+          )}
         </Link>
       ))}
       <Link

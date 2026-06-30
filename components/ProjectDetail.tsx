@@ -1,46 +1,32 @@
 "use client";
 
+import Image from "next/image";
 import { useStoryblokState } from "@storyblok/react";
 import WorkGrid from "@/components/WorkGrid";
 import type { WorkProject } from "@/lib/storyblok";
 
-type BodyBlock =
-  | { type: "text"; text: string }
-  | { type: "image"; ratio?: string }
-  | { type: "images"; items: { ratio?: string }[] };
-
-type Section = { text: string | null; images: { ratio?: string }[] };
+type TextBlock = {
+  component: "text_block";
+  text?: string;
+  image?: { filename: string; alt?: string };
+};
 
 type StoryContent = {
   title?: string;
   client?: string;
   summary?: string;
-  body?: BodyBlock[];
+  thumbnail?: { filename: string; alt?: string };
+  body?: TextBlock[];
 };
 
-function parseSections(body: BodyBlock[]): Section[] {
-  const sections: Section[] = [];
-  body.forEach((b) => {
-    if (b.type === "text") {
-      sections.push({ text: b.text, images: [] });
-    } else {
-      if (!sections.length) sections.push({ text: null, images: [] });
-      const last = sections[sections.length - 1];
-      if (b.type === "images") last.images.push(...b.items);
-      else last.images.push({ ratio: b.ratio });
-    }
-  });
-  return sections;
-}
-
-const PLACEHOLDER_SECTIONS: Section[] = [
+const PLACEHOLDER_BLOCKS: TextBlock[] = [
   {
-    text: "Project summary goes here. A short opening paragraph introducing the project, the brief and the role played. This text maps to a rich-text field and can run to a few sentences.",
-    images: [{ ratio: "16 / 9" }],
+    component: "text_block",
+    text: "Project summary goes here. A short opening paragraph introducing the project, the brief and the role played.",
   },
   {
-    text: "A second passage describing the process, the decisions made and the outcome. Replace this with project-specific copy in the CMS. Keep it concise and readable.",
-    images: [{ ratio: "4 / 5" }, { ratio: "4 / 5" }],
+    component: "text_block",
+    text: "A second passage describing the process, the decisions made and the outcome. Replace this with project-specific copy in the CMS.",
   },
 ];
 
@@ -60,6 +46,7 @@ export default function ProjectDetail({
   const title = content.client ?? content.title ?? "Client Name";
   const summary =
     content.summary ?? "A concise one-line summary of this archived project.";
+  const blocks = content.body?.length ? content.body : PLACEHOLDER_BLOCKS;
 
   return (
     <main style={{ paddingBottom: 144 }}>
@@ -67,7 +54,7 @@ export default function ProjectDetail({
         className="gd-container"
         style={{ paddingTop: 128, paddingBottom: 0 }}
       >
-        {/* Hero split: title + summary left, image right */}
+        {/* Hero: title + summary left, thumbnail right */}
         <div className="gd-split" style={{ gap: 24 }}>
           <div>
             <h1
@@ -97,21 +84,29 @@ export default function ProjectDetail({
               aspectRatio: "4 / 5",
               background: "var(--surface-raised)",
               border: "1px solid var(--border)",
+              overflow: "hidden",
+              position: "relative",
             }}
-          />
+          >
+            {content.thumbnail?.filename && (
+              <Image
+                src={content.thumbnail.filename}
+                alt={content.thumbnail.alt ?? title}
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Body sections — text left, images right */}
-      {(content.body && content.body.length > 0
-        ? parseSections(content.body)
-        : PLACEHOLDER_SECTIONS
-      ).map((s, i) => (
+      {/* Body blocks */}
+      {blocks.map((block, i) => (
         <div key={i} className="gd-container" style={{ marginTop: 120 }}>
           <div className="gd-split" style={{ gap: 24 }}>
             <div>
-              {s.text &&
-                s.text.split("\n\n").map((para, j) => (
+              {block.text &&
+                block.text.split("\n\n").map((para, j) => (
                   <p
                     key={j}
                     style={{
@@ -125,17 +120,23 @@ export default function ProjectDetail({
                   </p>
                 ))}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              {s.images.map((img, j) => (
-                <div
-                  key={j}
-                  style={{
-                    aspectRatio: img.ratio ?? "16 / 9",
-                    background: "var(--surface-raised)",
-                    border: "1px solid var(--border)",
-                  }}
+            <div
+              style={{
+                aspectRatio: "16 / 9",
+                background: "var(--surface-raised)",
+                border: "1px solid var(--border)",
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              {block.image?.filename && (
+                <Image
+                  src={block.image.filename}
+                  alt={block.image.alt ?? ""}
+                  fill
+                  style={{ objectFit: "cover" }}
                 />
-              ))}
+              )}
             </div>
           </div>
         </div>

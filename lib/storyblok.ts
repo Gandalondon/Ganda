@@ -16,7 +16,11 @@ export async function getStory(slug: string) {
   return data.story;
 }
 
-export type WorkProject = { slug: string; name: string };
+export type WorkProject = {
+  slug: string;
+  name: string;
+  thumbnail?: string;
+};
 
 export async function getWorkProjects(): Promise<WorkProject[]> {
   const { isEnabled } = await draftMode();
@@ -25,8 +29,15 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
     version: isEnabled ? "draft" : "published",
     per_page: 50,
   });
-  return data.stories.map((s: { slug: string; name: string }) => ({
-    slug: s.slug,
-    name: s.name,
-  }));
+  return data.stories.map(
+    (s: {
+      slug: string;
+      name: string;
+      content?: { thumbnail?: { filename?: string } };
+    }) => ({
+      slug: s.slug,
+      name: s.name,
+      thumbnail: s.content?.thumbnail?.filename,
+    }),
+  );
 }
