@@ -2,11 +2,14 @@
 
 import { useStoryblokState } from "@storyblok/react";
 import WorkGrid from "@/components/WorkGrid";
+import type { WorkProject } from "@/lib/storyblok";
 
 export default function LiveHomePage({
   story: initialStory,
+  projects,
 }: {
   story: unknown;
+  projects: WorkProject[];
 }) {
   const story = useStoryblokState(initialStory as never);
   const content =
@@ -33,7 +36,7 @@ export default function LiveHomePage({
         {heroText}
       </p>
 
-      <WorkGrid />
+      <WorkGrid projects={projects} />
     </main>
   );
 }

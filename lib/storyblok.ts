@@ -15,3 +15,18 @@ export async function getStory(slug: string) {
   });
   return data.story;
 }
+
+export type WorkProject = { slug: string; name: string };
+
+export async function getWorkProjects(): Promise<WorkProject[]> {
+  const { isEnabled } = await draftMode();
+  const { data } = await Storyblok.getStories({
+    starts_with: "work/",
+    version: isEnabled ? "draft" : "published",
+    per_page: 50,
+  });
+  return data.stories.map((s: { slug: string; name: string }) => ({
+    slug: s.slug,
+    name: s.name,
+  }));
+}

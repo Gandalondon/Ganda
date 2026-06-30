@@ -1,4 +1,4 @@
-import { getStory } from "@/lib/storyblok";
+import { getStory, getWorkProjects } from "@/lib/storyblok";
 import WorkGrid from "@/components/WorkGrid";
 
 const DEFAULT_BIO =
@@ -14,7 +14,10 @@ const DEFAULT_CLIENTS = [
 ];
 
 export default async function AboutPage() {
-  const story = await getStory("about").catch(() => null);
+  const [story, projects] = await Promise.all([
+    getStory("about").catch(() => null),
+    getWorkProjects().catch(() => []),
+  ]);
   const content = story?.content ?? {};
 
   const bio = (content.bio as string) || DEFAULT_BIO;
@@ -99,7 +102,7 @@ export default async function AboutPage() {
 
       {/* Work grid */}
       <div className="gd-container" style={{ marginTop: 200 }}>
-        <WorkGrid />
+        <WorkGrid projects={projects} />
       </div>
     </main>
   );

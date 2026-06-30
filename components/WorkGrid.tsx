@@ -1,24 +1,14 @@
 import Link from "next/link";
+import type { WorkProject } from "@/lib/storyblok";
 
-const FEATURED_PROJECTS = [
-  { slug: "finn-drive" },
-  { slug: "eclipse" },
-  { slug: "optic" },
-  { slug: "profile" },
-  { slug: "altitude" },
-  { slug: "go" },
-  { slug: "studio-hours" },
-  { slug: "care" },
-];
-
-export default function WorkGrid() {
+export default function WorkGrid({ projects }: { projects: WorkProject[] }) {
   return (
     <div className="gd-grid-3" style={{ columnGap: 24, rowGap: 24 }}>
-      {FEATURED_PROJECTS.map((p) => (
+      {projects.map((p) => (
         <Link
           key={p.slug}
           href={`/work/${p.slug}`}
-          aria-label={`View project: ${p.slug.replace(/-/g, " ")}`}
+          aria-label={`View project: ${p.name}`}
           style={{
             display: "flex",
             alignItems: "center",

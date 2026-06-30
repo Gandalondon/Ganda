@@ -2,6 +2,7 @@
 
 import { useStoryblokState } from "@storyblok/react";
 import WorkGrid from "@/components/WorkGrid";
+import type { WorkProject } from "@/lib/storyblok";
 
 type BodyBlock =
   | { type: "text"; text: string }
@@ -46,9 +47,11 @@ const PLACEHOLDER_SECTIONS: Section[] = [
 export default function ProjectDetail({
   story: initialStory,
   slug,
+  projects,
 }: {
   story: unknown;
   slug: string;
+  projects: WorkProject[];
 }) {
   const story = useStoryblokState(initialStory as never);
   const content = ((story as { content?: StoryContent })?.content ??
@@ -140,7 +143,7 @@ export default function ProjectDetail({
 
       {/* Work grid */}
       <div className="gd-container" style={{ marginTop: 200 }}>
-        <WorkGrid />
+        <WorkGrid projects={projects} />
       </div>
     </main>
   );
