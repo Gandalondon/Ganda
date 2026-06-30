@@ -12,12 +12,19 @@ type TextBlock = {
   image?: { filename: string; alt?: string };
 };
 
+type ImageBlock = {
+  component: "image";
+  image?: { filename: string; alt?: string };
+};
+
+type Block = TextBlock | ImageBlock;
+
 type StoryContent = {
   title?: string;
   client?: string;
   summary?: string;
   thumbnail?: { filename: string; alt?: string };
-  body?: TextBlock[];
+  body?: Block[];
 };
 
 const PLACEHOLDER_BLOCKS: TextBlock[] = [
@@ -52,57 +59,81 @@ export default function ProjectDetail({
   return (
     <main style={{ paddingBottom: 144 }}>
       {/* Body blocks */}
-      {blocks.map((block, i) => (
-        <div key={i} className="gd-container" style={{ marginTop: 120 }}>
-          <div className="gd-split" style={{ gap: 24 }}>
-            <div>
-              {block.title && (
-                <h2
-                  style={{
-                    fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                    fontWeight: 400,
-                    letterSpacing: "1px",
-                    lineHeight: 1.25,
-                    marginBottom: 24,
-                  }}
-                >
-                  {block.title}
-                </h2>
-              )}
-              {block.text &&
-                block.text.split("\n\n").map((para, j) => (
-                  <p
-                    key={j}
+      {blocks.map((block, i) => {
+        if (block.component === "image") {
+          return (
+            <div key={i} className="gd-container" style={{ marginTop: 120 }}>
+              <div
+                style={{
+                  border: "1px solid var(--border)",
+                  overflow: "hidden",
+                }}
+              >
+                {block.image?.filename && (
+                  <Image
+                    src={block.image.filename}
+                    alt={block.image.alt ?? ""}
+                    width={1200}
+                    height={900}
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                  />
+                )}
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div key={i} className="gd-container" style={{ marginTop: 120 }}>
+            <div className="gd-split" style={{ gap: 24 }}>
+              <div>
+                {block.title && (
+                  <h2
                     style={{
-                      fontSize: 18,
-                      fontWeight: 300,
-                      lineHeight: 1.5,
-                      marginBottom: "1em",
+                      fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                      fontWeight: 400,
+                      letterSpacing: "1px",
+                      lineHeight: 1.25,
+                      marginBottom: 24,
                     }}
                   >
-                    {para}
-                  </p>
-                ))}
-            </div>
-            <div
-              style={{
-                border: "1px solid var(--border)",
-                overflow: "hidden",
-              }}
-            >
-              {block.image?.filename && (
-                <Image
-                  src={block.image.filename}
-                  alt={block.image.alt ?? ""}
-                  width={1200}
-                  height={900}
-                  style={{ width: "100%", height: "auto", display: "block" }}
-                />
-              )}
+                    {block.title}
+                  </h2>
+                )}
+                {block.text &&
+                  block.text.split("\n\n").map((para, j) => (
+                    <p
+                      key={j}
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 300,
+                        lineHeight: 1.5,
+                        marginBottom: "1em",
+                      }}
+                    >
+                      {para}
+                    </p>
+                  ))}
+              </div>
+              <div
+                style={{
+                  border: "1px solid var(--border)",
+                  overflow: "hidden",
+                }}
+              >
+                {block.image?.filename && (
+                  <Image
+                    src={block.image.filename}
+                    alt={block.image.alt ?? ""}
+                    width={1200}
+                    height={900}
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                  />
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       {/* Work grid */}
       <div className="gd-container" style={{ marginTop: 200 }}>
