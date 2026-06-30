@@ -7,8 +7,7 @@ import type { WorkProject } from "@/lib/storyblok";
 
 type TextBlock = {
   component: "text_block";
-  title?: string;
-  client?: string;
+  Title?: string;
   text?: string;
   image?: { filename: string; alt?: string };
 };
@@ -87,7 +86,7 @@ export default function ProjectDetail({
           <div key={i} className="gd-container" style={{ marginTop: 120 }}>
             <div className="gd-split" style={{ gap: 24 }}>
               <div>
-                {(block.title || block.client) && (
+                {block.Title && (
                   <h2
                     style={{
                       fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
@@ -97,7 +96,7 @@ export default function ProjectDetail({
                       marginBottom: 24,
                     }}
                   >
-                    {block.title ?? block.client}
+                    {block.Title}
                   </h2>
                 )}
                 {block.text &&
@@ -132,17 +131,6 @@ export default function ProjectDetail({
                 )}
               </div>
             </div>
-            {/* debug: remove once title confirmed */}
-            <pre
-              style={{
-                fontSize: 10,
-                background: "#eee",
-                padding: 8,
-                marginTop: 8,
-              }}
-            >
-              {JSON.stringify(block, null, 2)}
-            </pre>
           </div>
         );
       })}
