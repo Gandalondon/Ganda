@@ -29,15 +29,10 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
     version: isEnabled ? "draft" : "published",
     per_page: 50,
   });
-  return data.stories.map(
-    (s: {
-      slug: string;
-      name: string;
-      content?: { thumbnail?: { filename?: string } };
-    }) => ({
-      slug: s.slug,
-      name: s.name,
-      thumbnail: s.content?.thumbnail?.filename,
-    }),
-  );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return data.stories.map((s: any) => ({
+    slug: s.slug as string,
+    name: s.name as string,
+    thumbnail: s.content?.thumbnail?.filename as string | undefined,
+  }));
 }
