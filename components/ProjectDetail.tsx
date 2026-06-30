@@ -110,9 +110,14 @@ export default function ProjectDetail({
   const content = ((story as { content?: StoryContent })?.content ??
     {}) as StoryContent;
 
-  const title = content.title ?? slug;
-  const discipline = content.discipline ?? content.category ?? "";
-  const summary = content.summary ?? "";
+  const title = content.title ?? "Project Name";
+  const discipline =
+    content.discipline ??
+    content.category ??
+    "Discipline · Discipline · Discipline";
+  const summary =
+    content.summary ??
+    "Project summary goes here — a concise one or two sentence description of the project, its context and the work delivered.";
 
   // Group body blocks into sections: text + following images
   type Section = {
