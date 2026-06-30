@@ -46,6 +46,7 @@ export default function Nav() {
               href="https://cal.com/tony-goff-yu-an7khw/intro"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Book a call (opens in new tab)"
               style={{ fontSize: 18, color: "var(--ink)", fontWeight: 300 }}
             >
               Book a call

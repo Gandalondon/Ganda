@@ -41,6 +41,10 @@ a {
   text-decoration: none;
 }
 
+a:visited {
+  color: var(--ink);
+}
+
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--ink);
@@ -49,8 +53,7 @@ button:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .gd-skeleton,
-  .gd-fade-in {
+  .gd-skeleton {
     animation: none;
   }
 }
@@ -80,18 +83,6 @@ img {
   animation: gd-shimmer 1.5s infinite;
 }
 
-@keyframes gd-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.gd-fade-in {
-  animation: gd-fade 0.4s ease forwards;
-}
 
 /* Centred content container */
 .gd-container {
@@ -128,6 +119,13 @@ img {
   grid-template-columns: 1fr 2fr;
   gap: 24px;
   align-items: start;
+}
+
+/* Back to top — desktop only */
+@media (max-width: 1024px) {
+  .gd-back-to-top {
+    display: none;
+  }
 }
 
 /* Tablet (<1024px) — reduce gutters, stack grids */

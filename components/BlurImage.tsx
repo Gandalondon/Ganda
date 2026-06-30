@@ -7,7 +7,7 @@ type Props = Omit<ImageProps, "onLoad"> & {
   wrapperStyle?: React.CSSProperties;
 };
 
-export default function BlurImage({ wrapperStyle, style, ...props }: Props) {
+export default function BlurImage({ wrapperStyle, style, alt, ...props }: Props & { alt: string }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -16,6 +16,7 @@ export default function BlurImage({ wrapperStyle, style, ...props }: Props) {
       style={{ position: "relative", width: "100%", ...wrapperStyle }}
     >
       <Image
+        alt={alt}
         {...props}
         style={{
           ...style,

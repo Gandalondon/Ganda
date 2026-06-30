@@ -21,7 +21,7 @@ export default function LiveHomePage({
 
   return (
     <main className="gd-container" style={{ paddingBottom: 144 }}>
-      <p
+      <h1
         style={{
           maxWidth: 816,
           marginTop: 128,
@@ -31,10 +31,11 @@ export default function LiveHomePage({
           fontWeight: 400,
           letterSpacing: "1px",
           color: "var(--ink)",
+          textWrap: "pretty",
         }}
       >
         {heroText}
-      </p>
+      </h1>
 
       <WorkGrid projects={projects} />
     </main>

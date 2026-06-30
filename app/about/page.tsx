@@ -1,5 +1,11 @@
 import { getStory, getWorkProjects } from "@/lib/storyblok";
 import WorkGrid from "@/components/WorkGrid";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About — Ganda",
+  description: "Tony Goff-Yu — product design, strategy and digital experience.",
+};
 
 const DEFAULT_BIO =
   "Studio introduction goes here. A short statement describing the studio or individual, the focus of the work and the approach taken.\n\nA second paragraph with more detail — the kinds of clients, sectors or disciplines covered, and the way projects are typically run.\n\nA closing line, for example an invitation to get in touch about new work.";
@@ -53,6 +59,7 @@ export default async function AboutPage() {
                   lineHeight: 1.5,
                   color: "var(--ink)",
                   marginTop: i === 0 ? 0 : "1.2em",
+                  textWrap: "pretty" as React.CSSProperties["textWrap"],
                 }}
               >
                 {para}
@@ -62,7 +69,7 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      {/* Row 2: Capabilities label left, list right */}
+      {/* Row 2: Expertise label left, list right */}
       <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2
@@ -74,18 +81,16 @@ export default async function AboutPage() {
               color: "var(--ink)",
             }}
           >
-            Capabilities
+            Expertise
           </h2>
           <div className="gd-clients">
             {[
               "Product Design",
               "Product Strategy",
               "UX Research",
-              "Experimentation & A/B Testing",
+              "Experimentation",
               "Conversion Optimisation",
-              "Design Systems",
-              "AI-Assisted Workflows",
-              "Stakeholder Leadership",
+              "AI Workflows",
             ].map((item, i) => (
               <p
                 key={i}

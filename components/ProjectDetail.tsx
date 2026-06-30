@@ -40,20 +40,16 @@ const PLACEHOLDER_BLOCKS: TextBlock[] = [
 
 export default function ProjectDetail({
   story: initialStory,
-  slug,
   projects,
 }: {
   story: unknown;
-  slug: string;
+  slug?: string;
   projects: WorkProject[];
 }) {
   const story = useStoryblokState(initialStory as never);
   const content = ((story as { content?: StoryContent })?.content ??
     {}) as StoryContent;
 
-  const title = content.client ?? content.title ?? "Client Name";
-  const summary =
-    content.summary ?? "A concise one-line summary of this archived project.";
   const blocks = content.body?.length ? content.body : PLACEHOLDER_BLOCKS;
 
   return (
@@ -100,6 +96,7 @@ export default function ProjectDetail({
                         fontWeight: 300,
                         lineHeight: 1.5,
                         marginBottom: "1em",
+                        textWrap: "pretty",
                       }}
                     >
                       {para}
