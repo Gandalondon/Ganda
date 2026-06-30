@@ -115,25 +115,34 @@ export default function ProjectDetail({
                     </p>
                   ))}
               </div>
-              <div />
-            </div>
-            {block.image?.filename && (
               <div
                 style={{
-                  marginTop: 24,
                   border: "1px solid var(--border)",
                   overflow: "hidden",
                 }}
               >
-                <Image
-                  src={block.image.filename}
-                  alt={block.image.alt ?? ""}
-                  width={1200}
-                  height={900}
-                  style={{ width: "100%", height: "auto", display: "block" }}
-                />
+                {block.image?.filename && (
+                  <Image
+                    src={block.image.filename}
+                    alt={block.image.alt ?? ""}
+                    width={1200}
+                    height={900}
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                  />
+                )}
               </div>
-            )}
+            </div>
+            {/* debug */}
+            <pre
+              style={{
+                fontSize: 10,
+                background: "#eee",
+                padding: 8,
+                marginTop: 8,
+              }}
+            >
+              {JSON.stringify(Object.keys(block), null, 2)}
+            </pre>
           </div>
         );
       })}
