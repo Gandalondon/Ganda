@@ -14,29 +14,6 @@ const FEATURED_PROJECTS = [
   { slug: "care", title: "Care" },
 ];
 
-function PlaceholderWell({
-  ratio = "4 / 5",
-  label = "Image",
-}: {
-  ratio?: string;
-  label?: string;
-}) {
-  return (
-    <div
-      style={{
-        aspectRatio: ratio,
-        background: "var(--surface-raised)",
-        border: "1px solid var(--border)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <span style={{ fontSize: 16, color: "var(--ink-subtle)" }}>{label}</span>
-    </div>
-  );
-}
-
 function WorkGrid() {
   return (
     <div
@@ -84,20 +61,43 @@ function WorkGrid() {
 
 type BodyBlock =
   | { type: "text"; text: string }
-  | { type: "image"; src?: string; ratio?: string; caption?: string }
-  | {
-      type: "images";
-      items: { src?: string; ratio?: string; caption?: string }[];
-    };
+  | { type: "image"; ratio?: string }
+  | { type: "images"; items: { ratio?: string }[] };
+
+type Section = { text: string | null; images: { ratio?: string }[] };
 
 type StoryContent = {
   title?: string;
-  discipline?: string;
-  category?: string;
+  client?: string;
   summary?: string;
-  cover?: string;
   body?: BodyBlock[];
 };
+
+function parseSections(body: BodyBlock[]): Section[] {
+  const sections: Section[] = [];
+  body.forEach((b) => {
+    if (b.type === "text") {
+      sections.push({ text: b.text, images: [] });
+    } else {
+      if (!sections.length) sections.push({ text: null, images: [] });
+      const last = sections[sections.length - 1];
+      if (b.type === "images") last.images.push(...b.items);
+      else last.images.push({ ratio: b.ratio });
+    }
+  });
+  return sections;
+}
+
+const PLACEHOLDER_SECTIONS: Section[] = [
+  {
+    text: "Project summary goes here. A short opening paragraph introducing the project, the brief and the role played. This text maps to a rich-text field and can run to a few sentences.",
+    images: [{ ratio: "16 / 9" }],
+  },
+  {
+    text: "A second passage describing the process, the decisions made and the outcome. Replace this with project-specific copy in the CMS. Keep it concise and readable.",
+    images: [{ ratio: "4 / 5" }, { ratio: "4 / 5" }],
+  },
+];
 
 export default function ProjectDetail({
   story: initialStory,
@@ -110,31 +110,9 @@ export default function ProjectDetail({
   const content = ((story as { content?: StoryContent })?.content ??
     {}) as StoryContent;
 
-  const title = content.title ?? "Project Name";
-  const discipline =
-    content.discipline ??
-    content.category ??
-    "Discipline · Discipline · Discipline";
+  const title = content.client ?? content.title ?? "Client Name";
   const summary =
-    content.summary ??
-    "Project summary goes here — a concise one or two sentence description of the project, its context and the work delivered.";
-
-  // Group body blocks into sections: text + following images
-  type Section = {
-    text: string | null;
-    images: { src?: string; ratio?: string; caption?: string }[];
-  };
-  const sections: Section[] = [];
-  (content.body ?? []).forEach((b) => {
-    if (b.type === "text") {
-      sections.push({ text: b.text, images: [] });
-    } else {
-      if (!sections.length) sections.push({ text: null, images: [] });
-      const last = sections[sections.length - 1];
-      if (b.type === "images") last.images.push(...b.items);
-      else last.images.push({ src: b.src, ratio: b.ratio, caption: b.caption });
-    }
-  });
+    content.summary ?? "A concise one-line summary of this archived project.";
 
   const container: React.CSSProperties = {
     maxWidth: 1680,
@@ -145,8 +123,21 @@ export default function ProjectDetail({
 
   return (
     <main style={{ paddingBottom: 144 }}>
-      {/* Split hero */}
       <div style={{ ...container, paddingTop: 128 }}>
+        {/* Title — full width, above the split */}
+        <h1
+          style={{
+            fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+            fontWeight: 400,
+            letterSpacing: "1px",
+            lineHeight: 1.25,
+            marginBottom: 64,
+          }}
+        >
+          {title}
+        </h1>
+
+        {/* Two-column: summary left, image well right */}
         <div
           style={{
             display: "grid",
@@ -155,43 +146,32 @@ export default function ProjectDetail({
             alignItems: "start",
           }}
         >
-          <div>
-            <h1
-              style={{
-                fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                fontWeight: 600,
-                letterSpacing: 0,
-                lineHeight: 1.2,
-                marginBottom: 16,
-              }}
-            >
-              {title}
-            </h1>
-            {discipline && (
-              <p
-                style={{
-                  fontSize: 14,
-                  fontWeight: 400,
-                  lineHeight: 1.4,
-                  marginBottom: 24,
-                  color: "var(--ink-muted)",
-                }}
-              >
-                {discipline}
-              </p>
-            )}
-            {summary && (
-              <p style={{ fontSize: 18, fontWeight: 300, lineHeight: 1.4 }}>
-                {summary}
-              </p>
-            )}
-          </div>
-          <PlaceholderWell ratio="4 / 5" label={title} />
+          <p
+            style={{
+              fontSize: 18,
+              fontWeight: 300,
+              lineHeight: 1.5,
+              color: "var(--ink)",
+            }}
+          >
+            {summary}
+          </p>
+
+          <div
+            style={{
+              aspectRatio: "4 / 5",
+              background: "var(--surface-raised)",
+              border: "1px solid var(--border)",
+            }}
+          />
         </div>
       </div>
 
-      {/* Body sections — copy left, images right */}
-      {sections.map((s, i) => (
+      {/* Body sections — text left, images right */}
+      {(content.body && content.body.length > 0
+        ? parseSections(content.body)
+        : PLACEHOLDER_SECTIONS
+      ).map((s, i) => (
         <div key={i} style={{ ...container, marginTop: 120 }}>
           <div
             style={{
@@ -217,51 +197,20 @@ export default function ProjectDetail({
                 ))}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              {s.images.length > 0 ? (
-                s.images.map((img, j) => (
-                  <PlaceholderWell
-                    key={j}
-                    ratio={img.ratio ?? "16 / 9"}
-                    label={img.caption ?? "Image"}
-                  />
-                ))
-              ) : (
-                <PlaceholderWell ratio="16 / 9" />
-              )}
+              {s.images.map((img, j) => (
+                <div
+                  key={j}
+                  style={{
+                    aspectRatio: img.ratio ?? "16 / 9",
+                    background: "var(--surface-raised)",
+                    border: "1px solid var(--border)",
+                  }}
+                />
+              ))}
             </div>
           </div>
         </div>
       ))}
-
-      {/* If no body sections yet, show a placeholder body */}
-      {sections.length === 0 && (
-        <div style={{ ...container, marginTop: 120 }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(280px, 360px) 1fr",
-              gap: 56,
-            }}
-          >
-            <div>
-              <p
-                style={{
-                  fontSize: 18,
-                  fontWeight: 300,
-                  lineHeight: 1.5,
-                  color: "var(--ink-subtle)",
-                }}
-              >
-                Project description coming soon.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <PlaceholderWell ratio="16 / 9" />
-              <PlaceholderWell ratio="16 / 9" />
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Work grid at the bottom */}
       <div style={{ ...container, marginTop: 200 }}>
