@@ -7,6 +7,7 @@ import type { WorkProject } from "@/lib/storyblok";
 
 type TextBlock = {
   component: "text_block";
+  title?: string;
   text?: string;
   image?: { filename: string; alt?: string };
 };
@@ -55,6 +56,19 @@ export default function ProjectDetail({
         <div key={i} className="gd-container" style={{ marginTop: 120 }}>
           <div className="gd-split" style={{ gap: 24 }}>
             <div>
+              {block.title && (
+                <h2
+                  style={{
+                    fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                    fontWeight: 400,
+                    letterSpacing: "1px",
+                    lineHeight: 1.25,
+                    marginBottom: 24,
+                  }}
+                >
+                  {block.title}
+                </h2>
+              )}
               {block.text &&
                 block.text.split("\n\n").map((para, j) => (
                   <p
