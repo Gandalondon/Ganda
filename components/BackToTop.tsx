@@ -13,7 +13,7 @@ export default function BackToTop() {
       style={{
         position: "fixed",
         bottom: "40px",
-        right: "28px",
+        right: "40px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

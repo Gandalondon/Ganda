@@ -36,7 +36,7 @@ export default function Nav() {
           <li>
             <Link
               href="/about"
-              style={{ fontSize: 18, color: "var(--ink)", fontWeight: 300 }}
+              style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)", color: "var(--ink)", fontWeight: 400 }}
             >
               About
             </Link>
@@ -47,7 +47,7 @@ export default function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Book a call (opens in new tab)"
-              style={{ fontSize: 18, color: "var(--ink)", fontWeight: 300 }}
+              style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)", color: "var(--ink)", fontWeight: 400 }}
             >
               Book a call
             </a>
