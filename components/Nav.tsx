@@ -45,7 +45,7 @@ export default function Nav() {
               rel="noopener noreferrer"
               style={{ fontSize: 18, color: "var(--ink)" }}
             >
-              Connect
+              Book a call
             </a>
           </li>
         </ul>
