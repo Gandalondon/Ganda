@@ -61,19 +61,16 @@ export default function ProjectDetail({
       {/* Body blocks */}
       {blocks.map((block, i) => {
         if (block.component === "image") {
+          if (!block.image?.filename) return null;
           return (
             <div key={i} className="gd-container" style={{ marginTop: 120 }}>
-              <div style={{ overflow: "hidden" }}>
-                {block.image?.filename && (
-                  <Image
-                    src={block.image.filename}
-                    alt={block.image.alt ?? ""}
-                    width={1200}
-                    height={900}
-                    style={{ width: "100%", height: "auto", display: "block" }}
-                  />
-                )}
-              </div>
+              <Image
+                src={block.image.filename}
+                alt={block.image.alt ?? ""}
+                width={1200}
+                height={900}
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
             </div>
           );
         }
@@ -109,19 +106,19 @@ export default function ProjectDetail({
                     </p>
                   ))}
               </div>
-              <div
-                style={{
-                  border: "1px solid var(--border)",
-                  overflow: "hidden",
-                }}
-              >
+              <div>
                 {block.image?.filename && (
                   <Image
                     src={block.image.filename}
                     alt={block.image.alt ?? ""}
                     width={1200}
                     height={900}
-                    style={{ width: "100%", height: "auto", display: "block" }}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
+                      border: "1px solid var(--border)",
+                    }}
                   />
                 )}
               </div>
