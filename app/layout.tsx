@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Nav from "@/components/Nav";
 import BackToTop from "@/components/BackToTop";
 import StoryblokProvider from "@/components/StoryblokProvider";
@@ -40,6 +41,7 @@ export default function RootLayout({
           {children}
           <BackToTop />
           <Analytics />
+          <SpeedInsights />
         </StoryblokProvider>
       </body>
     </html>
