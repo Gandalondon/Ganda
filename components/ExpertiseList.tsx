@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  useStoryblokState,
-  type ISbComponentType,
-  type ISbStoryData,
-} from "@storyblok/react";
+import { useStoryblokState, type ISbStoryData } from "@storyblok/react";
 
 const DEFAULT_EXPERTISE = [
   "Product Design",
@@ -18,10 +14,14 @@ const DEFAULT_EXPERTISE = [
 export default function ExpertiseList({
   story,
 }: {
-  story: ISbStoryData<ISbComponentType<string> & Record<string, unknown>>;
+  story: ISbStoryData<unknown>;
 }) {
   const liveStory = useStoryblokState(story);
-  const value = liveStory?.content?.expertise;
+  const content = liveStory?.content;
+  const value =
+    typeof content === "object" && content !== null && "expertise" in content
+      ? content.expertise
+      : undefined;
   const expertise =
     typeof value === "string" && value.trim()
       ? value.split("\n").filter(Boolean)
