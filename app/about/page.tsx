@@ -30,6 +30,16 @@ export default async function AboutPage() {
   const clients: string[] = (content.clients as string)
     ? (content.clients as string).split("\n").filter(Boolean)
     : DEFAULT_CLIENTS;
+  const expertise: string[] = (content.expertise as string)
+    ? (content.expertise as string).split("\n").filter(Boolean)
+    : [
+        "Product Design",
+        "Product Strategy",
+        "UX Research",
+        "Experimentation",
+        "Conversion Optimisation",
+        "AI Workflows",
+      ];
 
   return (
     <main style={{ paddingBottom: 144 }}>
@@ -84,14 +94,7 @@ export default async function AboutPage() {
             Expertise
           </h2>
           <div className="gd-clients">
-            {[
-              "Product Design",
-              "Product Strategy",
-              "UX Research",
-              "Experimentation",
-              "Conversion Optimisation",
-              "AI Workflows",
-            ].map((item, i) => (
+            {expertise.map((item, i) => (
               <p
                 key={i}
                 style={{
