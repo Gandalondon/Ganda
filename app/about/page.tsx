@@ -1,5 +1,6 @@
 import { getStory, getWorkProjects } from "@/lib/storyblok";
 import WorkGrid from "@/components/WorkGrid";
+import ExpertiseList from "@/components/ExpertiseList";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -30,17 +31,6 @@ export default async function AboutPage() {
   const clients: string[] = (content.clients as string)
     ? (content.clients as string).split("\n").filter(Boolean)
     : DEFAULT_CLIENTS;
-  const expertise: string[] = (content.expertise as string)
-    ? (content.expertise as string).split("\n").filter(Boolean)
-    : [
-        "Product Design",
-        "Product Strategy",
-        "UX Research",
-        "Experimentation",
-        "Conversion Optimisation",
-        "AI Workflows",
-      ];
-
   return (
     <main style={{ paddingBottom: 144 }}>
       {/* Title — full width, above the split */}
@@ -93,21 +83,7 @@ export default async function AboutPage() {
           >
             Expertise
           </h2>
-          <div className="gd-clients">
-            {expertise.map((item, i) => (
-              <p
-                key={i}
-                style={{
-                  fontSize: 18,
-                  fontWeight: 300,
-                  lineHeight: 1.5,
-                  color: "var(--ink)",
-                }}
-              >
-                {item}
-              </p>
-            ))}
-          </div>
+          {story ? <ExpertiseList story={story} /> : null}
         </div>
       </div>
 
