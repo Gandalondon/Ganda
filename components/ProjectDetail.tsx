@@ -23,6 +23,7 @@ type StoryContent = {
   title?: string;
   client?: string;
   summary?: string;
+  hero_text?: string;
   thumbnail?: { filename: string; alt?: string };
   body?: Block[];
 };
@@ -54,6 +55,26 @@ export default function ProjectDetail({
 
   return (
     <main style={{ paddingBottom: 144 }}>
+      {content.hero_text && (
+        <div className="gd-container">
+          <h1
+            style={{
+              maxWidth: 816,
+              marginTop: 128,
+              marginBottom: 128,
+              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+              lineHeight: 1.25,
+              fontWeight: 400,
+              letterSpacing: "1px",
+              color: "var(--ink)",
+              textWrap: "pretty",
+            }}
+          >
+            {content.hero_text}
+          </h1>
+        </div>
+      )}
+
       {/* Body blocks */}
       {blocks.map((block, i) => {
         if (block.component === "image") {
