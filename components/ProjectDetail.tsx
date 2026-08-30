@@ -53,7 +53,12 @@ function renderInlineLinks(text: string): ReactNode[] {
     parts.push(text.slice(lastIndex, match.index));
     parts.push(
       isSafeLink ? (
-        <a key={`${match.index}-${href}`} href={href}>
+        <a
+          key={`${match.index}-${href}`}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {label}
         </a>
       ) : (
