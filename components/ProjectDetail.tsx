@@ -1,6 +1,7 @@
 "use client";
 
 import { useStoryblokState } from "@storyblok/react";
+import type { ReactNode } from "react";
 import WorkGrid from "@/components/WorkGrid";
 import BlurImage from "@/components/BlurImage";
 import type { WorkProject } from "@/lib/storyblok";
@@ -38,6 +39,33 @@ const PLACEHOLDER_BLOCKS: TextBlock[] = [
     text: "A second passage describing the process, the decisions made and the outcome. Replace this with project-specific copy in the CMS.",
   },
 ];
+
+function renderInlineLinks(text: string): ReactNode[] {
+  const linkPattern = /\[([^\]]+)]\(([^)]+)\)/g;
+  const parts: ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = linkPattern.exec(text)) !== null) {
+    const [markdown, label, href] = match;
+    const isSafeLink = href.startsWith("/") || /^https?:\/\//.test(href);
+
+    parts.push(text.slice(lastIndex, match.index));
+    parts.push(
+      isSafeLink ? (
+        <a key={`${match.index}-${href}`} href={href}>
+          {label}
+        </a>
+      ) : (
+        markdown
+      ),
+    );
+    lastIndex = match.index + markdown.length;
+  }
+
+  parts.push(text.slice(lastIndex));
+  return parts;
+}
 
 export default function ProjectDetail({
   story: initialStory,
@@ -120,7 +148,7 @@ export default function ProjectDetail({
                         textWrap: "pretty",
                       }}
                     >
-                      {para}
+                      {renderInlineLinks(para)}
                     </p>
                   ))}
               </div>
