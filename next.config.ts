@@ -4,6 +4,14 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "a.storyblok.com" }],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/lionel",
+        destination: "/lionel/index.html",
+      },
+    ];
+  },
   async headers() {
     return [
       {
