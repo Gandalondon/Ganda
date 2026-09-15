@@ -81,7 +81,7 @@ export default async function WritingPage() {
           position: "relative",
           minHeight: "min(94vh, 1000px)",
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "flex-start",
           overflow: "hidden",
         }}
       >
@@ -113,17 +113,16 @@ export default async function WritingPage() {
           style={{
             position: "relative",
             zIndex: 1,
-            paddingTop: "clamp(120px, 18vh, 260px)",
-            paddingBottom: "clamp(72px, 12vh, 160px)",
           }}
         >
           <p
             style={{
-              margin: 0,
-              maxWidth: "min(1040px, 100%)",
-              // Matches the homepage/about intro size — the earlier oversized
-              // clamp(2rem, 4.4vw, 4.25rem) read too big against the rest of
-              // the site once live.
+              // Same position and measure as the homepage h1: marginTop/
+              // marginBottom 128, maxWidth 816 — not the hero's own padding
+              // scale, so the two pages line up exactly.
+              marginTop: 128,
+              marginBottom: 128,
+              maxWidth: 816,
               fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
               lineHeight: 1.25,
               letterSpacing: "1px",
