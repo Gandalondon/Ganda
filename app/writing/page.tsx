@@ -85,9 +85,13 @@ export default async function WritingPage() {
       style={{ position: "relative", paddingBottom: 144 }}
     >
       {/* Cover artwork — decorative, absolutely positioned against <main>
-          (not the hero section) so it isn't constrained to the hero's
-          height and can extend down behind the About row. Natural portrait
-          aspect ratio preserved via object-fit: contain (no crop/stretch).
+          and stretched (via bottom: 0 in globals.css, not a fixed height)
+          to span the full page from top to bottom, however long the page
+          is. object-fit: cover on a box this narrow relative to its height
+          scales to satisfy the height, so the entire image top-to-bottom
+          (vapour trail down to the rocket bloom) stays visible with no
+          vertical cropping — only the sides are cropped, which is fine
+          since the box is deliberately narrower than the full page width.
           Sizing, position and the fade-to-black mask live in globals.css
           (.gd-writing-hero-art) so mobile can use a separate treatment. */}
       <div className="gd-writing-hero-art" aria-hidden="true">
@@ -96,7 +100,7 @@ export default async function WritingPage() {
           alt=""
           fill
           sizes="(max-width: 640px) 64vw, (max-width: 1024px) 46vw, 36vw"
-          style={{ objectFit: "contain", objectPosition: "top right" }}
+          style={{ objectFit: "cover", objectPosition: "65% top" }}
         />
       </div>
 
