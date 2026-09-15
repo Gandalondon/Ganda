@@ -164,13 +164,13 @@ export default async function WritingPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {/* Small book cover, sat just above the store links — the
                 real finished cover (title + author on it), not the clean
-                background plate. 218px is ~56% bigger than the first pass
-                at 140px. A 1px dark-grey border keeps its black edges from
+                background plate. 273px is ~25% bigger than the 218px pass.
+                A 1px dark-grey border keeps its black edges from
                 disappearing into the black page. */}
             <div
               style={{
                 position: "relative",
-                width: 218,
+                width: 273,
                 aspectRatio: "1600 / 2560",
                 border: "1px solid #3a3a3a",
                 marginBottom: 6,
@@ -180,7 +180,7 @@ export default async function WritingPage() {
                 src="/writing/cover-title.jpg"
                 alt="Human Assurance Required book cover"
                 fill
-                sizes="218px"
+                sizes="273px"
                 style={{ objectFit: "cover" }}
               />
             </div>
