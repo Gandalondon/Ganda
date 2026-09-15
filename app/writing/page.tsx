@@ -32,40 +32,10 @@ const DEFAULT_AUTHOR =
 const DEFAULT_KINDLE_URL = "#";
 const DEFAULT_AMAZON_URL = "#";
 
-// Placeholder copy — structured so this can later be swapped for a
-// Storyblok bloks field (one entry per block, each with an optional
-// subheading and one or more paragraphs).
-const DEFAULT_PROCESS_INTRO = [
+const DEFAULT_PROCESS = [
   "Placeholder: a short introduction to how Human Assurance Required was written, covering the starting idea and the overall approach.",
-  "Placeholder: a second paragraph continuing that introduction before the reader chooses to expand the full process.",
-];
-
-type ProcessBlock = {
-  heading?: string;
-  paragraphs: string[];
-};
-
-const DEFAULT_PROCESS_BLOCKS: ProcessBlock[] = [
-  {
-    heading: "Research",
-    paragraphs: [
-      "Placeholder paragraph describing the research phase — cargo manifests, orbital logistics and mission terminology.",
-    ],
-  },
-  {
-    heading: "Drafting",
-    paragraphs: [
-      "Placeholder paragraph describing how the draft came together.",
-      "Placeholder second paragraph on revisions and structure.",
-    ],
-  },
-  {
-    heading: "Working with AI",
-    paragraphs: [
-      "Placeholder paragraph on where AI assistance was and wasn't used during the process.",
-    ],
-  },
-];
+  "Placeholder: a second paragraph continuing that introduction, on research, drafting and where AI assistance was and wasn't used.",
+].join("\n\n");
 
 // Dual-axis mask so the cover art has no rectangular edges — values from
 // design_handoff_writing_page/Writing.dc.html
@@ -97,6 +67,7 @@ export default async function WritingPage() {
     kindle_url?: string;
     amazon_url?: string;
     author?: string;
+    process?: string;
   };
 
   const heroStatement = content.hero_statement || DEFAULT_HERO_STATEMENT;
@@ -104,6 +75,7 @@ export default async function WritingPage() {
   const kindleUrl = content.kindle_url || DEFAULT_KINDLE_URL;
   const amazonUrl = content.amazon_url || DEFAULT_AMAZON_URL;
   const author = content.author || DEFAULT_AUTHOR;
+  const process = content.process || DEFAULT_PROCESS;
 
   return (
     <main
@@ -204,7 +176,7 @@ export default async function WritingPage() {
         <div className="gd-split" style={{ gap: 24 }}>
           <h2 style={labelStyle}>Process</h2>
           <div>
-            {DEFAULT_PROCESS_INTRO.map((para, i) => (
+            {process.split("\n\n").map((para, i) => (
               <p
                 key={i}
                 style={{
@@ -215,33 +187,6 @@ export default async function WritingPage() {
               >
                 {para}
               </p>
-            ))}
-            {DEFAULT_PROCESS_BLOCKS.map((block, i) => (
-              <div key={i} style={{ marginTop: "1.2em" }}>
-                {block.heading && (
-                  <h3
-                    style={{
-                      ...bodyTextStyle,
-                      fontWeight: 700,
-                      marginBottom: "0.4em",
-                    }}
-                  >
-                    {block.heading}
-                  </h3>
-                )}
-                {block.paragraphs.map((para, j) => (
-                  <p
-                    key={j}
-                    style={{
-                      ...bodyTextStyle,
-                      marginTop: j === 0 ? 0 : "1.2em",
-                      textWrap: "pretty" as React.CSSProperties["textWrap"],
-                    }}
-                  >
-                    {para}
-                  </p>
-                ))}
-              </div>
             ))}
           </div>
         </div>
