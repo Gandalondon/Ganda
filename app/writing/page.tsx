@@ -53,14 +53,6 @@ const bodyTextStyle: React.CSSProperties = {
   color: "#ffffff",
 };
 
-// Every content row needs to sit above the hero artwork, which is
-// absolutely positioned against <main> and deliberately extends down past
-// the hero into the About row (see .gd-writing-hero-art in globals.css).
-const rowStyle: React.CSSProperties = {
-  position: "relative",
-  zIndex: 1,
-};
-
 export default async function WritingPage() {
   const story = await getStory("writing").catch(() => null);
   const content = (story?.content ?? {}) as {
@@ -82,31 +74,11 @@ export default async function WritingPage() {
   return (
     <main
       className={`gd-writing-page ${instrumentSans.className}`}
-      style={{ position: "relative", paddingBottom: 144 }}
+      style={{ paddingBottom: 144 }}
     >
-      {/* Cover artwork — decorative, absolutely positioned against <main>
-          and stretched (via bottom: 0 in globals.css, not a fixed height)
-          to span the full page from top to bottom, however long the page
-          is. object-fit: cover on a box this narrow relative to its height
-          scales to satisfy the height, so the entire image top-to-bottom
-          (vapour trail down to the rocket bloom) stays visible with no
-          vertical cropping — only the sides are cropped, which is fine
-          since the box is deliberately narrower than the full page width.
-          Sizing, position and the fade-to-black mask live in globals.css
-          (.gd-writing-hero-art) so mobile can use a separate treatment. */}
-      <div className="gd-writing-hero-art" aria-hidden="true">
-        <Image
-          src="/writing/cover.jpg"
-          alt=""
-          fill
-          sizes="(max-width: 640px) 64vw, (max-width: 1024px) 46vw, 36vw"
-          style={{ objectFit: "cover", objectPosition: "65% top" }}
-        />
-      </div>
-
       {/* Hero */}
-      <section style={{ position: "relative" }}>
-        <div className="gd-container" style={rowStyle}>
+      <section>
+        <div className="gd-container">
           <p
             style={{
               // Same position and measure as the homepage h1: marginTop/
@@ -129,7 +101,7 @@ export default async function WritingPage() {
       </section>
 
       {/* About */}
-      <div className="gd-container" style={rowStyle}>
+      <div className="gd-container">
         <div className="gd-split" style={{ gap: 24 }}>
           <h1 style={labelStyle}>About</h1>
           <div>
@@ -150,7 +122,7 @@ export default async function WritingPage() {
       </div>
 
       {/* Process */}
-      <div className="gd-container" style={{ ...rowStyle, marginTop: 96 }}>
+      <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2 style={labelStyle}>Process</h2>
           <div>
@@ -171,7 +143,7 @@ export default async function WritingPage() {
       </div>
 
       {/* Author */}
-      <div className="gd-container" style={{ ...rowStyle, marginTop: 96 }}>
+      <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2 style={labelStyle}>Author</h2>
           <p
@@ -186,10 +158,30 @@ export default async function WritingPage() {
       </div>
 
       {/* Read */}
-      <div className="gd-container" style={{ ...rowStyle, marginTop: 96 }}>
+      <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2 style={labelStyle}>Read</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {/* Small book cover, sat just above the store links. A 1px
+                dark-grey border keeps its black edges from disappearing
+                into the black page. */}
+            <div
+              style={{
+                position: "relative",
+                width: 140,
+                aspectRatio: "1632 / 2612",
+                border: "1px solid #3a3a3a",
+                marginBottom: 6,
+              }}
+            >
+              <Image
+                src="/writing/cover.jpg"
+                alt="Human Assurance Required book cover"
+                fill
+                sizes="140px"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
             <a
               href={kindleUrl}
               target="_blank"
