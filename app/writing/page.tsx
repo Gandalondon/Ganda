@@ -1,6 +1,9 @@
 import { getStory } from "@/lib/storyblok";
 import { Instrument_Sans } from "next/font/google";
 import type { Metadata } from "next";
+import ProcessDisclosure, {
+  type ProcessBlock,
+} from "@/components/ProcessDisclosure";
 
 // Instrument Sans on Google Fonts only ships 400/500/600/700 — there is no
 // 300/Light weight, so body copy renders at 400 (closest available) rather
@@ -31,6 +34,36 @@ const DEFAULT_AUTHOR =
 
 const DEFAULT_KINDLE_URL = "#";
 const DEFAULT_AMAZON_URL = "#";
+
+// Placeholder copy — structured so this can later be swapped for a
+// Storyblok bloks field (one entry per block, each with an optional
+// subheading and one or more paragraphs).
+const DEFAULT_PROCESS_INTRO = [
+  "Placeholder: a short introduction to how Human Assurance Required was written, covering the starting idea and the overall approach.",
+  "Placeholder: a second paragraph continuing that introduction before the reader chooses to expand the full process.",
+];
+
+const DEFAULT_PROCESS_BLOCKS: ProcessBlock[] = [
+  {
+    heading: "Research",
+    paragraphs: [
+      "Placeholder paragraph describing the research phase — cargo manifests, orbital logistics and mission terminology.",
+    ],
+  },
+  {
+    heading: "Drafting",
+    paragraphs: [
+      "Placeholder paragraph describing how the draft came together.",
+      "Placeholder second paragraph on revisions and structure.",
+    ],
+  },
+  {
+    heading: "Working with AI",
+    paragraphs: [
+      "Placeholder paragraph on where AI assistance was and wasn't used during the process.",
+    ],
+  },
+];
 
 // Dual-axis mask so the cover art has no rectangular edges — values from
 // design_handoff_writing_page/Writing.dc.html
@@ -188,6 +221,28 @@ export default async function WritingPage() {
           >
             {author}
           </p>
+        </div>
+      </div>
+
+      {/* Process */}
+      <div className="gd-container" style={{ marginTop: 96 }}>
+        <div className="gd-split" style={{ gap: 24 }}>
+          <h2 style={labelStyle}>Process</h2>
+          <div>
+            {DEFAULT_PROCESS_INTRO.map((para, i) => (
+              <p
+                key={i}
+                style={{
+                  ...bodyTextStyle,
+                  marginTop: i === 0 ? 0 : "1.2em",
+                  textWrap: "pretty" as React.CSSProperties["textWrap"],
+                }}
+              >
+                {para}
+              </p>
+            ))}
+            <ProcessDisclosure blocks={DEFAULT_PROCESS_BLOCKS} />
+          </div>
         </div>
       </div>
     </main>
