@@ -1,9 +1,6 @@
 import { getStory } from "@/lib/storyblok";
 import { Instrument_Sans } from "next/font/google";
 import type { Metadata } from "next";
-import ProcessDisclosure, {
-  type ProcessBlock,
-} from "@/components/ProcessDisclosure";
 
 // Instrument Sans on Google Fonts only ships 400/500/600/700 — there is no
 // 300/Light weight, so body copy renders at 400 (closest available) rather
@@ -42,6 +39,11 @@ const DEFAULT_PROCESS_INTRO = [
   "Placeholder: a short introduction to how Human Assurance Required was written, covering the starting idea and the overall approach.",
   "Placeholder: a second paragraph continuing that introduction before the reader chooses to expand the full process.",
 ];
+
+type ProcessBlock = {
+  heading?: string;
+  paragraphs: string[];
+};
 
 const DEFAULT_PROCESS_BLOCKS: ProcessBlock[] = [
   {
@@ -214,7 +216,33 @@ export default async function WritingPage() {
                 {para}
               </p>
             ))}
-            <ProcessDisclosure blocks={DEFAULT_PROCESS_BLOCKS} />
+            {DEFAULT_PROCESS_BLOCKS.map((block, i) => (
+              <div key={i} style={{ marginTop: "1.2em" }}>
+                {block.heading && (
+                  <h3
+                    style={{
+                      ...bodyTextStyle,
+                      fontWeight: 700,
+                      marginBottom: "0.4em",
+                    }}
+                  >
+                    {block.heading}
+                  </h3>
+                )}
+                {block.paragraphs.map((para, j) => (
+                  <p
+                    key={j}
+                    style={{
+                      ...bodyTextStyle,
+                      marginTop: j === 0 ? 0 : "1.2em",
+                      textWrap: "pretty" as React.CSSProperties["textWrap"],
+                    }}
+                  >
+                    {para}
+                  </p>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>
