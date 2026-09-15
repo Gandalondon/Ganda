@@ -32,6 +32,11 @@ const DEFAULT_AUTHOR =
 
 const DEFAULT_AMAZON_URL = "#";
 
+// Local fallback — used until (or unless) a cover_image asset is set in
+// Storyblok. Keeping the file in the repo means the page never has a
+// missing-image state.
+const DEFAULT_COVER_IMAGE = "/writing/cover-title.jpg";
+
 const DEFAULT_PROCESS = [
   "Placeholder: a short introduction to how Human Assurance Required was written, covering the starting idea and the overall approach.",
   "Placeholder: a second paragraph continuing that introduction, on research, drafting and where AI assistance was and wasn't used.",
@@ -60,11 +65,13 @@ export default async function WritingPage() {
     amazon_url?: string;
     author?: string;
     process?: string;
+    cover_image?: { filename?: string };
   };
 
   const heroStatement = content.hero_statement || DEFAULT_HERO_STATEMENT;
   const synopsis = content.synopsis || DEFAULT_SYNOPSIS;
   const amazonUrl = content.amazon_url || DEFAULT_AMAZON_URL;
+  const coverImageUrl = content.cover_image?.filename || DEFAULT_COVER_IMAGE;
   const author = content.author || DEFAULT_AUTHOR;
   const process = content.process || DEFAULT_PROCESS;
 
@@ -144,10 +151,13 @@ export default async function WritingPage() {
         <div className="gd-split" style={{ gap: 24 }}>
           <h2 style={labelStyle}>Read</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {/* Small book cover, sat just above the store links — the
-                real finished cover (title + author on it), not the clean
-                background plate. 273px is ~25% bigger than the 218px pass.
-                Border reuses the site's own --border token (defined in
+            {/* Small book cover, sat just above the store links. Reads
+                from Storyblok's cover_image asset field so it can be
+                swapped without a deploy (Storyblok doesn't compress
+                uploads the way the repo's own optimizer pipeline would);
+                falls back to the bundled cover-title.jpg if that field is
+                empty. 273px is ~25% bigger than the 218px pass. Border
+                reuses the site's own --border token (defined in
                 globals.css, used the same way in WorkGrid/ProjectDetail)
                 rather than a one-off colour, so it stays consistent even
                 though this page's own accent colours are inverted. */}
@@ -161,7 +171,7 @@ export default async function WritingPage() {
               }}
             >
               <Image
-                src="/writing/cover-title.jpg"
+                src={coverImageUrl}
                 alt="Human Assurance Required book cover"
                 fill
                 sizes="273px"
