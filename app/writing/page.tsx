@@ -189,18 +189,18 @@ export default async function WritingPage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Kindle (opens in new tab)"
-              style={{ ...bodyTextStyle, alignSelf: "flex-start" }}
+              style={{ ...bodyTextStyle, alignSelf: "flex-start", textDecoration: "underline" }}
             >
-              Kindle ↗
+              Kindle
             </a>
             <a
               href={amazonUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Amazon (opens in new tab)"
-              style={{ ...bodyTextStyle, alignSelf: "flex-start" }}
+              style={{ ...bodyTextStyle, alignSelf: "flex-start", textDecoration: "underline" }}
             >
-              Amazon ↗
+              Amazon
             </a>
           </div>
         </div>
