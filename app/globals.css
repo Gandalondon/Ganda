@@ -186,3 +186,71 @@ body:has(.gd-writing-page) ::selection {
   background: #ffffff;
   color: #000000;
 }
+/* /writing hero artwork — tall portrait cover image, absolutely
+   positioned against <main> (not the hero section) so its height isn't
+   constrained by the hero and it can extend down behind the About row.
+   object-fit: contain preserves the full portrait composition (no crop,
+   no stretch); mix-blend-mode: screen lets the image's black ground
+   disappear into the page; the mask-image is a long fade to transparent
+   so it dissolves into the black background instead of stopping at a
+   hard edge. Source image itself is untouched — sizing/position/fade
+   only. */
+.gd-writing-hero-art {
+  /* Positions/sizes the wrapper; the actual object-fit/object-position
+     (preserving the portrait image, no crop or stretch) is set on the
+     next/image element itself in app/writing/page.tsx, since this class
+     targets the wrapper div that the "fill" image sizes itself to. */
+  position: absolute;
+  top: 96px;
+  right: 0;
+  width: min(36vw, 520px);
+  height: min(78vh, 980px);
+  opacity: 0.8;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.55) 62%,
+    transparent 92%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.55) 62%,
+    transparent 92%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* Tablet: smaller box, slightly lower opacity so it reads as background
+   rather than competing with the (now single-column) row content. */
+@media (max-width: 1024px) {
+  .gd-writing-hero-art {
+    top: 72px;
+    width: min(46vw, 380px);
+    height: min(62vh, 620px);
+    opacity: 0.7;
+  }
+}
+
+/* Mobile: separate treatment rather than the desktop box scaled down —
+   smaller still, pulled back from the edge, shorter fade so it clears the
+   stacked About text quickly and stays legible underneath. */
+@media (max-width: 640px) {
+  .gd-writing-hero-art {
+    top: 56px;
+    right: -8vw;
+    width: min(64vw, 300px);
+    height: min(42vh, 420px);
+    opacity: 0.5;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 28%, transparent 78%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 28%, transparent 78%);
+  }
+}

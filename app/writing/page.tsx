@@ -1,5 +1,6 @@
 import { getStory } from "@/lib/storyblok";
 import { Instrument_Sans } from "next/font/google";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 // Instrument Sans on Google Fonts only ships 400/500/600/700 — there is no
@@ -37,13 +38,6 @@ const DEFAULT_PROCESS = [
   "Placeholder: a second paragraph continuing that introduction, on research, drafting and where AI assistance was and wasn't used.",
 ].join("\n\n");
 
-// Dual-axis mask so the cover art has no rectangular edges — values from
-// design_handoff_writing_page/Writing.dc.html
-const MASK_HORIZONTAL =
-  "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 24%, #000 60%)";
-const MASK_VERTICAL =
-  "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 14%, rgba(0,0,0,0.2) 26%, rgba(0,0,0,0.45) 38%, rgba(0,0,0,0.72) 50%, #000 66%, #000 88%, transparent 100%)";
-
 const labelStyle: React.CSSProperties = {
   fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
   fontWeight: 400,
@@ -57,6 +51,14 @@ const bodyTextStyle: React.CSSProperties = {
   fontWeight: 300,
   lineHeight: 1.5,
   color: "#ffffff",
+};
+
+// Every content row needs to sit above the hero artwork, which is
+// absolutely positioned against <main> and deliberately extends down past
+// the hero into the About row (see .gd-writing-hero-art in globals.css).
+const rowStyle: React.CSSProperties = {
+  position: "relative",
+  zIndex: 1,
 };
 
 export default async function WritingPage() {
@@ -80,40 +82,27 @@ export default async function WritingPage() {
   return (
     <main
       className={`gd-writing-page ${instrumentSans.className}`}
-      style={{ paddingBottom: 144 }}
+      style={{ position: "relative", paddingBottom: 144 }}
     >
-      {/* Hero */}
-      <section style={{ position: "relative", overflow: "hidden" }}>
-        <div
-          aria-hidden="true"
-          style={
-            {
-              position: "absolute",
-              top: "-8%",
-              right: "-4%",
-              bottom: "-2%",
-              width: "min(74%, 1250px)",
-              backgroundImage: "url(/writing/cover.jpg)",
-              backgroundSize: "cover",
-              backgroundPosition: "60% 100%",
-              backgroundRepeat: "no-repeat",
-              mixBlendMode: "screen",
-              opacity: 0.85,
-              pointerEvents: "none",
-              WebkitMaskImage: `${MASK_HORIZONTAL}, ${MASK_VERTICAL}`,
-              WebkitMaskComposite: "source-in",
-              maskImage: `${MASK_HORIZONTAL}, ${MASK_VERTICAL}`,
-              maskComposite: "intersect",
-            } as React.CSSProperties
-          }
+      {/* Cover artwork — decorative, absolutely positioned against <main>
+          (not the hero section) so it isn't constrained to the hero's
+          height and can extend down behind the About row. Natural portrait
+          aspect ratio preserved via object-fit: contain (no crop/stretch).
+          Sizing, position and the fade-to-black mask live in globals.css
+          (.gd-writing-hero-art) so mobile can use a separate treatment. */}
+      <div className="gd-writing-hero-art" aria-hidden="true">
+        <Image
+          src="/writing/cover.jpg"
+          alt=""
+          fill
+          sizes="(max-width: 640px) 64vw, (max-width: 1024px) 46vw, 36vw"
+          style={{ objectFit: "contain", objectPosition: "top right" }}
         />
-        <div
-          className="gd-container"
-          style={{
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
+      </div>
+
+      {/* Hero */}
+      <section style={{ position: "relative" }}>
+        <div className="gd-container" style={rowStyle}>
           <p
             style={{
               // Same position and measure as the homepage h1: marginTop/
@@ -136,7 +125,7 @@ export default async function WritingPage() {
       </section>
 
       {/* About */}
-      <div className="gd-container">
+      <div className="gd-container" style={rowStyle}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h1 style={labelStyle}>About</h1>
           <div>
@@ -157,7 +146,7 @@ export default async function WritingPage() {
       </div>
 
       {/* Process */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
+      <div className="gd-container" style={{ ...rowStyle, marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2 style={labelStyle}>Process</h2>
           <div>
@@ -178,7 +167,7 @@ export default async function WritingPage() {
       </div>
 
       {/* Author */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
+      <div className="gd-container" style={{ ...rowStyle, marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2 style={labelStyle}>Author</h2>
           <p
@@ -193,7 +182,7 @@ export default async function WritingPage() {
       </div>
 
       {/* Read */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
+      <div className="gd-container" style={{ ...rowStyle, marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2 style={labelStyle}>Read</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
