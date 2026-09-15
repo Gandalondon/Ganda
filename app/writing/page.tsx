@@ -76,15 +76,7 @@ export default async function WritingPage() {
       style={{ paddingBottom: 144 }}
     >
       {/* Hero */}
-      <section
-        style={{
-          position: "relative",
-          minHeight: "min(94vh, 1000px)",
-          display: "flex",
-          alignItems: "flex-start",
-          overflow: "hidden",
-        }}
-      >
+      <section style={{ position: "relative", overflow: "hidden" }}>
         <div
           aria-hidden="true"
           style={
@@ -137,7 +129,7 @@ export default async function WritingPage() {
       </section>
 
       {/* About */}
-      <div className="gd-container" style={{ paddingTop: 128 }}>
+      <div className="gd-container">
         <div className="gd-split" style={{ gap: 24 }}>
           <h1 style={labelStyle}>About</h1>
           <div>
