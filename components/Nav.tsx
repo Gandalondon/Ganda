@@ -35,22 +35,11 @@ export default function Nav() {
         >
           <li>
             <Link
-              href="/about"
+              href="/"
               style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)", color: "var(--ink)", fontWeight: 400 }}
             >
-              About
+              Folio
             </Link>
-          </li>
-          <li>
-            <a
-              href="https://cal.com/tony-goff-yu-an7khw/intro"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Book a call (opens in new tab)"
-              style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)", color: "var(--ink)", fontWeight: 400 }}
-            >
-              Book a call
-            </a>
           </li>
         </ul>
       </nav>

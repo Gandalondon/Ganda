@@ -121,9 +121,12 @@ export default async function WritingPage() {
             style={{
               margin: 0,
               maxWidth: "min(1040px, 100%)",
-              fontSize: "clamp(2rem, 4.4vw, 4.25rem)",
-              lineHeight: 1.08,
-              letterSpacing: "-0.03em",
+              // Matches the homepage/about intro size — the earlier oversized
+              // clamp(2rem, 4.4vw, 4.25rem) read too big against the rest of
+              // the site once live.
+              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+              lineHeight: 1.25,
+              letterSpacing: "1px",
               fontWeight: 400,
               color: "#ffffff",
               textWrap: "pretty" as React.CSSProperties["textWrap"],
