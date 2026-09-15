@@ -182,33 +182,6 @@ export default async function WritingPage() {
         </div>
       </div>
 
-      {/* Read */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
-        <div className="gd-split" style={{ gap: 24 }}>
-          <h2 style={labelStyle}>Read</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <a
-              href={kindleUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Kindle (opens in new tab)"
-              style={{ ...bodyTextStyle, alignSelf: "flex-start" }}
-            >
-              Kindle ↗
-            </a>
-            <a
-              href={amazonUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Amazon (opens in new tab)"
-              style={{ ...bodyTextStyle, alignSelf: "flex-start" }}
-            >
-              Amazon ↗
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* Author */}
       <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
@@ -242,6 +215,33 @@ export default async function WritingPage() {
               </p>
             ))}
             <ProcessDisclosure blocks={DEFAULT_PROCESS_BLOCKS} />
+          </div>
+        </div>
+      </div>
+
+      {/* Read */}
+      <div className="gd-container" style={{ marginTop: 96 }}>
+        <div className="gd-split" style={{ gap: 24 }}>
+          <h2 style={labelStyle}>Read</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <a
+              href={kindleUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Kindle (opens in new tab)"
+              style={{ ...bodyTextStyle, alignSelf: "flex-start" }}
+            >
+              Kindle ↗
+            </a>
+            <a
+              href={amazonUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Amazon (opens in new tab)"
+              style={{ ...bodyTextStyle, alignSelf: "flex-start" }}
+            >
+              Amazon ↗
+            </a>
           </div>
         </div>
       </div>
