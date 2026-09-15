@@ -30,7 +30,6 @@ const DEFAULT_SYNOPSIS = [
 const DEFAULT_AUTHOR =
   "Tony Goff-Yu lives in London with his wife and dog. He grew up reading science fiction and has always wanted to write something of his own.";
 
-const DEFAULT_KINDLE_URL = "#";
 const DEFAULT_AMAZON_URL = "#";
 
 const DEFAULT_PROCESS = [
@@ -58,7 +57,6 @@ export default async function WritingPage() {
   const content = (story?.content ?? {}) as {
     hero_statement?: string;
     synopsis?: string;
-    kindle_url?: string;
     amazon_url?: string;
     author?: string;
     process?: string;
@@ -66,7 +64,6 @@ export default async function WritingPage() {
 
   const heroStatement = content.hero_statement || DEFAULT_HERO_STATEMENT;
   const synopsis = content.synopsis || DEFAULT_SYNOPSIS;
-  const kindleUrl = content.kindle_url || DEFAULT_KINDLE_URL;
   const amazonUrl = content.amazon_url || DEFAULT_AMAZON_URL;
   const author = content.author || DEFAULT_AUTHOR;
   const process = content.process || DEFAULT_PROCESS;
@@ -185,22 +182,13 @@ export default async function WritingPage() {
               />
             </div>
             <a
-              href={kindleUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Kindle (opens in new tab)"
-              style={{ ...bodyTextStyle, alignSelf: "flex-start", textDecoration: "underline" }}
-            >
-              Kindle
-            </a>
-            <a
               href={amazonUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Amazon (opens in new tab)"
+              aria-label="View on Amazon (opens in new tab)"
               style={{ ...bodyTextStyle, alignSelf: "flex-start", textDecoration: "underline" }}
             >
-              Amazon
+              View on Amazon
             </a>
           </div>
         </div>
