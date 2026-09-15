@@ -168,3 +168,21 @@ img {
     gap: 32px;
   }
 }
+/* Writing page (/writing) — dark inversion of the default theme.
+   Nav is rendered in the root layout as a sibling of this page's content,
+   so :has() is used to flip --ink and the logo for the whole document
+   whenever the writing page's marker element is present anywhere inside
+   body. Scoped to this one route only. */
+body:has(.gd-writing-page) {
+  background: #000000;
+  --ink: #ffffff;
+}
+
+body:has(.gd-writing-page) header img {
+  filter: invert(1);
+}
+
+body:has(.gd-writing-page) ::selection {
+  background: #ffffff;
+  color: #000000;
+}
