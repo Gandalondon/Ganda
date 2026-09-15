@@ -156,21 +156,6 @@ export default async function WritingPage() {
         </div>
       </div>
 
-      {/* Author */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
-        <div className="gd-split" style={{ gap: 24 }}>
-          <h2 style={labelStyle}>Author</h2>
-          <p
-            style={{
-              ...bodyTextStyle,
-              textWrap: "pretty" as React.CSSProperties["textWrap"],
-            }}
-          >
-            {author}
-          </p>
-        </div>
-      </div>
-
       {/* Process */}
       <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
@@ -189,6 +174,21 @@ export default async function WritingPage() {
               </p>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Author */}
+      <div className="gd-container" style={{ marginTop: 96 }}>
+        <div className="gd-split" style={{ gap: 24 }}>
+          <h2 style={labelStyle}>Author</h2>
+          <p
+            style={{
+              ...bodyTextStyle,
+              textWrap: "pretty" as React.CSSProperties["textWrap"],
+            }}
+          >
+            {author}
+          </p>
         </div>
       </div>
 
