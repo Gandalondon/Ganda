@@ -199,12 +199,17 @@ body:has(.gd-writing-page) ::selection {
   /* Positions/sizes the wrapper; the actual object-fit/object-position
      (preserving the portrait image, no crop or stretch) is set on the
      next/image element itself in app/writing/page.tsx, since this class
-     targets the wrapper div that the "fill" image sizes itself to. */
+     targets the wrapper div that the "fill" image sizes itself to.
+     Starts flush with the top of the page (behind Nav, which has no
+     opaque background) and flush with the right edge — the source photo
+     itself has a dark/empty margin above the trail, so starting at 0
+     rather than trying to calibrate a precise offset, plus the mask
+     fade below, is what actually reads correctly against the page. */
   position: absolute;
-  top: 96px;
+  top: 0;
   right: 0;
   width: min(36vw, 520px);
-  height: min(78vh, 980px);
+  height: min(82vh, 1020px);
   opacity: 0.8;
   z-index: 0;
   pointer-events: none;
@@ -233,9 +238,9 @@ body:has(.gd-writing-page) ::selection {
    rather than competing with the (now single-column) row content. */
 @media (max-width: 1024px) {
   .gd-writing-hero-art {
-    top: 72px;
+    top: 0;
     width: min(46vw, 380px);
-    height: min(62vh, 620px);
+    height: min(64vh, 640px);
     opacity: 0.7;
   }
 }
@@ -245,10 +250,10 @@ body:has(.gd-writing-page) ::selection {
    stacked About text quickly and stays legible underneath. */
 @media (max-width: 640px) {
   .gd-writing-hero-art {
-    top: 56px;
-    right: -8vw;
+    top: 0;
+    right: 0;
     width: min(64vw, 300px);
-    height: min(42vh, 420px);
+    height: min(44vh, 440px);
     opacity: 0.5;
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 28%, transparent 78%);
     mask-image: linear-gradient(to bottom, #000 0%, #000 28%, transparent 78%);
