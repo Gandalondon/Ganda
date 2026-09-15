@@ -162,14 +162,16 @@ export default async function WritingPage() {
             {/* Small book cover, sat just above the store links — the
                 real finished cover (title + author on it), not the clean
                 background plate. 273px is ~25% bigger than the 218px pass.
-                A 1px dark-grey border keeps its black edges from
-                disappearing into the black page. */}
+                Border reuses the site's own --border token (defined in
+                globals.css, used the same way in WorkGrid/ProjectDetail)
+                rather than a one-off colour, so it stays consistent even
+                though this page's own accent colours are inverted. */}
             <div
               style={{
                 position: "relative",
                 width: 273,
                 aspectRatio: "1600 / 2560",
-                border: "1px solid #3a3a3a",
+                border: "1px solid var(--border)",
                 marginBottom: 6,
               }}
             >
