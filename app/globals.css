@@ -121,6 +121,21 @@ img {
   align-items: start;
 }
 
+/* Visually hidden but present for screen readers and SEO — standard
+   clip-based pattern (not display:none, which would drop it from the
+   accessibility tree and search indexing too). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Back to top — desktop only */
 @media (max-width: 1024px) {
   .gd-back-to-top {
