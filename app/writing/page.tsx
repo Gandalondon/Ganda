@@ -12,33 +12,24 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Human Assurance Required — Ganda",
+  title: "Writing — Ganda",
   description:
-    "A short science-fiction story about work, judgement and what happens when automation still needs a human.",
+    "Short science-fiction stories about work, judgement and what happens when automation still needs a human.",
 };
 
 const DEFAULT_HERO_STATEMENT =
-  "Human Assurance Required is a short science-fiction story about work, judgement and what happens when automation still needs a human.";
-
-const DEFAULT_SYNOPSIS = [
-  "A routine cargo run to an orbital transfer station. Every calculation has already been made, every manifest already checked. The only task left is the one the system cannot do for itself: a person, at the end of the chain, confirming the work was done correctly.",
-  "Human Assurance Required follows a single shift in that job, and the moment the numbers stop agreeing.",
-  "I grew up reading science fiction and have always wanted to write something of my own. After spending the last few years using AI extensively in my design work, I wanted to see how those same tools could support a different creative process.",
-  "Human Assurance Required was developed with the assistance of AI, which helped with proofreading, exploring dialogue and testing ideas as the story took shape. Research on cargo manifests, orbital logistics and mission terminology was also done with AI assistance.",
-].join("\n\n");
+  "I write short science-fiction stories about work, judgement and what happens when automation can do almost everything, but still needs a human.";
 
 const DEFAULT_AUTHOR =
   "Tony Goff-Yu lives in London with his wife and dog. He grew up reading science fiction and has always wanted to write something of his own.";
 
-const DEFAULT_AMAZON_URL = "#";
-
-// Local fallback — used until (or unless) a cover_image asset is set in
-// Storyblok. Keeping the file in the repo means the page never has a
-// missing-image state.
+// Local fallback — used until (or unless) a story's own cover_image asset
+// is set in Storyblok. Keeping the file in the repo means a story block
+// never has a missing-image state.
 const DEFAULT_COVER_IMAGE = "/writing/cover-title.jpg";
 
 const DEFAULT_PROCESS = [
-  "Placeholder: a short introduction to how Human Assurance Required was written, covering the starting idea and the overall approach.",
+  "Placeholder: a short introduction to how these stories are written, covering the starting idea and the overall approach.",
   "Placeholder: a second paragraph continuing that introduction, on research, drafting and where AI assistance was and wasn't used.",
 ].join("\n\n");
 
@@ -57,21 +48,40 @@ const bodyTextStyle: React.CSSProperties = {
   color: "#ffffff",
 };
 
+const storyTitleStyle: React.CSSProperties = {
+  fontSize: 24,
+  fontWeight: 600,
+  lineHeight: 1.3,
+  color: "#ffffff",
+};
+
+// Shape of a single "story" nestable block (Storyblok component: story).
+// Each story in the /writing "Stories" list carries its own cover, blurb
+// and store link, so a new title can be added from the CMS without a
+// code change or a redeploy.
+type StoryBlock = {
+  _uid?: string;
+  title?: string;
+  description?: string;
+  cover_image?: { filename?: string };
+  amazon_url?: string;
+};
+
 export default async function WritingPage() {
   const story = await getStory("writing").catch(() => null);
   const content = (story?.content ?? {}) as {
     hero_statement?: string;
-    synopsis?: string;
-    amazon_url?: string;
-    author?: string;
+    stories?: StoryBlock[];
     process?: string;
-    cover_image?: { filename?: string };
+    author?: string;
   };
 
   const heroStatement = content.hero_statement || DEFAULT_HERO_STATEMENT;
-  const synopsis = content.synopsis || DEFAULT_SYNOPSIS;
-  const amazonUrl = content.amazon_url || DEFAULT_AMAZON_URL;
-  const coverImageUrl = content.cover_image?.filename || DEFAULT_COVER_IMAGE;
+  // No hardcoded fallback list here on purpose — this section is driven
+  // entirely by the "stories" Blocks field in Storyblok. Until at least
+  // one story block is added there, the section renders its heading with
+  // an empty list rather than showing placeholder story content.
+  const stories = content.stories ?? [];
   const author = content.author || DEFAULT_AUTHOR;
   const process = content.process || DEFAULT_PROCESS;
 
@@ -104,23 +114,79 @@ export default async function WritingPage() {
         </div>
       </section>
 
-      {/* About */}
+      {/* Stories */}
       <div className="gd-container">
         <div className="gd-split" style={{ gap: 24 }}>
-          <h1 style={labelStyle}>About</h1>
-          <div>
-            {synopsis.split("\n\n").map((para, i) => (
-              <p
-                key={i}
-                style={{
-                  ...bodyTextStyle,
-                  marginTop: i === 0 ? 0 : "1.2em",
-                  textWrap: "pretty" as React.CSSProperties["textWrap"],
-                }}
-              >
-                {para}
-              </p>
-            ))}
+          <h1 style={labelStyle}>Stories</h1>
+          <div style={{ display: "flex", flexDirection: "column", gap: 96 }}>
+            {stories.map((s, i) => {
+              const coverUrl = s.cover_image?.filename || DEFAULT_COVER_IMAGE;
+              const description = s.description || "";
+              const amazonUrl = s.amazon_url || "#";
+              return (
+                <div
+                  key={s._uid ?? i}
+                  style={{ display: "flex", gap: 24 }}
+                >
+                  {/* Cover thumbnail — border reuses the site's own
+                      --border token (globals.css), same as the previous
+                      single-story treatment. */}
+                  <div
+                    style={{
+                      position: "relative",
+                      width: 192,
+                      flexShrink: 0,
+                      aspectRatio: "1600 / 2560",
+                      border: "1px solid var(--border)",
+                    }}
+                  >
+                    <Image
+                      src={coverUrl}
+                      alt={`${s.title || "Story"} book cover`}
+                      fill
+                      sizes="192px"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 14,
+                    }}
+                  >
+                    {s.title && <h3 style={storyTitleStyle}>{s.title}</h3>}
+                    <div>
+                      {description.split("\n\n").map((para, pi) => (
+                        <p
+                          key={pi}
+                          style={{
+                            ...bodyTextStyle,
+                            marginTop: pi === 0 ? 0 : "1.2em",
+                            textWrap: "pretty" as React.CSSProperties["textWrap"],
+                          }}
+                        >
+                          {para}
+                        </p>
+                      ))}
+                    </div>
+                    <a
+                      href={amazonUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View ${s.title || "story"} on Amazon (opens in new tab)`}
+                      style={{
+                        ...bodyTextStyle,
+                        alignSelf: "flex-start",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      View on Amazon
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -142,51 +208,6 @@ export default async function WritingPage() {
                 {para}
               </p>
             ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Read */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
-        <div className="gd-split" style={{ gap: 24 }}>
-          <h2 style={labelStyle}>Read</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {/* Small book cover, sat just above the store links. Reads
-                from Storyblok's cover_image asset field so it can be
-                swapped without a deploy (Storyblok doesn't compress
-                uploads the way the repo's own optimizer pipeline would);
-                falls back to the bundled cover-title.jpg if that field is
-                empty. 273px is ~25% bigger than the 218px pass. Border
-                reuses the site's own --border token (defined in
-                globals.css, used the same way in WorkGrid/ProjectDetail)
-                rather than a one-off colour, so it stays consistent even
-                though this page's own accent colours are inverted. */}
-            <div
-              style={{
-                position: "relative",
-                width: 273,
-                aspectRatio: "1600 / 2560",
-                border: "1px solid var(--border)",
-                marginBottom: 6,
-              }}
-            >
-              <Image
-                src={coverImageUrl}
-                alt="Human Assurance Required book cover"
-                fill
-                sizes="273px"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <a
-              href={amazonUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View on Amazon (opens in new tab)"
-              style={{ ...bodyTextStyle, alignSelf: "flex-start", textDecoration: "underline" }}
-            >
-              View on Amazon
-            </a>
           </div>
         </div>
       </div>
