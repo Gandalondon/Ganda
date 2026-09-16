@@ -174,7 +174,7 @@ img {
    whenever the writing page's marker element is present anywhere inside
    body. Scoped to this one route only. */
 body:has(.gd-writing-page) {
-  background: #000000;
+  background: #231F20;
   --ink: #ffffff;
 }
 
