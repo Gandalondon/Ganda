@@ -135,23 +135,17 @@ export default async function WritingPage() {
               return (
                 <div key={s._uid ?? i}>
                   {s.title && <h3 className="sr-only">{s.title}</h3>}
-                  <div style={{ display: "flex", gap: 24 }}>
-                    {/* Cover thumbnail — border reuses the site's own
-                        --border token (globals.css). */}
-                    <div
-                      style={{
-                        position: "relative",
-                        width: 272,
-                        flexShrink: 0,
-                        aspectRatio: "1600 / 2560",
-                        border: "1px solid var(--border)",
-                      }}
-                    >
+                  <div className="gd-story-row">
+                    {/* Cover thumbnail — sizing/border/responsive
+                        behaviour lives in .gd-story-cover (globals.css),
+                        so it scales down on mobile instead of
+                        overflowing the viewport. */}
+                    <div className="gd-story-cover">
                       <Image
                         src={coverUrl}
                         alt={`${s.title || "Story"} book cover`}
                         fill
-                        sizes="272px"
+                        sizes="(max-width: 640px) 100vw, 272px"
                         style={{ objectFit: "cover" }}
                       />
                     </div>

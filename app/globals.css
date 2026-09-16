@@ -121,6 +121,22 @@ img {
   align-items: start;
 }
 
+/* Story row (cover + text) on /writing — side by side on desktop,
+   stacked on mobile (see the 640px breakpoint below), with the cover
+   scaling down to fit rather than overflowing the viewport. */
+.gd-story-row {
+  display: flex;
+  gap: 24px;
+}
+
+.gd-story-cover {
+  position: relative;
+  width: 272px;
+  flex-shrink: 0;
+  aspect-ratio: 1600 / 2560;
+  border: 1px solid var(--border);
+}
+
 /* Visually hidden but present for screen readers and SEO — standard
    clip-based pattern (not display:none, which would drop it from the
    accessibility tree and search indexing too). */
@@ -181,6 +197,15 @@ img {
 
   .gd-split {
     gap: 32px;
+  }
+
+  .gd-story-row {
+    flex-direction: column;
+  }
+
+  .gd-story-cover {
+    width: 100%;
+    max-width: 272px;
   }
 }
 /* Writing page (/writing) — dark inversion of the default theme.
