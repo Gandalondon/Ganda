@@ -29,6 +29,7 @@ const DEFAULT_AUTHOR =
 const DEFAULT_COVER_IMAGE = "/writing/cover-title.jpg";
 
 const DEFAULT_PROCESS_TITLE = "Process";
+const DEFAULT_AUTHOR_TITLE = "Author";
 
 const DEFAULT_PROCESS = [
   "Placeholder: a short introduction to how these stories are written, covering the starting idea and the overall approach.",
@@ -68,6 +69,7 @@ export default async function WritingPage() {
     stories?: StoryBlock[];
     process_title?: string;
     process?: string;
+    author_title?: string;
     author?: string;
   };
 
@@ -76,6 +78,7 @@ export default async function WritingPage() {
   // entirely by the "stories" Blocks field in Storyblok.
   const stories = content.stories ?? [];
   const author = content.author || DEFAULT_AUTHOR;
+  const authorTitle = content.author_title || DEFAULT_AUTHOR_TITLE;
   const processTitle = content.process_title || DEFAULT_PROCESS_TITLE;
   const process = content.process || DEFAULT_PROCESS;
 
@@ -217,7 +220,7 @@ export default async function WritingPage() {
       {/* Author */}
       <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
-          <h2 style={labelStyle}>Author</h2>
+          <h2 style={labelStyle}>{authorTitle}</h2>
           <p
             style={{
               ...bodyTextStyle,
