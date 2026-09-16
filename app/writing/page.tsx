@@ -131,6 +131,25 @@ export default async function WritingPage() {
             <div className="gd-split" style={{ gap: 24 }}>
               <StoryHeadingTag style={labelStyle}>{s.title}</StoryHeadingTag>
               <div style={{ display: "flex", gap: 24 }}>
+                {/* Cover thumbnail — border reuses the site's own
+                    --border token (globals.css). */}
+                <div
+                  style={{
+                    position: "relative",
+                    width: 192,
+                    flexShrink: 0,
+                    aspectRatio: "1600 / 2560",
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  <Image
+                    src={coverUrl}
+                    alt={`${s.title || "Story"} book cover`}
+                    fill
+                    sizes="192px"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
                 <div
                   style={{
                     display: "flex",
@@ -165,25 +184,6 @@ export default async function WritingPage() {
                   >
                     View on Amazon
                   </a>
-                </div>
-                {/* Cover thumbnail — border reuses the site's own
-                    --border token (globals.css). */}
-                <div
-                  style={{
-                    position: "relative",
-                    width: 192,
-                    flexShrink: 0,
-                    aspectRatio: "1600 / 2560",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  <Image
-                    src={coverUrl}
-                    alt={`${s.title || "Story"} book cover`}
-                    fill
-                    sizes="192px"
-                    style={{ objectFit: "cover" }}
-                  />
                 </div>
               </div>
             </div>
