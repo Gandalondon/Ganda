@@ -28,6 +28,8 @@ const DEFAULT_AUTHOR =
 // never has a missing-image state.
 const DEFAULT_COVER_IMAGE = "/writing/cover-title.jpg";
 
+const DEFAULT_PROCESS_TITLE = "Process";
+
 const DEFAULT_PROCESS = [
   "Placeholder: a short introduction to how these stories are written, covering the starting idea and the overall approach.",
   "Placeholder: a second paragraph continuing that introduction, on research, drafting and where AI assistance was and wasn't used.",
@@ -64,6 +66,7 @@ export default async function WritingPage() {
   const content = (story?.content ?? {}) as {
     hero_statement?: string;
     stories?: StoryBlock[];
+    process_title?: string;
     process?: string;
     author?: string;
   };
@@ -73,6 +76,7 @@ export default async function WritingPage() {
   // entirely by the "stories" Blocks field in Storyblok.
   const stories = content.stories ?? [];
   const author = content.author || DEFAULT_AUTHOR;
+  const processTitle = content.process_title || DEFAULT_PROCESS_TITLE;
   const process = content.process || DEFAULT_PROCESS;
 
   return (
@@ -192,7 +196,7 @@ export default async function WritingPage() {
       {/* Process */}
       <div className="gd-container" style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
-          <h2 style={labelStyle}>Process</h2>
+          <h2 style={labelStyle}>{processTitle}</h2>
           <div>
             {process.split("\n\n").map((para, i) => (
               <p
