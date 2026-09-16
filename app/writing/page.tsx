@@ -142,7 +142,7 @@ export default async function WritingPage() {
                       display: "flex",
                       flexDirection: "column",
                       gap: 14,
-                      maxWidth: 420,
+                      maxWidth: 576,
                     }}
                   >
                     <div>
