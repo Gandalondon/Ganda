@@ -49,9 +49,8 @@ const bodyTextStyle: React.CSSProperties = {
 };
 
 // Shape of a single "story" nestable block (Storyblok component: story).
-// Each story carries its own cover, blurb and store link. Title isn't
-// rendered as its own text element on the page — the cover art already
-// carries the title, so a separate label here would just duplicate it.
+// Each story carries its own title, cover, blurb and store link, so a new
+// entry can be added from the CMS without a code change or a redeploy.
 type StoryBlock = {
   _uid?: string;
   title?: string;
@@ -71,9 +70,7 @@ export default async function WritingPage() {
 
   const heroStatement = content.hero_statement || DEFAULT_HERO_STATEMENT;
   // No hardcoded fallback list here on purpose — this section is driven
-  // entirely by the "stories" Blocks field in Storyblok. Until at least
-  // one story block is added there, it renders the "Stories" heading
-  // with nothing underneath.
+  // entirely by the "stories" Blocks field in Storyblok.
   const stories = content.stories ?? [];
   const author = content.author || DEFAULT_AUTHOR;
   const process = content.process || DEFAULT_PROCESS;
@@ -107,78 +104,90 @@ export default async function WritingPage() {
         </div>
       </section>
 
-      {/* Stories */}
-      <div className="gd-container">
-        <div className="gd-split" style={{ gap: 24 }}>
-          <h1 style={labelStyle}>Stories</h1>
-          <div style={{ display: "flex", flexDirection: "column", gap: 96 }}>
-            {stories.map((s, i) => {
-              const coverUrl = s.cover_image?.filename || DEFAULT_COVER_IMAGE;
-              const description = s.description || "";
-              const amazonUrl = s.amazon_url || "#";
-              return (
-                <div key={s._uid ?? i} style={{ display: "flex", gap: 24 }}>
-                  {/* Cover thumbnail — border reuses the site's own
-                      --border token (globals.css). */}
-                  <div
-                    style={{
-                      position: "relative",
-                      width: 272,
-                      flexShrink: 0,
-                      aspectRatio: "1600 / 2560",
-                      border: "1px solid var(--border)",
-                    }}
-                  >
-                    <Image
-                      src={coverUrl}
-                      alt={`${s.title || "Story"} book cover`}
-                      fill
-                      sizes="272px"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 14,
-                      maxWidth: 576,
-                    }}
-                  >
-                    <div>
-                      {description.split("\n\n").map((para, pi) => (
-                        <p
-                          key={pi}
-                          style={{
-                            ...bodyTextStyle,
-                            marginTop: pi === 0 ? 0 : "1.2em",
-                            textWrap: "pretty" as React.CSSProperties["textWrap"],
-                          }}
-                        >
-                          {para}
-                        </p>
-                      ))}
-                    </div>
-                    <a
-                      href={amazonUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`View ${s.title || "story"} on Amazon (opens in new tab)`}
-                      style={{
-                        ...bodyTextStyle,
-                        alignSelf: "flex-start",
-                        textDecoration: "underline",
-                      }}
-                    >
-                      View on Amazon
-                    </a>
-                  </div>
+      {/* Stories — one row per story, using the same .gd-split label/content
+          layout (and the same 1024px/640px stacking breakpoints) as
+          Process and Author below, so it lines up with the rest of the
+          page and inherits its responsive behaviour for free. The title
+          is the row's own label, sourced from Storyblok's "title" field —
+          it's only rendered when present, so a story without a title
+          never leaves an empty heading element in the DOM. */}
+      {stories.map((s, i) => {
+        const coverUrl = s.cover_image?.filename || DEFAULT_COVER_IMAGE;
+        const description = s.description || "";
+        const amazonUrl = s.amazon_url || "#";
+        return (
+          <div
+            key={s._uid ?? i}
+            className="gd-container"
+            style={{ marginTop: i === 0 ? 0 : 96 }}
+          >
+            <div className="gd-split" style={{ gap: 24 }}>
+              {s.title ? (
+                <h2 style={labelStyle}>{s.title}</h2>
+              ) : (
+                <div aria-hidden="true" />
+              )}
+              <div style={{ display: "flex", gap: 24 }}>
+                {/* Cover thumbnail — border reuses the site's own
+                    --border token (globals.css). */}
+                <div
+                  style={{
+                    position: "relative",
+                    width: 272,
+                    flexShrink: 0,
+                    aspectRatio: "1600 / 2560",
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  <Image
+                    src={coverUrl}
+                    alt={`${s.title || "Story"} book cover`}
+                    fill
+                    sizes="272px"
+                    style={{ objectFit: "cover" }}
+                  />
                 </div>
-              );
-            })}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 14,
+                    maxWidth: 576,
+                  }}
+                >
+                  <div>
+                    {description.split("\n\n").map((para, pi) => (
+                      <p
+                        key={pi}
+                        style={{
+                          ...bodyTextStyle,
+                          marginTop: pi === 0 ? 0 : "1.2em",
+                          textWrap: "pretty" as React.CSSProperties["textWrap"],
+                        }}
+                      >
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                  <a
+                    href={amazonUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${s.title || "story"} on Amazon (opens in new tab)`}
+                    style={{
+                      ...bodyTextStyle,
+                      alignSelf: "flex-start",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    View on Amazon
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })}
 
       {/* Process */}
       <div className="gd-container" style={{ marginTop: 96 }}>
