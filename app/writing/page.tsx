@@ -141,61 +141,68 @@ export default async function WritingPage() {
             style={{ marginTop: 96 }}
           >
             {s.title && <h3 className="sr-only">{s.title}</h3>}
-            <div style={{ display: "flex", gap: 24 }}>
-              {/* Cover thumbnail — border reuses the site's own
+            <div className="gd-split" style={{ gap: 24 }}>
+              {/* Empty, aria-hidden — no visible label, just holding the
+                  grid's first column so the cover+text line up with the
+                  indented content column Process/Author use below,
+                  instead of sitting flush against the left margin. */}
+              <div aria-hidden="true" />
+              <div style={{ display: "flex", gap: 24 }}>
+                {/* Cover thumbnail — border reuses the site's own
                     --border token (globals.css). */}
-              <div
-                style={{
-                  position: "relative",
-                  width: 272,
-                  flexShrink: 0,
-                  aspectRatio: "1600 / 2560",
-                  border: "1px solid var(--border)",
-                }}
-              >
-                <Image
-                  src={coverUrl}
-                  alt={`${s.title || "Story"} book cover`}
-                  fill
-                  sizes="272px"
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 14,
-                  maxWidth: 576,
-                }}
-              >
-                <div>
-                  {description.split("\n\n").map((para, pi) => (
-                    <p
-                      key={pi}
-                      style={{
-                        ...bodyTextStyle,
-                        marginTop: pi === 0 ? 0 : "1.2em",
-                        textWrap: "pretty" as React.CSSProperties["textWrap"],
-                      }}
-                    >
-                      {para}
-                    </p>
-                  ))}
-                </div>
-                <a
-                  href={amazonUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${s.title || "story"} on Amazon (opens in new tab)`}
+                <div
                   style={{
-                    ...bodyTextStyle,
-                    alignSelf: "flex-start",
-                    textDecoration: "underline",
+                    position: "relative",
+                    width: 272,
+                    flexShrink: 0,
+                    aspectRatio: "1600 / 2560",
+                    border: "1px solid var(--border)",
                   }}
                 >
-                  View on Amazon
-                </a>
+                  <Image
+                    src={coverUrl}
+                    alt={`${s.title || "Story"} book cover`}
+                    fill
+                    sizes="272px"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 14,
+                    maxWidth: 576,
+                  }}
+                >
+                  <div>
+                    {description.split("\n\n").map((para, pi) => (
+                      <p
+                        key={pi}
+                        style={{
+                          ...bodyTextStyle,
+                          marginTop: pi === 0 ? 0 : "1.2em",
+                          textWrap: "pretty" as React.CSSProperties["textWrap"],
+                        }}
+                      >
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                  <a
+                    href={amazonUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${s.title || "story"} on Amazon (opens in new tab)`}
+                    style={{
+                      ...bodyTextStyle,
+                      alignSelf: "flex-start",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    View on Amazon
+                  </a>
+                </div>
               </div>
             </div>
           </div>
