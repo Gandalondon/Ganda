@@ -136,7 +136,7 @@ export default async function WritingPage() {
                 <div
                   style={{
                     position: "relative",
-                    width: 248,
+                    width: 481,
                     flexShrink: 0,
                     aspectRatio: "1600 / 2560",
                     border: "1px solid var(--border)",
@@ -146,7 +146,7 @@ export default async function WritingPage() {
                     src={coverUrl}
                     alt={`${s.title || "Story"} book cover`}
                     fill
-                    sizes="248px"
+                    sizes="481px"
                     style={{ objectFit: "cover" }}
                   />
                 </div>
