@@ -145,7 +145,7 @@ export default async function WritingPage() {
                         src={coverUrl}
                         alt={`${s.title || "Story"} book cover`}
                         fill
-                        sizes="(max-width: 640px) 100vw, 272px"
+                        sizes="(max-width: 640px) 100vw, 22vw"
                         style={{ objectFit: "cover" }}
                       />
                     </div>

@@ -121,18 +121,22 @@ img {
   align-items: start;
 }
 
-/* Story row (cover + text) on /writing — side by side on desktop,
-   stacked on mobile (see the 640px breakpoint below), with the cover
-   scaling down to fit rather than overflowing the viewport. */
+/* Story row (cover + text) on /writing — a grid, same 1fr/2fr ratio as
+   .gd-split, so the cover fills its own column at whatever width that
+   column ends up being (wider on a big screen, not a small fixed box)
+   instead of a hardcoded pixel size. Stacks to one column on mobile
+   (see the 640px breakpoint below), where the cover then fills the
+   full width of that single column. */
 .gd-story-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   gap: 24px;
+  align-items: start;
 }
 
 .gd-story-cover {
   position: relative;
-  width: 272px;
-  flex-shrink: 0;
+  width: 100%;
   aspect-ratio: 1600 / 2560;
   border: 1px solid var(--border);
 }
@@ -200,12 +204,7 @@ img {
   }
 
   .gd-story-row {
-    flex-direction: column;
-  }
-
-  .gd-story-cover {
-    width: 100%;
-    max-width: 272px;
+    grid-template-columns: 1fr;
   }
 }
 /* Writing page (/writing) — dark inversion of the default theme.
