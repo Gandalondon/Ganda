@@ -129,7 +129,12 @@ export default async function WritingPage() {
             {stories.map((s, i) => {
               const coverUrl = s.cover_image?.filename || DEFAULT_COVER_IMAGE;
               const description = s.description || "";
-              const amazonUrl = s.amazon_url || "#";
+              // Only treat the field as a real link if it looks like one —
+              // an empty field, or a placeholder like "TBC", falls back to
+              // "Coming soon" instead of a dead/broken link.
+              const amazonUrl = s.amazon_url?.trim();
+              const hasAmazonLink =
+                !!amazonUrl && /^https?:\/\//i.test(amazonUrl);
               return (
                 <div key={s._uid ?? i}>
                   {s.title && <h3 className="sr-only">{s.title}</h3>}
@@ -170,19 +175,31 @@ export default async function WritingPage() {
                           </p>
                         ))}
                       </div>
-                      <a
-                        href={amazonUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`View ${s.title || "story"} on Amazon (opens in new tab)`}
-                        style={{
-                          ...bodyTextStyle,
-                          alignSelf: "flex-start",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        View on Amazon
-                      </a>
+                      {hasAmazonLink ? (
+                        <a
+                          href={amazonUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`View ${s.title || "story"} on Amazon (opens in new tab)`}
+                          style={{
+                            ...bodyTextStyle,
+                            alignSelf: "flex-start",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          View on Amazon
+                        </a>
+                      ) : (
+                        <span
+                          style={{
+                            ...bodyTextStyle,
+                            alignSelf: "flex-start",
+                            opacity: 0.6,
+                          }}
+                        >
+                          Coming soon
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
