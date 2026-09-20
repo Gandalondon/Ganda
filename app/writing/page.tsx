@@ -20,22 +20,12 @@ export const metadata: Metadata = {
 const DEFAULT_HERO_STATEMENT =
   "I write short science-fiction stories about work, judgement and what happens when automation can do almost everything, but still needs a human.";
 
-const DEFAULT_AUTHOR =
-  "Tony Goff-Yu lives in London with his wife and dog. He grew up reading science fiction and has always wanted to write something of his own.";
-
 // Local fallback — used until (or unless) a story's own cover_image asset
 // is set in Storyblok. Keeping the file in the repo means a story block
 // never has a missing-image state.
 const DEFAULT_COVER_IMAGE = "/writing/cover-title.jpg";
 
-const DEFAULT_PROCESS_TITLE = "Process";
-const DEFAULT_AUTHOR_TITLE = "Author";
 const DEFAULT_STORIES_TITLE = "Stories";
-
-const DEFAULT_PROCESS = [
-  "Placeholder: a short introduction to how these stories are written, covering the starting idea and the overall approach.",
-  "Placeholder: a second paragraph continuing that introduction, on research, drafting and where AI assistance was and wasn't used.",
-].join("\n\n");
 
 const labelStyle: React.CSSProperties = {
   fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
@@ -63,16 +53,25 @@ type StoryBlock = {
   amazon_url?: string;
 };
 
+// Shape of a single "content_section" nestable block (Storyblok
+// component: content_section) — a reusable title/body pair. Process and
+// Author are just two entries of this same block, so adding another
+// section (e.g. "How I design the covers") is a Storyblok edit, not a
+// code change: add an entry to the "sections" Blocks field and it
+// renders here automatically, in whatever order it's placed.
+type ContentSectionBlock = {
+  _uid?: string;
+  title?: string;
+  body?: string;
+};
+
 export default async function WritingPage() {
   const story = await getStory("writing").catch(() => null);
   const content = (story?.content ?? {}) as {
     hero_statement?: string;
     stories_title?: string;
     stories?: StoryBlock[];
-    process_title?: string;
-    process?: string;
-    author_title?: string;
-    author?: string;
+    sections?: ContentSectionBlock[];
   };
 
   const heroStatement = content.hero_statement || DEFAULT_HERO_STATEMENT;
@@ -80,10 +79,9 @@ export default async function WritingPage() {
   // No hardcoded fallback list here on purpose — this section is driven
   // entirely by the "stories" Blocks field in Storyblok.
   const stories = content.stories ?? [];
-  const author = content.author || DEFAULT_AUTHOR;
-  const authorTitle = content.author_title || DEFAULT_AUTHOR_TITLE;
-  const processTitle = content.process_title || DEFAULT_PROCESS_TITLE;
-  const process = content.process || DEFAULT_PROCESS;
+  // No hardcoded fallback here either, same reasoning as "stories" —
+  // driven entirely by the "sections" Blocks field in Storyblok.
+  const sections = content.sections ?? [];
 
   return (
     <main
@@ -194,41 +192,37 @@ export default async function WritingPage() {
         </div>
       </div>
 
-      {/* Process */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
-        <div className="gd-split" style={{ gap: 24 }}>
-          <h2 style={labelStyle}>{processTitle}</h2>
-          <div>
-            {process.split("\n\n").map((para, i) => (
-              <p
-                key={i}
-                style={{
-                  ...bodyTextStyle,
-                  marginTop: i === 0 ? 0 : "1.2em",
-                  textWrap: "pretty" as React.CSSProperties["textWrap"],
-                }}
-              >
-                {para}
-              </p>
-            ))}
+      {/* Sections — Process, Author and any future one-off section
+          (e.g. "How I design the covers") are all the same
+          content_section block: title on the left, body on the right,
+          same .gd-split as Stories above. Order follows the "sections"
+          field in Storyblok, so reordering there is enough — no code
+          change needed. */}
+      {sections.map((sec, i) => (
+        <div
+          key={sec._uid ?? i}
+          className="gd-container"
+          style={{ marginTop: 96 }}
+        >
+          <div className="gd-split" style={{ gap: 24 }}>
+            {sec.title && <h2 style={labelStyle}>{sec.title}</h2>}
+            <div>
+              {(sec.body || "").split("\n\n").map((para, pi) => (
+                <p
+                  key={pi}
+                  style={{
+                    ...bodyTextStyle,
+                    marginTop: pi === 0 ? 0 : "1.2em",
+                    textWrap: "pretty" as React.CSSProperties["textWrap"],
+                  }}
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Author */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
-        <div className="gd-split" style={{ gap: 24 }}>
-          <h2 style={labelStyle}>{authorTitle}</h2>
-          <p
-            style={{
-              ...bodyTextStyle,
-              textWrap: "pretty" as React.CSSProperties["textWrap"],
-            }}
-          >
-            {author}
-          </p>
-        </div>
-      </div>
+      ))}
     </main>
   );
 }
