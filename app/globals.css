@@ -218,7 +218,10 @@ body:has(.gd-writing-page) {
 }
 
 body:has(.gd-writing-page) header img {
-  filter: invert(1);
+  /* The logo SVG's fill is #231F20, not pure black, so a plain
+     invert(1) only got it to light grey. brightness(0) first flattens
+     it to pure black, then invert(1) takes that to true white. */
+  filter: brightness(0) invert(1);
 }
 
 body:has(.gd-writing-page) ::selection {
