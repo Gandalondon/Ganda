@@ -20,11 +20,6 @@ export const metadata: Metadata = {
 const DEFAULT_HERO_STATEMENT =
   "I write short science-fiction stories about work, judgement and what happens when automation can do almost everything, but still needs a human.";
 
-// Local fallback — used until (or unless) a story's own cover_image asset
-// is set in Storyblok. Keeping the file in the repo means a story block
-// never has a missing-image state.
-const DEFAULT_COVER_IMAGE = "/writing/cover-title.jpg";
-
 const DEFAULT_STORIES_TITLE = "Stories";
 
 const labelStyle: React.CSSProperties = {
@@ -127,7 +122,10 @@ export default async function WritingPage() {
           <h1 style={labelStyle}>{storiesTitle}</h1>
           <div style={{ display: "flex", flexDirection: "column", gap: 96 }}>
             {stories.map((s, i) => {
-              const coverUrl = s.cover_image?.filename || DEFAULT_COVER_IMAGE;
+              // No local fallback image — every story is expected to have
+              // its own cover set in Storyblok, so the cover box is simply
+              // skipped for the (unexpected) case where one doesn't.
+              const coverUrl = s.cover_image?.filename;
               const description = s.description || "";
               // Only treat the field as a real link if it looks like one —
               // an empty field, or a placeholder like "TBC", falls back to
@@ -143,15 +141,17 @@ export default async function WritingPage() {
                         behaviour lives in .gd-story-cover (globals.css),
                         so it scales down on mobile instead of
                         overflowing the viewport. */}
-                    <div className="gd-story-cover">
-                      <Image
-                        src={coverUrl}
-                        alt={`${s.title || "Story"} book cover`}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 22vw"
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
+                    {coverUrl && (
+                      <div className="gd-story-cover">
+                        <Image
+                          src={coverUrl}
+                          alt={`${s.title || "Story"} book cover`}
+                          fill
+                          sizes="(max-width: 640px) 100vw, 22vw"
+                          style={{ objectFit: "cover" }}
+                        />
+                      </div>
+                    )}
                     <div
                       style={{
                         display: "flex",
