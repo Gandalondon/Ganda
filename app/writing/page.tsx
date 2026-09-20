@@ -194,7 +194,6 @@ export default async function WritingPage() {
                           style={{
                             ...bodyTextStyle,
                             alignSelf: "flex-start",
-                            opacity: 0.6,
                           }}
                         >
                           Coming soon
