@@ -70,31 +70,38 @@ const PLACEHOLDER_BLOCKS: TextBlock[] = [
   },
 ];
 
+// Handles two inline markdown patterns within body copy: [label](href) links
+// and **bold** emphasis. Both are matched in a single pass so ordering stays
+// correct regardless of which appears first in the text.
 function renderInlineLinks(text: string): ReactNode[] {
-  const linkPattern = /\[([^\]]+)]\(([^)]+)\)/g;
+  const inlinePattern = /\[([^\]]+)]\(([^)]+)\)|\*\*([^*]+)\*\*/g;
   const parts: ReactNode[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
-  while ((match = linkPattern.exec(text)) !== null) {
-    const [markdown, label, href] = match;
-    const isSafeLink = href.startsWith("/") || /^https?:\/\//.test(href);
-
+  while ((match = inlinePattern.exec(text)) !== null) {
+    const [markdown, label, href, boldText] = match;
     parts.push(text.slice(lastIndex, match.index));
-    parts.push(
-      isSafeLink ? (
-        <a
-          key={`${match.index}-${href}`}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {label}
-        </a>
-      ) : (
-        markdown
-      ),
-    );
+
+    if (boldText !== undefined) {
+      parts.push(<strong key={match.index}>{boldText}</strong>);
+    } else {
+      const isSafeLink = href.startsWith("/") || /^https?:\/\//.test(href);
+      parts.push(
+        isSafeLink ? (
+          <a
+            key={`${match.index}-${href}`}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {label}
+          </a>
+        ) : (
+          markdown
+        ),
+      );
+    }
     lastIndex = match.index + markdown.length;
   }
 
