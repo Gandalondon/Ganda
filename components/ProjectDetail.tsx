@@ -57,6 +57,9 @@ type StoryContent = {
   hero_text?: string;
   thumbnail?: { filename: string; alt?: string };
   body?: Block[];
+  // Storyblok boolean field: when true, the More Work grid at the bottom
+  // of this project page is hidden so the page simply ends.
+  hide_work_grid?: boolean;
 };
 
 const PLACEHOLDER_BLOCKS: TextBlock[] = [
@@ -317,9 +320,11 @@ export default function ProjectDetail({
       })}
 
       {/* Work grid */}
-      <div className="gd-container" style={{ marginTop: 200 }}>
-        <WorkGrid projects={projects} />
-      </div>
+      {!content.hide_work_grid && (
+        <div className="gd-container" style={{ marginTop: 200 }}>
+          <WorkGrid projects={projects} />
+        </div>
+      )}
     </main>
   );
 }
