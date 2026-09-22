@@ -183,7 +183,7 @@ export default function ProjectDetail({
                         <h3
                           style={{
                             fontSize: 18,
-                            fontWeight: 700,
+                            fontWeight: 400,
                             lineHeight: 1.5,
                             marginBottom: "0.5em",
                           }}
