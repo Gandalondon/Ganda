@@ -143,7 +143,7 @@ export default function ProjectDetail({
         if (block.component === "image") {
           if (!block.image?.filename) return null;
           return (
-            <div key={i} className="gd-container" style={{ marginTop: 120 }}>
+            <div key={i} className="gd-container" style={{ marginTop: 176 }}>
               <BlurImage
                 src={block.image.filename}
                 alt={block.image.alt ?? ""}
@@ -158,7 +158,7 @@ export default function ProjectDetail({
         if (block.component === "text_block_sections") {
           const sections = block.sections ?? [];
           return (
-            <div key={i} className="gd-container" style={{ marginTop: 120 }}>
+            <div key={i} className="gd-container" style={{ marginTop: 176 }}>
               <div className="gd-split" style={{ gap: 24 }}>
                 <div style={{ maxWidth: "calc(100% - 24px)" }}>
                   {block.title && (
@@ -235,7 +235,7 @@ export default function ProjectDetail({
         if (block.component === "hero_block") {
           if (!block.text) return null;
           return (
-            <div key={i} className="gd-container" style={{ marginTop: 120 }}>
+            <div key={i} className="gd-container" style={{ marginTop: 176 }}>
               <h2
                 style={{
                   maxWidth: 816,
@@ -254,7 +254,7 @@ export default function ProjectDetail({
         }
 
         return (
-          <div key={i} className="gd-container" style={{ marginTop: 120 }}>
+          <div key={i} className="gd-container" style={{ marginTop: 176 }}>
             <div className="gd-split" style={{ gap: 24 }}>
               <div style={{ maxWidth: "calc(100% - 24px)" }}>
                 {block.Title && (
