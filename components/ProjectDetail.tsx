@@ -182,7 +182,7 @@ export default function ProjectDetail({
                       {sec.subtitle && (
                         <h3
                           style={{
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: 400,
                             lineHeight: 1.5,
                             marginBottom: "0.5em",
@@ -196,7 +196,7 @@ export default function ProjectDetail({
                           <p
                             key={j}
                             style={{
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: 300,
                               lineHeight: 1.5,
                               marginBottom: "1em",
