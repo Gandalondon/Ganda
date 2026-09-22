@@ -30,15 +30,25 @@ type TextSectionItem = {
 // Same two-column text+image layout as TextBlock, but for content that
 // needs repeated subtitle/body pairs under one title (e.g. "Opportunity" /
 // "Outcome") instead of a single body field. Nested Storyblok component:
-// text_block_sections.
+// text_block_sections. Image border defaults OFF for this block (opposite
+// of TextBlock, where it defaults on) - only shows when explicitly true.
 type TextBlockSections = {
   component: "text_block_sections";
   title?: string;
   image?: { filename: string; alt?: string };
   sections?: TextSectionItem[];
+  show_image_border?: boolean;
 };
 
-type Block = TextBlock | ImageBlock | TextBlockSections;
+// A large standalone statement, styled like the page's top hero text, that
+// can be dropped in anywhere in the body to break up a long case study.
+// Nested Storyblok component: hero_block.
+type HeroBlock = {
+  component: "hero_block";
+  text?: string;
+};
+
+type Block = TextBlock | ImageBlock | TextBlockSections | HeroBlock;
 
 type StoryContent = {
   title?: string;
@@ -210,12 +220,35 @@ export default function ProjectDetail({
                         width: "100%",
                         height: "auto",
                         display: "block",
-                        border: "1px solid var(--border)",
+                        ...(block.show_image_border === true
+                          ? { border: "1px solid var(--border)" }
+                          : {}),
                       }}
                     />
                   )}
                 </div>
               </div>
+            </div>
+          );
+        }
+
+        if (block.component === "hero_block") {
+          if (!block.text) return null;
+          return (
+            <div key={i} className="gd-container" style={{ marginTop: 120 }}>
+              <h2
+                style={{
+                  maxWidth: 816,
+                  fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                  lineHeight: 1.25,
+                  fontWeight: 400,
+                  letterSpacing: "1px",
+                  color: "var(--ink)",
+                  textWrap: "pretty",
+                }}
+              >
+                {block.text}
+              </h2>
             </div>
           );
         }
