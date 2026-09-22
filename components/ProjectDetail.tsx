@@ -11,6 +11,7 @@ type TextBlock = {
   Title?: string;
   text?: string;
   image?: { filename: string; alt?: string };
+  show_image_border?: boolean;
 };
 
 type ImageBlock = {
@@ -168,7 +169,9 @@ export default function ProjectDetail({
                       width: "100%",
                       height: "auto",
                       display: "block",
-                      border: "1px solid var(--border)",
+                      ...(block.show_image_border !== false
+                        ? { border: "1px solid var(--border)" }
+                        : {}),
                     }}
                   />
                 )}
