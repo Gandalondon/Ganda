@@ -196,7 +196,7 @@ export default function ProjectDetail({
                           <p
                             key={j}
                             style={{
-                              fontSize: 18,
+                              fontSize: 20,
                               fontWeight: 300,
                               lineHeight: 1.5,
                               marginBottom: "1em",
