@@ -22,6 +22,17 @@ export type WorkProject = {
   thumbnail?: string;
 };
 
+// Minimal shape of a Storyblok work story, typed just enough to avoid `any`
+// (the SDK itself returns untyped story objects).
+type WorkStoryblokStory = {
+  slug: string;
+  name: string;
+  content?: {
+    thumbnail?: { filename?: string };
+    hide_from_work_grid?: boolean;
+  };
+};
+
 export async function getWorkProjects(): Promise<WorkProject[]> {
   const { isEnabled } = await draftMode();
   const { data } = await Storyblok.getStories({
@@ -29,11 +40,14 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
     version: isEnabled ? "draft" : "published",
     per_page: 50,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return data.stories.map((s: any) => ({
-    // justified-any: Storyblok SDK returns untyped story objects
-    slug: s.slug as string,
-    name: s.name as string,
-    thumbnail: s.content?.thumbnail?.filename as string | undefined,
-  }));
+  // Unlisted pages (hide_from_work_grid) stay reachable by direct URL but
+  // are dropped here, which keeps them out of every grid, related-project
+  // list and the sitemap for free, since they all read from this list.
+  return (data.stories as WorkStoryblokStory[])
+    .filter((s) => !s.content?.hide_from_work_grid)
+    .map((s) => ({
+      slug: s.slug,
+      name: s.name,
+      thumbnail: s.content?.thumbnail?.filename,
+    }));
 }

@@ -8,11 +8,24 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const story = await getStory(`work/${slug}`).catch(() => null);
-  const content = (story as { content?: { title?: string; client?: string; summary?: string } })?.content ?? {};
+  const content =
+    (
+      story as {
+        content?: {
+          title?: string;
+          client?: string;
+          summary?: string;
+          hide_from_work_grid?: boolean;
+        };
+      }
+    )?.content ?? {};
   const title = content.client ?? content.title ?? slug;
   return {
     title: `${title} — Ganda`,
     description: content.summary ?? undefined,
+    // Unlisted pages stay reachable at their direct URL but are kept out of
+    // search results.
+    ...(content.hide_from_work_grid ? { robots: { index: false } } : {}),
   };
 }
 
