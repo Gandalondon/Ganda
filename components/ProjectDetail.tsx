@@ -19,7 +19,26 @@ type ImageBlock = {
   image?: { filename: string; alt?: string };
 };
 
-type Block = TextBlock | ImageBlock;
+// A single subtitle+body pair inside a TextBlockSections block (nested
+// Storyblok component: text_section_item).
+type TextSectionItem = {
+  _uid?: string;
+  subtitle?: string;
+  body?: string;
+};
+
+// Same two-column text+image layout as TextBlock, but for content that
+// needs repeated subtitle/body pairs under one title (e.g. "Opportunity" /
+// "Outcome") instead of a single body field. Nested Storyblok component:
+// text_block_sections.
+type TextBlockSections = {
+  component: "text_block_sections";
+  title?: string;
+  image?: { filename: string; alt?: string };
+  sections?: TextSectionItem[];
+};
+
+type Block = TextBlock | ImageBlock | TextBlockSections;
 
 type StoryContent = {
   title?: string;
@@ -125,6 +144,82 @@ export default function ProjectDetail({
             </div>
           );
         }
+
+        if (block.component === "text_block_sections") {
+          const sections = block.sections ?? [];
+          return (
+            <div key={i} className="gd-container" style={{ marginTop: 120 }}>
+              <div className="gd-split" style={{ gap: 24 }}>
+                <div style={{ maxWidth: "calc(100% - 24px)" }}>
+                  {block.title && (
+                    <h2
+                      style={{
+                        fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                        fontWeight: 400,
+                        letterSpacing: "1px",
+                        lineHeight: 1.25,
+                        marginBottom: 24,
+                      }}
+                    >
+                      {block.title}
+                    </h2>
+                  )}
+                  {sections.map((sec, si) => (
+                    <div
+                      key={sec._uid ?? si}
+                      style={{ marginTop: si === 0 ? 0 : 32 }}
+                    >
+                      {sec.subtitle && (
+                        <h3
+                          style={{
+                            fontSize: 18,
+                            fontWeight: 700,
+                            lineHeight: 1.5,
+                            marginBottom: "0.5em",
+                          }}
+                        >
+                          {sec.subtitle}
+                        </h3>
+                      )}
+                      {sec.body &&
+                        sec.body.split("\n\n").map((para, j) => (
+                          <p
+                            key={j}
+                            style={{
+                              fontSize: 18,
+                              fontWeight: 300,
+                              lineHeight: 1.5,
+                              marginBottom: "1em",
+                              textWrap: "pretty",
+                            }}
+                          >
+                            {renderInlineLinks(para)}
+                          </p>
+                        ))}
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  {block.image?.filename && (
+                    <BlurImage
+                      src={block.image.filename}
+                      alt={block.image.alt ?? ""}
+                      width={1200}
+                      height={900}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        display: "block",
+                        border: "1px solid var(--border)",
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        }
+
         return (
           <div key={i} className="gd-container" style={{ marginTop: 120 }}>
             <div className="gd-split" style={{ gap: 24 }}>
