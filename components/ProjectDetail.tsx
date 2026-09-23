@@ -295,7 +295,7 @@ export default function ProjectDetail({
                     maxWidth: 816,
                     marginTop: 24,
                     fontSize: 16,
-                    fontWeight: 300,
+                    fontWeight: 400,
                     color: "var(--ink-subtle)",
                   }}
                 >
