@@ -296,7 +296,7 @@ export default function ProjectDetail({
                     marginTop: 24,
                     fontSize: 16,
                     fontWeight: 400,
-                    color: "var(--ink-subtle)",
+                    color: "var(--ink)",
                   }}
                 >
                   {block.byline}
