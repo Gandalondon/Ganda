@@ -48,7 +48,16 @@ type HeroBlock = {
   text?: string;
 };
 
-type Block = TextBlock | ImageBlock | TextBlockSections | HeroBlock;
+// A pull quote at the same width as HeroBlock, with an attribution line
+// underneath (e.g. a testimonial). Nested Storyblok component: quote_block.
+type QuoteBlock = {
+  component: "quote_block";
+  text?: string;
+  byline?: string;
+};
+
+type Block =
+  TextBlock | ImageBlock | TextBlockSections | HeroBlock | QuoteBlock;
 
 type StoryContent = {
   title?: string;
@@ -259,6 +268,40 @@ export default function ProjectDetail({
               >
                 {block.text}
               </h2>
+            </div>
+          );
+        }
+
+        if (block.component === "quote_block") {
+          if (!block.text) return null;
+          return (
+            <div key={i} className="gd-container" style={{ marginTop: 176 }}>
+              <h2
+                style={{
+                  maxWidth: 816,
+                  fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                  lineHeight: 1.25,
+                  fontWeight: 400,
+                  letterSpacing: "1px",
+                  color: "var(--ink)",
+                  textWrap: "pretty",
+                }}
+              >
+                {block.text}
+              </h2>
+              {block.byline && (
+                <p
+                  style={{
+                    maxWidth: 816,
+                    marginTop: 24,
+                    fontSize: 16,
+                    fontWeight: 300,
+                    color: "var(--ink-subtle)",
+                  }}
+                >
+                  {block.byline}
+                </p>
+              )}
             </div>
           );
         }
