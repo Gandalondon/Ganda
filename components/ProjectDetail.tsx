@@ -224,13 +224,17 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               }}
               style={{
                 width: "100%",
-                // Fixed to the export's actual design height (not derived
-                // from width via aspect-ratio) so the prototype's own
-                // viewport-relative (vh) sizing renders at full scale
-                // instead of shrinking to fit a shorter calculated height.
-                // 922px = the export's real canvas height (phone frame
-                // 450x922, full prototype incl. side panel 880x922).
-                height: 922,
+                // Locked to the export's real design canvas ratio (full
+                // prototype incl. side panel: 880x922) instead of a fixed
+                // pixel height, so the iframe's own rendered box always
+                // matches the export's intended aspect exactly - no
+                // leftover space from a mismatched box. Capped at the
+                // canvas's actual size so it never renders larger than
+                // the real design on wide columns, and shrinks to fit
+                // narrower columns near the desktop breakpoint.
+                maxWidth: 880,
+                aspectRatio: "880 / 922",
+                height: "auto",
                 border: "none",
                 display: "block",
               }}
