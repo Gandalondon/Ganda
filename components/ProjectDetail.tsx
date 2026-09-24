@@ -206,7 +206,11 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               style={{
                 width: "100%",
-                aspectRatio: "16 / 10",
+                // Fixed to the export's actual design height (not derived
+                // from width via aspect-ratio) so the prototype's own
+                // viewport-relative (vh) sizing renders at full scale
+                // instead of shrinking to fit a shorter calculated height.
+                height: 717,
                 border: "none",
                 display: "block",
               }}
