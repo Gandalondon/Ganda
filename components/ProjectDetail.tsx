@@ -71,6 +71,10 @@ type PrototypeEmbedBlock = {
   // Path to the exported HTML file, e.g. /prototypes/carwow-lionel.html
   prototype_url?: string;
   fallback_image?: { filename: string; alt?: string };
+  // Border defaults OFF for this block's fallback image (matching
+  // prototype_embed's own no-border iframe). Toggle on in Storyblok if
+  // the uploaded fallback screenshot needs one to read correctly.
+  show_image_border?: boolean;
 };
 
 type Block =
@@ -250,6 +254,9 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
                   width: "100%",
                   height: "auto",
                   display: "block",
+                  ...(block.show_image_border === true
+                    ? { border: "1px solid var(--border)" }
+                    : {}),
                 }}
               />
             )
