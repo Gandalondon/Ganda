@@ -204,6 +204,24 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               src={block.prototype_url}
               title={block.title ?? "Interactive prototype"}
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              // The export centers its content vertically within the
+              // page (body { align-items: center }), which leaves a gap
+              // above it whenever the content is shorter than the fixed
+              // iframe height. Since the export is same-origin (served
+              // from our own public/), pin it to the top instead so it
+              // lines up with the text column, rather than trying to
+              // predict/crop the gap from outside the iframe.
+              onLoad={(e) => {
+                try {
+                  const doc = e.currentTarget.contentDocument;
+                  if (doc?.body) {
+                    doc.body.style.alignItems = "flex-start";
+                  }
+                } catch {
+                  // Cross-origin or otherwise inaccessible - leave the
+                  // export's own centering as-is.
+                }
+              }}
               style={{
                 width: "100%",
                 // Fixed to the export's actual design height (not derived
