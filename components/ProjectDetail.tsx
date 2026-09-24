@@ -225,15 +225,15 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               style={{
                 width: "100%",
                 // Locked to the export's real design canvas ratio (full
-                // prototype incl. side panel: 880x922) instead of a fixed
-                // pixel height, so the iframe's own rendered box always
-                // matches the export's intended aspect exactly - no
-                // leftover space from a mismatched box. Capped at the
-                // canvas's actual size so it never renders larger than
-                // the real design on wide columns, and shrinks to fit
-                // narrower columns near the desktop breakpoint.
+                // prototype incl. side panel: 880x922). maxHeight caps the
+                // rendered size on the page (the design-tool reference
+                // showed the same 880x922 canvas at a smaller effective
+                // size than our wide column renders it at) - the browser
+                // shrinks width to match once maxHeight kicks in, keeping
+                // the exact ratio rather than cropping or distorting it.
                 maxWidth: 880,
                 aspectRatio: "880 / 922",
+                maxHeight: 824,
                 height: "auto",
                 border: "none",
                 display: "block",
