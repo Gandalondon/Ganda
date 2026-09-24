@@ -57,14 +57,17 @@ type QuoteBlock = {
   byline?: string;
 };
 
-// An interactive HTML prototype (e.g. a Claude-exported export dropped in
-// public/) embedded via iframe on desktop. On mobile, where the prototype
-// likely will not work well, a static fallback image is shown instead and
-// the iframe is never mounted (so its HTML/JS never even loads over a
-// mobile connection). Nested Storyblok component: prototype_embed.
+// Same two-column text+visual layout as TextBlock (title/body on the
+// left, visual on the right), but the visual is an interactive HTML
+// prototype (e.g. a Claude-exported build dropped in public/) embedded
+// via iframe on desktop. On mobile, where the prototype likely will not
+// work well, a static fallback image is shown instead and the iframe is
+// never mounted (so its HTML/JS never even loads over a mobile
+// connection). Nested Storyblok component: prototype_embed.
 type PrototypeEmbedBlock = {
   component: "prototype_embed";
   title?: string;
+  body?: string;
   // Path to the exported HTML file, e.g. /prototypes/carwow-lionel.html
   prototype_url?: string;
   fallback_image?: { filename: string; alt?: string };
@@ -145,10 +148,10 @@ function renderInlineLinks(text: string): ReactNode[] {
 // desktop vs mobile stays consistent across the page.
 const DESKTOP_BREAKPOINT = "(min-width: 1025px)";
 
-// Renders an interactive prototype as an iframe on desktop, or a static
-// fallback image on mobile. Split into its own component (rather than
-// inlined in the body-block map) because it needs its own hook state, and
-// hooks cannot be called from inside a .map() callback.
+// Renders the two-column title/body + prototype layout described above.
+// Split into its own component (rather than inlined in the body-block
+// map) because it needs its own hook state, and hooks cannot be called
+// from inside a .map() callback.
 function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
   const [showPrototype, setShowPrototype] = useState(false);
 
@@ -164,47 +167,68 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
 
   return (
     <div className="gd-container" style={{ marginTop: 176 }}>
-      {block.title && (
-        <h2
-          style={{
-            fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-            fontWeight: 400,
-            letterSpacing: "1px",
-            lineHeight: 1.25,
-            marginBottom: 24,
-          }}
-        >
-          {block.title}
-        </h2>
-      )}
-      {showPrototype && block.prototype_url ? (
-        <iframe
-          src={block.prototype_url}
-          title={block.title ?? "Interactive prototype"}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          style={{
-            width: "100%",
-            aspectRatio: "16 / 10",
-            border: "1px solid var(--border)",
-            display: "block",
-          }}
-        />
-      ) : (
-        block.fallback_image?.filename && (
-          <BlurImage
-            src={block.fallback_image.filename}
-            alt={block.fallback_image.alt ?? ""}
-            width={1200}
-            height={900}
-            style={{
-              width: "100%",
-              height: "auto",
-              display: "block",
-              border: "1px solid var(--border)",
-            }}
-          />
-        )
-      )}
+      <div className="gd-split" style={{ gap: 24 }}>
+        <div style={{ maxWidth: "calc(100% - 24px)" }}>
+          {block.title && (
+            <h2
+              style={{
+                fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                fontWeight: 400,
+                letterSpacing: "1px",
+                lineHeight: 1.25,
+                marginBottom: 24,
+              }}
+            >
+              {block.title}
+            </h2>
+          )}
+          {block.body &&
+            block.body.split("\n\n").map((para, j) => (
+              <p
+                key={j}
+                style={{
+                  fontSize: 18,
+                  fontWeight: 300,
+                  lineHeight: 1.5,
+                  marginBottom: "1em",
+                  textWrap: "pretty",
+                }}
+              >
+                {renderInlineLinks(para)}
+              </p>
+            ))}
+        </div>
+        <div>
+          {showPrototype && block.prototype_url ? (
+            <iframe
+              src={block.prototype_url}
+              title={block.title ?? "Interactive prototype"}
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              style={{
+                width: "100%",
+                aspectRatio: "16 / 10",
+                border: "1px solid var(--border)",
+                display: "block",
+              }}
+            />
+          ) : (
+            block.fallback_image?.filename && (
+              <BlurImage
+                src={block.fallback_image.filename}
+                alt={block.fallback_image.alt ?? ""}
+                width={1200}
+                height={900}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                  border: "1px solid var(--border)",
+                }}
+              />
+            )
+          )}
+        </div>
+      </div>
     </div>
   );
 }
