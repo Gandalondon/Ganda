@@ -207,7 +207,7 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               style={{
                 width: "100%",
                 aspectRatio: "16 / 10",
-                border: "1px solid var(--border)",
+                border: "none",
                 display: "block",
               }}
             />
