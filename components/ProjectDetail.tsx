@@ -1,6 +1,7 @@
 "use client";
 
 import { useStoryblokState } from "@storyblok/react";
+import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import WorkGrid from "@/components/WorkGrid";
 import BlurImage from "@/components/BlurImage";
@@ -56,8 +57,26 @@ type QuoteBlock = {
   byline?: string;
 };
 
+// An interactive HTML prototype (e.g. a Claude-exported export dropped in
+// public/) embedded via iframe on desktop. On mobile, where the prototype
+// likely will not work well, a static fallback image is shown instead and
+// the iframe is never mounted (so its HTML/JS never even loads over a
+// mobile connection). Nested Storyblok component: prototype_embed.
+type PrototypeEmbedBlock = {
+  component: "prototype_embed";
+  title?: string;
+  // Path to the exported HTML file, e.g. /prototypes/carwow-lionel.html
+  prototype_url?: string;
+  fallback_image?: { filename: string; alt?: string };
+};
+
 type Block =
-  TextBlock | ImageBlock | TextBlockSections | HeroBlock | QuoteBlock;
+  | TextBlock
+  | ImageBlock
+  | TextBlockSections
+  | HeroBlock
+  | QuoteBlock
+  | PrototypeEmbedBlock;
 
 type StoryContent = {
   title?: string;
@@ -119,6 +138,75 @@ function renderInlineLinks(text: string): ReactNode[] {
 
   parts.push(text.slice(lastIndex));
   return parts;
+}
+
+// Same breakpoint the site's CSS already switches to a stacked, mobile
+// layout at (see .gd-split / .gd-grid-3 in globals.css), reused here so
+// desktop vs mobile stays consistent across the page.
+const DESKTOP_BREAKPOINT = "(min-width: 1025px)";
+
+// Renders an interactive prototype as an iframe on desktop, or a static
+// fallback image on mobile. Split into its own component (rather than
+// inlined in the body-block map) because it needs its own hook state, and
+// hooks cannot be called from inside a .map() callback.
+function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
+  const [showPrototype, setShowPrototype] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia(DESKTOP_BREAKPOINT);
+    const update = () => setShowPrototype(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+
+  if (!block.prototype_url && !block.fallback_image?.filename) return null;
+
+  return (
+    <div className="gd-container" style={{ marginTop: 176 }}>
+      {block.title && (
+        <h2
+          style={{
+            fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+            fontWeight: 400,
+            letterSpacing: "1px",
+            lineHeight: 1.25,
+            marginBottom: 24,
+          }}
+        >
+          {block.title}
+        </h2>
+      )}
+      {showPrototype && block.prototype_url ? (
+        <iframe
+          src={block.prototype_url}
+          title={block.title ?? "Interactive prototype"}
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          style={{
+            width: "100%",
+            aspectRatio: "16 / 10",
+            border: "1px solid var(--border)",
+            display: "block",
+          }}
+        />
+      ) : (
+        block.fallback_image?.filename && (
+          <BlurImage
+            src={block.fallback_image.filename}
+            alt={block.fallback_image.alt ?? ""}
+            width={1200}
+            height={900}
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+              border: "1px solid var(--border)",
+            }}
+          />
+        )
+      )}
+    </div>
+  );
 }
 
 export default function ProjectDetail({
@@ -304,6 +392,10 @@ export default function ProjectDetail({
               )}
             </div>
           );
+        }
+
+        if (block.component === "prototype_embed") {
+          return <PrototypeEmbed key={i} block={block} />;
         }
 
         return (
