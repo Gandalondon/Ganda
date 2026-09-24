@@ -250,7 +250,6 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
                   width: "100%",
                   height: "auto",
                   display: "block",
-                  border: "1px solid var(--border)",
                 }}
               />
             )
