@@ -210,7 +210,9 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
                 // from width via aspect-ratio) so the prototype's own
                 // viewport-relative (vh) sizing renders at full scale
                 // instead of shrinking to fit a shorter calculated height.
-                height: 717,
+                // 922px = the export's real canvas height (phone frame
+                // 450x922, full prototype incl. side panel 880x922).
+                height: 922,
                 border: "none",
                 display: "block",
               }}
