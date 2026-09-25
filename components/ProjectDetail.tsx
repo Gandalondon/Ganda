@@ -169,6 +169,82 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
 
   if (!block.prototype_url && !block.fallback_image?.filename) return null;
 
+  // With no title or body, there's no left column to balance - center the
+  // prototype in the page instead of leaving it pinned to the (empty)
+  // right-hand track of the two-column split.
+  const hasText = Boolean(block.title || block.body);
+
+  const media = (
+    <>
+      {showPrototype && block.prototype_url ? (
+        <iframe
+          src={block.prototype_url}
+          title={block.title ?? "Interactive prototype"}
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          // The export centers its content vertically within the
+          // page (body { align-items: center }), which leaves a gap
+          // above it whenever the content is shorter than the fixed
+          // iframe height. Since the export is same-origin (served
+          // from our own public/), pin it to the top instead so it
+          // lines up with the text column, rather than trying to
+          // predict/crop the gap from outside the iframe.
+          onLoad={(e) => {
+            try {
+              const doc = e.currentTarget.contentDocument;
+              if (doc?.body) {
+                doc.body.style.alignItems = "flex-start";
+              }
+            } catch {
+              // Cross-origin or otherwise inaccessible - leave the
+              // export's own centering as-is.
+            }
+          }}
+          style={{
+            width: "100%",
+            // Locked to the export's real design canvas ratio (full
+            // prototype incl. side panel: 880x922). maxHeight caps the
+            // rendered size on the page (the design-tool reference
+            // showed the same 880x922 canvas at a smaller effective
+            // size than our wide column renders it at) - the browser
+            // shrinks width to match once maxHeight kicks in, keeping
+            // the exact ratio rather than cropping or distorting it.
+            maxWidth: 880,
+            aspectRatio: "880 / 922",
+            maxHeight: 824,
+            height: "auto",
+            border: "none",
+            display: "block",
+          }}
+        />
+      ) : (
+        block.fallback_image?.filename && (
+          <BlurImage
+            src={block.fallback_image.filename}
+            alt={block.fallback_image.alt ?? ""}
+            width={1200}
+            height={900}
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+              ...(block.show_image_border === true
+                ? { border: "1px solid var(--border)" }
+                : {}),
+            }}
+          />
+        )
+      )}
+    </>
+  );
+
+  if (!hasText) {
+    return (
+      <div className="gd-container" style={{ marginTop: 176 }}>
+        <div style={{ maxWidth: 880, margin: "0 auto" }}>{media}</div>
+      </div>
+    );
+  }
+
   return (
     <div className="gd-container" style={{ marginTop: 176 }}>
       <div className="gd-split" style={{ gap: 24 }}>
@@ -202,66 +278,7 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               </p>
             ))}
         </div>
-        <div>
-          {showPrototype && block.prototype_url ? (
-            <iframe
-              src={block.prototype_url}
-              title={block.title ?? "Interactive prototype"}
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-              // The export centers its content vertically within the
-              // page (body { align-items: center }), which leaves a gap
-              // above it whenever the content is shorter than the fixed
-              // iframe height. Since the export is same-origin (served
-              // from our own public/), pin it to the top instead so it
-              // lines up with the text column, rather than trying to
-              // predict/crop the gap from outside the iframe.
-              onLoad={(e) => {
-                try {
-                  const doc = e.currentTarget.contentDocument;
-                  if (doc?.body) {
-                    doc.body.style.alignItems = "flex-start";
-                  }
-                } catch {
-                  // Cross-origin or otherwise inaccessible - leave the
-                  // export's own centering as-is.
-                }
-              }}
-              style={{
-                width: "100%",
-                // Locked to the export's real design canvas ratio (full
-                // prototype incl. side panel: 880x922). maxHeight caps the
-                // rendered size on the page (the design-tool reference
-                // showed the same 880x922 canvas at a smaller effective
-                // size than our wide column renders it at) - the browser
-                // shrinks width to match once maxHeight kicks in, keeping
-                // the exact ratio rather than cropping or distorting it.
-                maxWidth: 880,
-                aspectRatio: "880 / 922",
-                maxHeight: 824,
-                height: "auto",
-                border: "none",
-                display: "block",
-              }}
-            />
-          ) : (
-            block.fallback_image?.filename && (
-              <BlurImage
-                src={block.fallback_image.filename}
-                alt={block.fallback_image.alt ?? ""}
-                width={1200}
-                height={900}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "block",
-                  ...(block.show_image_border === true
-                    ? { border: "1px solid var(--border)" }
-                    : {}),
-                }}
-              />
-            )
-          )}
-        </div>
+        <div>{media}</div>
       </div>
     </div>
   );
