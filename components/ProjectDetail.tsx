@@ -429,7 +429,7 @@ export default function ProjectDetail({
                   textWrap: "pretty",
                 }}
               >
-                {block.text}
+                {renderInlineLinks(block.text)}
               </h2>
             </div>
           );
