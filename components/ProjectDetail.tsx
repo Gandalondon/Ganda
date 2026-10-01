@@ -278,7 +278,13 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               </p>
             ))}
         </div>
-        <div>{media}</div>
+        {/* media is capped at maxWidth:880, narrower than this column's
+            stretched track - push it to the column's right edge so the
+            leftover gap sits in the middle gutter (next to the text)
+            instead of trailing on the page's outer right edge. */}
+        <div style={{ marginLeft: "auto", maxWidth: 880, width: "100%" }}>
+          {media}
+        </div>
       </div>
     </div>
   );
