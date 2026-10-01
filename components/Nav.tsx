@@ -7,6 +7,9 @@ import { usePathname } from "next/navigation";
 export default function Nav() {
   const pathname = usePathname();
   const isWriting = pathname === "/writing";
+  // Carwow case study: hide the global About/Book-a-call links on this
+  // page only (no replacement needed, unlike /writing's Folio link).
+  const isCarwow = pathname === "/work/carwow";
   const linkStyle = {
     fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
     color: "var(--ink)",
@@ -48,7 +51,7 @@ export default function Nav() {
                 Folio
               </Link>
             </li>
-          ) : (
+          ) : isCarwow ? null : (
             <>
               <li>
                 <Link href="/about" style={linkStyle}>
