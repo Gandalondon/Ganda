@@ -18,6 +18,9 @@ type TextBlock = {
 type ImageBlock = {
   component: "image";
   image?: { filename: string; alt?: string };
+  // Defaults OFF. Toggle on in Storyblok for screenshots that need a frame
+  // to separate them from the page background.
+  show_image_border?: boolean;
 };
 
 // A single subtitle+body pair inside a TextBlockSections block (nested
@@ -337,7 +340,14 @@ export default function ProjectDetail({
                 alt={block.image.alt ?? ""}
                 width={1200}
                 height={900}
-                style={{ width: "100%", height: "auto", display: "block" }}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                  ...(block.show_image_border === true
+                    ? { border: "1px solid var(--border)" }
+                    : {}),
+                }}
               />
             </div>
           );
