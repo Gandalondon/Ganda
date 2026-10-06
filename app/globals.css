@@ -29,9 +29,9 @@
 }
 
 /* Sticky nav: content that scrolls underneath fades into a progressive blur.
-   Two layers behind the logo and links: a light blur over the whole bar and
-   a stronger one over its top half, each fading to nothing at its lower edge
-   so there is no hard line. Remove this block (and "gd-nav" in
+   Two layers behind the logo and links: a light blur and a faint page-colour
+   wash over the whole bar, and a stronger blur over its top half, each
+   fading to nothing at its lower edge so there is no hard line. Remove this block (and "gd-nav" in
    components/Nav.tsx) to undo. */
 .gd-nav::before,
 .gd-nav::after {
@@ -60,16 +60,22 @@
   );
 }
 
+.gd-nav {
+  /* Colour of the faint wash behind the bar: page background. */
+  --gd-nav-tint: #ffffff;
+}
+
 .gd-nav::before {
   bottom: calc(var(--gd-header-gap) - 24px);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  background: color-mix(in srgb, var(--gd-nav-tint) 70%, transparent);
 }
 
 .gd-nav::after {
   bottom: calc(var(--gd-header-gap) + 16px);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
 *,
@@ -358,6 +364,10 @@ img {
 body:has(.gd-writing-page) {
   background: #231F20;
   --ink: #ffffff;
+}
+
+body:has(.gd-writing-page) .gd-nav {
+  --gd-nav-tint: #231f20;
 }
 
 body:has(.gd-writing-page) header img {
