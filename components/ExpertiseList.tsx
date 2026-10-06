@@ -60,8 +60,8 @@ export default function ExpertiseList({
 
   if (groups.length > 0) {
     // Each group is a full row, laid out exactly like the Clients row: the
-    // group title is the big left heading, its items the small list on the
-    // right. The groups replace the single "Expertise" heading.
+    // group title is the big left heading, its items the small, single-column
+    // list on the right. The groups replace the single "Expertise" heading.
     return (
       <>
         {groups.map((group, i) => {
@@ -86,7 +86,7 @@ export default function ExpertiseList({
                 >
                   {group.title}
                 </Heading>
-                <div className="gd-clients">
+                <div>
                   {splitLines(group.items).map((item, j) => (
                     <p key={j} style={textStyle}>
                       {item}
