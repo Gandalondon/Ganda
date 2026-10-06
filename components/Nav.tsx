@@ -18,7 +18,7 @@ export default function Nav() {
 
   return (
     <header
-      className="gd-container gd-nav"
+      className="gd-container"
       style={{
         display: "flex",
         alignItems: "center",
