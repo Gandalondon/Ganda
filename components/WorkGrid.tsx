@@ -19,7 +19,6 @@ function GridTile({ p }: { p: WorkProject }) {
         justifyContent: "center",
         aspectRatio: "1 / 1",
         background: "var(--surface-raised)",
-        border: "1px solid var(--border)",
         overflow: "hidden",
         position: "relative",
       }}
