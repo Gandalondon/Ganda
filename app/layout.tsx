@@ -30,6 +30,10 @@ export const metadata: Metadata = {
   },
 };
 
+// Master switch for the scroll fade-up (text and work grid tiles). Set to
+// false to turn the whole effect off; nothing else needs to change.
+const FADE_ENABLED = true;
+
 // Runs before first paint so below-the-fold text starts hidden without a
 // flash. Skipped for reduced motion and inside iframes (Storyblok editor).
 // The 4s fallback un-hides everything if the app script never starts.
@@ -43,14 +47,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={dmSans.className} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: FADE_BOOT }} />
+        {FADE_ENABLED && (
+          <script dangerouslySetInnerHTML={{ __html: FADE_BOOT }} />
+        )}
       </head>
       <body>
         <StoryblokProvider>
           <Nav />
           {children}
           <ClosingCta />
-          <FadeUp />
+          {FADE_ENABLED && <FadeUp />}
           <BackToTop />
           <Analytics />
           <SpeedInsights />

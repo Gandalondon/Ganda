@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 
-// Scroll-in fade-up for text (h1/h2/h3/p inside <main>, plus the closing CTA).
+// Scroll-in fade-up for text (h1/h2/h3/p inside <main>, plus the closing CTA)
+// and for work grid tiles.
 //
 // The hidden start state lives in globals.css (".gd-fade" block) and is keyed
 // on an <html class="gd-fade"> flag that the inline script in app/layout.tsx
@@ -11,13 +12,18 @@ import { useEffect } from "react";
 // elements once, as they reach 15% visibility, staggering siblings that
 // arrive together by 60ms.
 //
-// To remove the effect entirely: delete this file, its <FadeUp /> in
-// app/layout.tsx, the inline boot script there, and the ".gd-fade" block in
-// globals.css.
+// Work grid tiles that are on screen at load are never hidden, so the first
+// row is there to invite a scroll; later rows fade up as they arrive. Tiles
+// that start off screen (e.g. the grid at the foot of /about) fade up too.
+//
+// To turn it all off: set FADE_ENABLED to false in app/layout.tsx. To remove
+// the code: delete this file, <FadeUp /> and the boot script in
+// app/layout.tsx, and the ".gd-fade" blocks in globals.css.
 
 // Keep in sync with the selector in globals.css.
 const TEXT_SELECTOR = "main :is(h1, h2, h3, p), footer p";
 const EXCLUDE_SELECTOR = ".gd-grid-3 *, .sr-only";
+const TILE_SELECTOR = ".gd-grid-3 > a";
 const STAGGER_MS = 60;
 // Stop a long list (e.g. the client names) from taking seconds to finish.
 const MAX_STAGGER_STEPS = 8;
@@ -68,6 +74,23 @@ export default function FadeUp() {
       document.querySelectorAll(TEXT_SELECTOR).forEach((el) => {
         if (seen.has(el) || el.matches(EXCLUDE_SELECTOR)) return;
         seen.add(el);
+        io.observe(el);
+      });
+
+      document.querySelectorAll(TILE_SELECTOR).forEach((el) => {
+        if (seen.has(el)) return;
+        seen.add(el);
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          // On screen (or already scrolled past) as it appears: never hide
+          // it. A tile the CSS pre-hid (later rows) just fades in now.
+          el.setAttribute("data-fade", "in");
+          return;
+        }
+        // Off screen: safe to hide without a flash. Covers first-row tiles
+        // the CSS leaves visible, e.g. a grid at the foot of a page.
+        if (getComputedStyle(el).opacity !== "0") {
+          el.setAttribute("data-fade", "pending");
+        }
         io.observe(el);
       });
     };
