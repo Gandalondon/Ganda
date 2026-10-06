@@ -1,11 +1,22 @@
 import Link from "next/link";
 import type { WorkProject } from "@/lib/storyblok";
 
-// Text-led project list (trial on feat/project-list). Replaces the thumbnail
-// grid everywhere WorkGrid is used. Copy is hardcoded here for the trial;
-// move it into Storyblok fields if this version ships. Keys are lower-case
-// slugs. Projects without a thumbnail stay hidden, as before.
-const SUMMARIES: Record<string, { text: string; tags: string }> = {
+import WorkGridTiles from "@/components/WorkGridTiles";
+
+// Which layout every work list on the site uses (home, about, foot of each
+// project page). "grid" brings back the previous thumbnail grid exactly as it
+// was (components/WorkGridTiles.tsx; its CSS is still in globals.css).
+const LAYOUT: "list" | "grid" = "list";
+
+// Project list content comes from Storyblok, per work story:
+//   name         -> story name
+//   description  -> "list_description" (Textarea)
+//   tags         -> "tags" (Text, comma-separated), shown as "A · B"
+// Projects without a thumbnail stay hidden, as with the grid.
+//
+// FALLBACK only covers the gap until list_description is filled in for each
+// story. Once every project has one in Storyblok, delete this map.
+const FALLBACK: Record<string, { text: string; tags: string }> = {
   finn: {
     text: "Five years shaping car discovery, pricing and checkout through product design and experimentation.",
     tags: "Product design · Experimentation",
@@ -62,18 +73,21 @@ function Chevron() {
 }
 
 export default function WorkGrid({ projects }: { projects: WorkProject[] }) {
+  if (LAYOUT === "grid") return <WorkGridTiles projects={projects} />;
   const visible = projects.filter((p) => p.thumbnail);
   return (
     <ul className="gd-list">
       {visible.map((p) => {
-        const s = SUMMARIES[p.slug.toLowerCase()];
-        const tags = s?.tags ?? p.tags.join(" · ");
+        const fallback = FALLBACK[p.slug.toLowerCase()];
+        const text = p.listDescription ?? fallback?.text;
+        const tags =
+          p.tags.length > 0 ? p.tags.join(" · ") : fallback?.tags;
         return (
           <li key={p.slug}>
             <Link href={`/work/${p.slug}`} className="gd-row">
               <span className="gd-row-name">{p.name}</span>
               <span className="gd-row-desc">
-                {s?.text && <span className="gd-row-text">{s.text}</span>}
+                {text && <span className="gd-row-text">{text}</span>}
                 {tags && <span className="gd-row-tags">{tags}</span>}
               </span>
               <span className="gd-row-arrow" aria-hidden="true">

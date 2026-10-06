@@ -23,6 +23,9 @@ export type WorkProject = {
   // Shown as chips on the grid tile, in the order typed in Storyblok and
   // exactly as entered (no case changes). Missing field = [].
   tags: string[];
+  // One-line description for the project list ("list_description" field,
+  // Textarea). Separate from "summary", which is the page's meta description.
+  listDescription?: string;
 };
 
 // Minimal shape of a Storyblok work story, typed just enough to avoid `any`
@@ -34,6 +37,7 @@ type WorkStoryblokStory = {
     thumbnail?: { filename?: string };
     // Text field, comma-separated, e.g. "Product design, Experimentation".
     tags?: string;
+    list_description?: string;
     hide_from_work_grid?: boolean;
   };
 };
@@ -68,5 +72,6 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
       name: s.name,
       thumbnail: s.content?.thumbnail?.filename,
       tags: parseTags(s.content?.tags),
+      listDescription: s.content?.list_description?.trim() || undefined,
     }));
 }
