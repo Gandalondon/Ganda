@@ -175,7 +175,7 @@ img {
 
 .gd-tile-tags {
   margin: 0;
-  color: rgba(255, 255, 255, 0.8);
+  color: #ffffff;
   font-size: var(--type-small);
   font-weight: 400;
   line-height: 1.3;
@@ -328,34 +328,17 @@ body:has(.gd-writing-page) ::selection {
   color: #000000;
 }
 
-/* Scroll-in fade-up for text and work grid tiles. "gd-fade" is set on <html>
+/* Scroll-in blur reveal for images and work grid tiles. "gd-fade" is set on <html>
    by the boot script in app/layout.tsx (motion allowed, not in an iframe).
    components/FadeUp.tsx only touches elements that start below the fold: it
    marks them data-fade="pending" (hidden here) and then "in" as they scroll
    into view. Anything already on screen is never hidden, so nothing moves on
    page load or navigation. Without JS nothing is ever hidden.
-   Text and tile labels inside .gd-grid-3, and children of [data-fade-block],
-   are not animated on their own (the tile or block fades as one). */
+   Tile labels inside .gd-grid-3 are not animated on their own (the tile is). */
 @media (prefers-reduced-motion: no-preference) {
-  :root {
-    --gd-fade-ms: 600ms;
-    --gd-fade-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-
-  html.gd-fade [data-fade="in"] {
-    transition:
-      opacity var(--gd-fade-ms) var(--gd-fade-ease),
-      transform var(--gd-fade-ms) var(--gd-fade-ease);
-  }
-
-  html.gd-fade [data-fade="pending"] {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
   /* Images (data-fade-media) and work grid tiles never fade or move: they
      start slightly blurred and sharpen quickly as they scroll into the
-     screen. Only text fades up. */
+     screen. Text is never animated. */
   html.gd-fade :is([data-fade-media], .gd-grid-3 > a)[data-fade="pending"] {
     opacity: 1;
     transform: none;
@@ -364,19 +347,5 @@ body:has(.gd-writing-page) ::selection {
 
   html.gd-fade :is([data-fade-media], .gd-grid-3 > a)[data-fade="in"] {
     transition: filter 600ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  /* "blur" style (FADE_STYLE in app/layout.tsx): text gets the same reveal
-     as images. No fade, no movement, no stagger: just a slight blur that
-     sharpens (text 8px over 450ms, images 6px over 600ms).
-     Set FADE_STYLE to "rise" to bring back the text fade-up. */
-  html.gd-fade-blur [data-fade="pending"] {
-    opacity: 1;
-    transform: none;
-    filter: blur(8px);
-  }
-
-  html.gd-fade-blur [data-fade="in"] {
-    transition: filter 450ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
