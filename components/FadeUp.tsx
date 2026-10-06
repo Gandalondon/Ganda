@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 
-// Scroll-in fade-up for text (h1/h2/h3/p inside <main>, plus the closing CTA)
-// and for work grid tiles.
+// Scroll-in fade-up for text (h1/h2/h3/p inside <main>, plus the closing CTA),
+// images and work grid tiles.
 //
 // Only things that arrive from below the fold animate. Anything already on
 // screen when it appears (page load, client-side navigation, Storyblok data
@@ -16,14 +16,16 @@ import { useEffect } from "react";
 // whole thing on.
 //
 // Elements with data-fade-block (e.g. a quote and its byline) fade as one
-// unit; their children are not animated separately.
+// unit; their children are not animated separately. Images (and the
+// prototype iframe) opt in with data-fade-media and get the same treatment.
 //
 // To turn it all off: set FADE_ENABLED to false in app/layout.tsx. To remove
 // the code: delete this file, <FadeUp /> and the boot script in
 // app/layout.tsx, and the ".gd-fade" blocks in globals.css.
 
 // Keep in sync with the selector in globals.css.
-const TEXT_SELECTOR = "main :is(h1, h2, h3, p), footer p, [data-fade-block]";
+const TEXT_SELECTOR =
+  "main :is(h1, h2, h3, p), footer p, [data-fade-block], [data-fade-media]";
 const EXCLUDE_SELECTOR = ".gd-grid-3 *, .sr-only, [data-fade-block] *";
 const TILE_SELECTOR = ".gd-grid-3 > a";
 const STAGGER_MS = 60;

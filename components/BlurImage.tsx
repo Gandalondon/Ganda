@@ -12,6 +12,9 @@ export default function BlurImage({ wrapperStyle, style, alt, ...props }: Props 
 
   return (
     <div
+      // data-fade-media: fades up on scroll when it starts below the fold
+      // (see components/FadeUp.tsx).
+      data-fade-media
       className={loaded ? undefined : "gd-skeleton"}
       style={{ position: "relative", width: "100%", ...wrapperStyle }}
     >

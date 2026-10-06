@@ -183,6 +183,7 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
         <iframe
           src={block.prototype_url}
           title={block.title ?? "Interactive prototype"}
+          data-fade-media
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
           // The export centers its content vertically within the
           // page (body { align-items: center }), which leaves a gap
