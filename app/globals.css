@@ -353,10 +353,10 @@ body:has(.gd-writing-page) ::selection {
   html.gd-fade :is([data-fade-media], .gd-grid-3 > a)[data-fade="pending"] {
     opacity: 1;
     transform: none;
-    filter: blur(10px);
+    filter: blur(6px);
   }
 
   html.gd-fade :is([data-fade-media], .gd-grid-3 > a)[data-fade="in"] {
-    transition: filter 450ms ease-out;
+    transition: filter 600ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
