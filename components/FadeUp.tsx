@@ -89,12 +89,12 @@ export default function FadeUp() {
       }
     };
 
-    // Text starts sharpening the moment its top edge reaches the bottom of
-    // the screen. (A percentage-visible threshold never fires for an element
+    // Text starts sharpening once its top edge is 6% of the screen up from
+    // the bottom, so the blur is actually on screen when it begins. (A percentage-visible threshold never fires for an element
     // much taller than the screen, e.g. a full-page screenshot.)
     const io = new IntersectionObserver(onHit, {
       threshold: 0,
-      rootMargin: "0px 0px 0px 0px",
+      rootMargin: "0px 0px -6% 0px",
     });
     // Images unblur as they scroll into view: the effect starts once the top
     // edge is 8% up from the bottom of the screen, so you actually see it.
