@@ -27,7 +27,7 @@
   /* Home intro and closing CTA (feat/project-list trial) */
   --type-hero: clamp(34px, 3.15vw, 46px);
   /* Project list names */
-  --type-list: clamp(27px, 2.9vw, 42px);
+  --type-list: clamp(26px, 2.7vw, 39px);
   --type-body: 18px;
   --type-small: 16px;
 }
@@ -218,7 +218,7 @@ img {
   grid-template-areas: "name desc arrow";
   column-gap: 24px;
   align-items: start;
-  padding: 44px 0;
+  padding: 52px 0;
   border-bottom: 1px solid var(--border);
   color: var(--ink);
   text-decoration: none;
@@ -241,11 +241,11 @@ a.gd-row:visited {
   grid-area: desc;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 44em;
+  gap: 18px;
 }
 
 .gd-row-text {
+  text-wrap: pretty;
   font-size: var(--type-body);
   font-weight: 300;
   line-height: 1.45;
@@ -280,7 +280,7 @@ a.gd-row:visited {
     grid-template-columns: minmax(0, 1fr) 24px;
     grid-template-areas: "name arrow" "desc arrow";
     row-gap: 8px;
-    padding: 28px 0;
+    padding: 36px 0;
   }
 }
 
