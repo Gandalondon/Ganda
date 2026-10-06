@@ -242,7 +242,7 @@ a.gd-row:visited {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 34em;
+  max-width: 44em;
 }
 
 .gd-row-text {
