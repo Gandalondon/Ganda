@@ -24,7 +24,15 @@ a{color:inherit;text-decoration:none}
 .x{display:grid}.x>*{grid-area:1/1;transition:opacity 450ms ease}
 .x>.s{opacity:var(--s)}.x>.a{opacity:var(--a)}
 .only-s{display:block}[data-mode="ai"] .only-s{display:none}
-[data-mode="ai"] .rec,[data-mode="ai"] .rec-h{display:none}[data-mode="ai"] figure{margin-top:0}
+.only-a{display:none}[data-mode="ai"] .only-a{display:block}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 round(clamp(32px,4vw,48px),8px)}
+.pill{display:flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;border:1.5px solid rgba(244,244,241,.2);background:transparent;color:var(--fg);cursor:pointer;font-family:Inter,sans-serif;font-weight:500;font-size:16px;letter-spacing:-0.01em;white-space:nowrap;transition:background-color 220ms ease,color 220ms ease,border-color 220ms ease}
+.pill:hover{border-color:var(--fg)}
+.pill[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.pill .n{opacity:.5;font-variant-numeric:tabular-nums}
+.row[hidden]{display:none}
+.tx.exp{display:flex;flex-direction:column;gap:8px}.tx .role{font-weight:600}
+[data-mode="ai"] .rec-h,[data-mode="ai"] .rec-h~.rec{display:none}[data-mode="ai"] figure{margin-top:0}
 
 header{position:sticky;top:0;z-index:10;background:var(--bg);transition:background-color 600ms ease;display:grid;grid-template-columns:auto auto 1fr;align-items:center;column-gap:40px;padding:24px var(--pad)}
 .name{font-family:Geist,sans-serif;font-weight:700;font-size:19px;letter-spacing:0.01em;text-transform:uppercase;white-space:nowrap}
@@ -57,6 +65,12 @@ h1,h2{margin:0}
 .sec{margin-top:var(--sec)}
 .sec h2{font-size:var(--h2);margin-bottom:round(clamp(32px,4vw,48px),8px)}
 .sec h2.pb{padding-bottom:8px}
+.marquee{margin:0 calc(-1 * var(--pad));overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.track{display:flex;width:max-content;animation:marquee 60s linear infinite}
+.track span{flex:none;padding:0 var(--row);font-family:Geist,sans-serif;font-weight:700;font-size:var(--h3);line-height:1.2;letter-spacing:var(--tm);white-space:nowrap}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.track{animation:none;flex-wrap:wrap;width:auto}.track span[aria-hidden]{display:none}}
+.li-link{display:inline-flex;align-items:center;gap:8px;margin-top:var(--row);font-weight:600;font-size:clamp(18px,1.3vw,20px);border-bottom:1.5px solid var(--fg);padding-bottom:4px}
 .logos{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;column-gap:24px;row-gap:32px;list-style:none;margin:0;padding:0}
 .logo{width:50px;height:50px;flex:none;background:var(--fg);transition:background-color 600ms ease;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -77,6 +91,8 @@ a.row:hover .arrow>span:last-child{transform:translateX(0)}
 
 figure{margin:var(--sec) 0 0;display:flex;flex-direction:column;gap:24px}
 blockquote{margin:0;font-size:var(--h2);line-height:1.05;text-wrap:pretty}
+figure .x{position:relative}
+[data-mode="strategy"] figure .x>.a,[data-mode="ai"] figure .x>.s{position:absolute;top:0;left:0;right:0}
 figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
 .close{margin-top:round(clamp(160px,20vw,320px),8px);display:flex;flex-direction:column;align-items:flex-start;gap:round(clamp(32px,4vw,48px),8px)}
 .legal{margin:round(clamp(96px,12vw,160px),8px) 0 0;font-size:12px;line-height:1.5}
@@ -86,6 +102,7 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
   .name{font-size:20px}.name .full{display:none}.name .short{display:inline}
   .toggle button{min-width:0;padding:0 12px;font-size:14px}
   .btn-nav{padding:0 16px}
+  .pill{font-size:14px}
   .logos{display:grid;grid-template-columns:repeat(4,1fr);justify-items:center}
   .row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"title arrow" "text text"}
   .row.rec{grid-template-columns:1fr;grid-template-areas:"title" "text"}
@@ -98,13 +115,13 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
 <body>
 
 <header>
-  <a href="#" class="name" aria-label="Mike Litman"><span class="full">Mike L<span style="letter-spacing:0.05em">i</span>tm<span style="letter-spacing:0.06em">a</span>n</span><span class="short" aria-hidden="true">ML</span></a>
+  <a href="#" class="name" data-top aria-label="Mike Litman"><span class="full">Mike L<span style="letter-spacing:0.05em">i</span><span style="letter-spacing:0.03em">t</span>m<span style="letter-spacing:0.06em">a</span>n</span><span class="short" aria-hidden="true">ML</span></a>
   <div class="toggle" role="tablist" aria-label="Portfolio lens">
     <div class="ind"></div>
     <button class="t-s" role="tab" aria-selected="true" data-set="strategy">Strategy</button>
     <button class="t-a" role="tab" aria-selected="false" data-set="ai">AI</button>
   </div>
-  <a href="#" class="btn btn-nav" data-noop>Book a call</a>
+  <a href="mailto:hello@mikelitman.me" class="btn btn-nav">Contact</a>
 </header>
 
 <main>
@@ -118,7 +135,7 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
         <span class="s">I’m Mike Litman, a strategy and innovation leader with 15+ years across product, brand and emerging technology, working with Google, Nike, Netflix and Meta.</span>
         <span class="a" aria-hidden="true">I’m Mike Litman, an AI and product innovation strategist. I turn ideas into working products, prototypes and experiences, backed by 15+ years of strategy.</span>
       </p>
-      <a href="#" class="btn btn-big" data-noop data-reveal>Book a call</a>
+      <a href="mailto:hello@mikelitman.me" class="btn btn-big" data-reveal>Contact</a>
     </div>
   </section>
 
@@ -138,36 +155,215 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
   </section>
 
   <section class="sec only-s">
-    <h2 class="disp pb" data-reveal>Worked with</h2>
-    <ul class="logos" aria-label="Selected clients" data-reveal>
-      <li class="logo" style="--m:url(https://cdn.simpleicons.org/nike/000000)"><span class="vh">Nike</span></li>
-      <li class="logo" style="--m:url(https://cdn.simpleicons.org/adidas/000000)"><span class="vh">adidas</span></li>
-      <li class="logo" style="--m:url(https://cdn.simpleicons.org/apple/000000)"><span class="vh">Apple</span></li>
-      <li class="logo" style="--m:url(https://cdn.simpleicons.org/netflix/000000)"><span class="vh">Netflix</span></li>
-      <li class="logo" style="--m:url(https://cdn.simpleicons.org/meta/000000)"><span class="vh">Meta</span></li>
-      <li class="logo" style="--m:url(https://cdn.simpleicons.org/spotify/000000)"><span class="vh">Spotify</span></li>
-      <li class="logo" style="--m:url(https://cdn.simpleicons.org/tesla/000000)"><span class="vh">Tesla</span></li>
-      <li class="logo" style="--m:url(https://cdn.simpleicons.org/tiktok/000000)"><span class="vh">TikTok</span></li>
-    </ul>
+    <h2 class="disp pb" data-reveal>Clients</h2>
+    <div class="marquee" aria-label="Selected clients" data-reveal><div class="track"><span>Nike</span><span>Google</span><span>Netflix</span><span>Gucci</span><span>Meta</span><span>adidas</span><span>BMW</span><span>McLaren</span><span>P&amp;G</span><span>Unilever</span><span>Sony</span><span>TikTok</span><span>Starbucks</span><span>Reddit</span><span>Salesforce</span><span>Magic Leap</span><span>Chelsea FC</span><span>Braun</span><span aria-hidden="true">Nike</span><span aria-hidden="true">Google</span><span aria-hidden="true">Netflix</span><span aria-hidden="true">Gucci</span><span aria-hidden="true">Meta</span><span aria-hidden="true">adidas</span><span aria-hidden="true">BMW</span><span aria-hidden="true">McLaren</span><span aria-hidden="true">P&amp;G</span><span aria-hidden="true">Unilever</span><span aria-hidden="true">Sony</span><span aria-hidden="true">TikTok</span><span aria-hidden="true">Starbucks</span><span aria-hidden="true">Reddit</span><span aria-hidden="true">Salesforce</span><span aria-hidden="true">Magic Leap</span><span aria-hidden="true">Chelsea FC</span><span aria-hidden="true">Braun</span></div></div>
+  </section>
+
+  <section class="sec only-s">
+    <h2 class="disp pb" data-reveal>What I do</h2>
+    <div class="row rec" data-reveal><div class="disp tt">Positioning</div><div class="tx">Working out what new capabilities mean for a business, who they’re useful for and how to position them.</div></div>
+    <div class="row rec" data-reveal><div class="disp tt">Proposition development</div><div class="tx">Turning emerging capabilities into clear customer value and compelling market narratives.</div></div>
+    <div class="row rec" data-reveal><div class="disp tt">Product strategy</div><div class="tx">Opportunity identification and consumer insight, shaped into products that solve real customer and business problems.</div></div>
+    <div class="row rec" data-reveal><div class="disp tt">Go-to-market</div><div class="tx">Taking new products to market, from Magic Leap’s consumer-to-enterprise pivot to a $3.2m capability built at Monks.</div></div>
   </section>
 
   <section class="sec">
-    <h2 class="disp" data-reveal>Selected work</h2>
-    <a href="#" class="row" data-noop data-reveal>
-      <div class="disp x tt"><span class="s">MediaMonks</span><span class="a" aria-hidden="true">Buggy Smart</span></div>
-      <div class="x tx"><span class="s">Built a global emerging-tech capability from zero to $3.2m in revenue.</span><span class="a" aria-hidden="true">A voice agent that phones venues. 10,000+ calls, 1,200+ London venues mapped.</span></div>
+    <h2 class="disp x" data-reveal><span class="s">Experience</span><span class="a" aria-hidden="true">Work</span></h2>
+    <div class="only-s">
+      <div class="row rec" data-reveal><div class="disp tt">Cultural Capital Labs</div><div class="tx exp"><span class="role">Director, AI &amp; Product Innovation Strategy, 2025–present</span><span>Independent strategy and innovation practice focused on helping businesses identify and develop valuable applications of AI and emerging technology.</span></div></div>
+      <div class="row rec" data-reveal><div class="disp tt">Digital Frontier</div><div class="tx exp"><span class="role">Innovation Strategy Director &amp; AI Enablement, 2025</span><span>Led innovation strategy for a future-focused technology media business, shaping new editorial products, commercial propositions, partnerships and go-to-market activity across AI, wearable technology and emerging innovation.</span></div></div>
+      <div class="row rec" data-reveal><div class="disp tt">Monks</div><div class="tx exp"><span class="role">Senior Director, Brand &amp; Innovation Strategy, 2019–2025</span><span>Founded and scaled a global emerging-technology capability from zero, generating more than $3.2m in revenue from a new international business line.</span></div></div>
+      <div class="row rec" data-reveal><div class="disp tt">R/GA</div><div class="tx exp"><span class="role">Strategy Director, Product Positioning &amp; GTM, 2019</span><span>Developed global positioning, messaging and go-to-market strategy for Magic Leap as the spatial-computing business expanded its focus from consumer technology into enterprise applications.</span></div></div>
+      <div class="row rec" data-reveal><div class="disp tt">Contagious</div><div class="tx exp"><span class="role">Head of Digital, 2017–2018</span><span>Served as the company’s first Head of Digital, helping brands understand how changes in technology, platforms and consumer behaviour were creating new commercial and creative opportunities.</span></div></div>
+      <div class="row rec" data-reveal><div class="disp tt">Burst</div><div class="tx exp"><span class="role">Founder, 2013–2017</span><span>Founded a micro-content agency and grew it to acquisition.</span></div></div>
+      <div class="row rec" data-reveal><div class="disp tt">AnalogFolk</div><div class="tx exp"><span class="role">Strategist, 2012</span><span>Shaped digital strategy and campaign thinking for consumer brands, from audience insight through to launch.</span></div></div>
+      <div class="row rec" data-reveal><div class="disp tt">Poke</div><div class="tx exp"><span class="role">Strategist, 2011</span><span>Developed digital propositions and brand experiences, working closely with design and technology teams.</span></div></div>
+      <div class="row rec" data-reveal><div class="disp tt">Dare</div><div class="tx exp"><span class="role">Strategist, 2010</span><span>Supported digital and social strategy for brand clients during the early years of the social web.</span></div></div>
+      <a class="li-link" href="https://www.linkedin.com/in/michaellitman/details/experience/" target="_blank" rel="noopener" data-reveal>Full history on LinkedIn ↗</a>
+    </div>
+    <div class="only-a">
+    <div class="filters" role="tablist" aria-label="Filter work" data-reveal>
+      <button class="pill" role="tab" aria-selected="true" data-filter="All"><span>All</span><span class="n">34</span></button>
+      <button class="pill" role="tab" aria-selected="false" data-filter="Voice AI"><span>Voice AI</span><span class="n">4</span></button>
+      <button class="pill" role="tab" aria-selected="false" data-filter="Culture &amp; data"><span>Culture &amp; data</span><span class="n">5</span></button>
+      <button class="pill" role="tab" aria-selected="false" data-filter="Brand &amp; taste"><span>Brand &amp; taste</span><span class="n">4</span></button>
+      <button class="pill" role="tab" aria-selected="false" data-filter="London"><span>London</span><span class="n">4</span></button>
+      <button class="pill" role="tab" aria-selected="false" data-filter="Tools"><span>Tools</span><span class="n">5</span></button>
+      <button class="pill" role="tab" aria-selected="false" data-filter="Writing"><span>Writing</span><span class="n">7</span></button>
+      <button class="pill" role="tab" aria-selected="false" data-filter="Football"><span>Football</span><span class="n">3</span></button>
+      <button class="pill" role="tab" aria-selected="false" data-filter="Personal"><span>Personal</span><span class="n">2</span></button>
+    </div>
+    <a href="https://mikelitman.me/projects/beat-the-gaffer" target="_blank" rel="noopener" class="row" data-cat="Football" data-reveal>
+      <div class="disp tt">Beat the Gaffer</div>
+      <div class="tx">A football prediction game fronted by a comic character. Live for the Premier League 26/27 season.</div>
       <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
     </a>
-    <a href="#" class="row" data-noop data-reveal>
-      <div class="disp x tt"><span class="s">R/GA</span><span class="a" aria-hidden="true">The Pattern</span></div>
-      <div class="x tx"><span class="s">Product strategy and go-to-market, including Magic Leap’s consumer-to-enterprise pivot.</span><span class="a" aria-hidden="true">A daily culture podcast from 150+ sources, narrated in a cloned voice. 200+ episodes.</span></div>
+    <a href="https://mikelitman.me/slack-dashboard" target="_blank" rel="noopener" class="row" data-cat="Culture &amp; data" data-reveal>
+      <div class="disp tt">Slack Dashboard</div>
+      <div class="tx">459 channels. 3,312 messages. 1,859 URLs. 90 days of my personal knowledge workspace, visualised.</div>
       <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
     </a>
-    <a href="#" class="row" data-noop data-reveal>
-      <div class="disp x tt"><span class="s">Burst</span><span class="a" aria-hidden="true">Beat the Gaffer</span></div>
-      <div class="x tx"><span class="s">Founded a micro-content agency and grew it to acquisition.</span><span class="a" aria-hidden="true">A Premier League prediction game fronted by an AI character, live with a real audience.</span></div>
+    <a href="https://mikelitman.me/projects/cultureterminal" target="_blank" rel="noopener" class="row" data-cat="Culture &amp; data" data-reveal>
+      <div class="disp tt">CultureTerminal</div>
+      <div class="tx">Cultural intelligence from 140+ sources. A Bloomberg Terminal for culture.</div>
       <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
     </a>
+    <a href="https://mikelitman.me/projects/the-pattern" target="_blank" rel="noopener" class="row" data-cat="Culture &amp; data" data-reveal>
+      <div class="disp tt">The Pattern</div>
+      <div class="tx">AI culture briefing published every weekday, synthesising 150+ sources into a podcast using my cloned voice.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/relevance-index" target="_blank" rel="noopener" class="row" data-cat="Culture &amp; data" data-reveal>
+      <div class="disp tt">The Relevance Index</div>
+      <div class="tx">1,200 brands scored on cultural relevance. Weekly automated pipeline.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/sociology-of-capitalism" target="_blank" rel="noopener" class="row" data-cat="Culture &amp; data" data-reveal>
+      <div class="disp tt">Sociology of Capitalism</div>
+      <div class="tx">Are big brands culturally relevant? 74 brands tracked daily.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/modern-retro" target="_blank" rel="noopener" class="row" data-cat="Brand &amp; taste" data-reveal>
+      <div class="disp tt">Modern Retro</div>
+      <div class="tx">100 brands as 1970s storefronts. 857 AI images. Real e-commerce, real sales.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/trove" target="_blank" rel="noopener" class="row" data-cat="Brand &amp; taste" data-reveal>
+      <div class="disp tt">Trove</div>
+      <div class="tx">Save links. See your taste mapped. A personal engine that reveals what you’re drawn to.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/taste-os" target="_blank" rel="noopener" class="row" data-cat="Brand &amp; taste" data-reveal>
+      <div class="disp tt">Taste OS</div>
+      <div class="tx">Score any brand’s taste. 5 dimensions, 100 points. A framework for what you feel.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/the-shelf" target="_blank" rel="noopener" class="row" data-cat="Brand &amp; taste" data-reveal>
+      <div class="disp tt">The Visible Shelf</div>
+      <div class="tx">99 books. Phone photos. A visual library.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/little-london" target="_blank" rel="noopener" class="row" data-cat="London" data-reveal>
+      <div class="disp tt">Little London</div>
+      <div class="tx">160 weekend activities for London families. Updated daily.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/oishii" target="_blank" rel="noopener" class="row" data-cat="London" data-reveal>
+      <div class="disp tt">Oishii London</div>
+      <div class="tx">Japanese food in London. The real spots.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/london-pub-guide" target="_blank" rel="noopener" class="row" data-cat="London" data-reveal>
+      <div class="disp tt">London Pub Guide</div>
+      <div class="tx">London’s best pubs. Curated.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/first-out" target="_blank" rel="noopener" class="row" data-cat="London" data-reveal>
+      <div class="disp tt">First Out</div>
+      <div class="tx">The fastest way off the tube. 259 stations, all 11 lines.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/buggy-smart" target="_blank" rel="noopener" class="row" data-cat="Voice AI" data-reveal>
+      <div class="disp tt">Buggy Smart</div>
+      <div class="tx">A conversational voice agent mapping buggy accessibility across London, with 10,000+ real-world calls across 1,200+ venues.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/first-order" target="_blank" rel="noopener" class="row" data-cat="Voice AI" data-reveal>
+      <div class="disp tt">First Order</div>
+      <div class="tx">AI calls London restaurants to find the one dish you have to order.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/with-moshi" target="_blank" rel="noopener" class="row" data-cat="Voice AI" data-reveal>
+      <div class="disp tt">With Moshi</div>
+      <div class="tx">AI phone answering for UK restaurants. Never miss a booking call again.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/queue-index" target="_blank" rel="noopener" class="row" data-cat="Voice AI" data-reveal>
+      <div class="disp tt">The Queue Index</div>
+      <div class="tx">If there’s no queue, is it even good? Weekly AI-called wait times for London’s best restaurants.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/forest-quiz" target="_blank" rel="noopener" class="row" data-cat="Football" data-reveal>
+      <div class="disp tt">Forest Quiz</div>
+      <div class="tx">303 questions about Nottingham Forest. Built for matchday.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/forest-flash-cards" target="_blank" rel="noopener" class="row" data-cat="Football" data-reveal>
+      <div class="disp tt">Forest Flash Cards</div>
+      <div class="tx">Top Trumps-style card game. 30 players, 3 modes.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/nihongo" target="_blank" rel="noopener" class="row" data-cat="Personal" data-reveal>
+      <div class="disp tt">Nihongo</div>
+      <div class="tx">Japanese learning app. 4 levels, 5 study modes.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/everywear" target="_blank" rel="noopener" class="row" data-cat="Personal" data-reveal>
+      <div class="disp tt">Everywear</div>
+      <div class="tx">Wearable tech news. Daily digest.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/signals-and-shifts" target="_blank" rel="noopener" class="row" data-cat="Writing" data-reveal>
+      <div class="disp tt">Signals &amp; Shifts</div>
+      <div class="tx">Culture tracking dashboard. 5 domains, real-time signals.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/cultural-capital-labs" target="_blank" rel="noopener" class="row" data-cat="Writing" data-reveal>
+      <div class="disp tt">Cultural Capital Labs</div>
+      <div class="tx">The studio brand. An umbrella for everything I build.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/cultural-capital-fyi" target="_blank" rel="noopener" class="row" data-cat="Writing" data-reveal>
+      <div class="disp tt">Cultural Capital FYI</div>
+      <div class="tx">Cultural capital explained. 10 brands scored. 5 principles.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/taste-machines" target="_blank" rel="noopener" class="row" data-cat="Writing" data-reveal>
+      <div class="disp tt">Taste Machines</div>
+      <div class="tx">A newsletter about AI and taste. Where machines meet judgement.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/you-are-what-you-save" target="_blank" rel="noopener" class="row" data-cat="Writing" data-reveal>
+      <div class="disp tt">You Are What You Save</div>
+      <div class="tx">A one-page essay on curation as identity.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/media-tsundoku" target="_blank" rel="noopener" class="row" data-cat="Writing" data-reveal>
+      <div class="disp tt">Media Tsundoku</div>
+      <div class="tx">Digital hoarding, beautifully explained. Tsundoku for the internet age.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/projects/the-new-flex" target="_blank" rel="noopener" class="row" data-cat="Writing" data-reveal>
+      <div class="disp tt">The New Flex</div>
+      <div class="tx">An essay on new status symbols. The old flex was what you bought.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/ask-mike/" target="_blank" rel="noopener" class="row" data-cat="Tools" data-reveal>
+      <div class="disp tt">Ask Mike</div>
+      <div class="tx">AI answers in my actual voice. Ask anything about my work.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/brand-audit/" target="_blank" rel="noopener" class="row" data-cat="Tools" data-reveal>
+      <div class="disp tt">Brand Audit</div>
+      <div class="tx">Score any brand’s cultural relevance using my framework.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://mikelitman.me/taste-genome/" target="_blank" rel="noopener" class="row" data-cat="Tools" data-reveal>
+      <div class="disp tt">Taste Genome</div>
+      <div class="tx">Compare your taste profile against mine.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://therelevanceindex.com/arbitrage.html" target="_blank" rel="noopener" class="row" data-cat="Tools" data-reveal>
+      <div class="disp tt">Taste Arbitrage</div>
+      <div class="tx">Find undervalued brands before the market catches up.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    <a href="https://therelevanceindex.com/predictions.html" target="_blank" rel="noopener" class="row" data-cat="Tools" data-reveal>
+      <div class="disp tt">Predictions</div>
+      <div class="tx">AI-powered brand relevance forecasts.</div>
+      <div class="arrow" aria-hidden="true"><span><i></i></span><span><i></i></span></div>
+    </a>
+    </div>
   </section>
 
   <section class="sec">
@@ -176,9 +372,10 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
     <div class="row rec" data-reveal><div class="disp tt">Business Insider</div><div class="tx">30 Most Creative</div></div>
     <div class="row rec" data-reveal><div class="disp tt">Published author</div><div class="tx">BCS, 2024</div></div>
     <div class="row rec" data-reveal><div class="disp tt">AdWorld</div><div class="tx">Keynote, 2024</div></div>
+    <div class="row rec" data-reveal><div class="disp tt">The Webby Awards</div><div class="tx">Executive Academy Judge, 2022–2025</div></div>
     <figure data-reveal>
-      <blockquote class="disp x"><span class="s">“An entrepreneurial, creative, detail-orientated business operator. Much more multi-faceted now. Hire him.”</span><span class="a" aria-hidden="true">“Mike took our idea from a conversation to a live AI product in under two weeks. Strategy and build, no hand-off.”</span></blockquote>
-      <figcaption class="x"><span class="s">Gabbi Cahane, Partner, Stride</span><span class="a" aria-hidden="true">Name Surname, Founder, Company</span></figcaption>
+      <blockquote class="disp x"><span class="s">“An entrepreneurial, creative, detail-orientated business operator. Much more multi-faceted now. Hire him.”</span><span class="a" aria-hidden="true">“Mike has always been full of ideas. AI finally lets him build them himself, and he hasn’t stopped since.”</span></blockquote>
+      <figcaption class="x"><span class="s">Gabbi Cahane, Partner, Stride</span><span class="a" aria-hidden="true">Tony Goff, Product Designer, Ganda</span></figcaption>
     </figure>
   </section>
 
@@ -187,7 +384,7 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
       <span class="s">Let’s talk about<br>what’s next.</span>
       <span class="a" aria-hidden="true">Let’s build<br>what’s next.</span>
     </h2>
-    <a href="#" class="btn btn-big" data-noop data-reveal>Book a call</a>
+    <a href="mailto:hello@mikelitman.me" class="btn btn-big" data-reveal>Contact</a>
   </section>
 
   <p class="legal" data-reveal>© 2026 Michael Litman. All rights reserved.</p>
@@ -210,12 +407,19 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
     sync();
     window.scrollTo(0,0);
     try{history.replaceState(null,'','#'+m);}catch(e){}
-    document.querySelectorAll('.only-s [data-reveal]').forEach(function(el){el.classList.remove('in');});
+    document.querySelectorAll('.only-s [data-reveal],.only-a [data-reveal]').forEach(function(el){el.classList.remove('in');});
     requestAnimationFrame(check);
   }
   document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('click',function(){setMode(b.getAttribute('data-set'));});});
+  document.querySelector('[data-top]').addEventListener('click',function(e){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});});
   document.querySelectorAll('[data-noop]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();});});
   sync();
+  document.querySelectorAll('[data-filter]').forEach(function(p){p.addEventListener('click',function(){
+    var f=p.getAttribute('data-filter');
+    document.querySelectorAll('[data-filter]').forEach(function(q){q.setAttribute('aria-selected',q===p?'true':'false');});
+    document.querySelectorAll('.only-a [data-cat]').forEach(function(r){r.hidden=!(f==='All'||r.getAttribute('data-cat')===f);});
+    requestAnimationFrame(check);
+  });});
 
   function check(){
     var vh=window.innerHeight,i=0;
