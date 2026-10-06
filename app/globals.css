@@ -20,7 +20,6 @@
 
   /* Type scale */
   --type-display: clamp(28px, 2.6vw, 38px);
-  --type-sub: clamp(22px, 1.8vw, 28px);
   --type-body: 18px;
   --type-small: 15px;
 }

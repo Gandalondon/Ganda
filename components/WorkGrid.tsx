@@ -12,7 +12,7 @@ function GridTile({ p }: { p: WorkProject }) {
     <Link
       href={`/work/${p.slug}`}
       aria-label={`View project: ${p.name}`}
-      className={p.thumbnail && !loaded ? "gd-skeleton" : undefined}
+      className={loaded ? undefined : "gd-skeleton"}
       style={{
         display: "flex",
         alignItems: "center",
@@ -24,29 +24,20 @@ function GridTile({ p }: { p: WorkProject }) {
         position: "relative",
       }}
     >
-      {p.thumbnail ? (
-        <Image
-          src={p.thumbnail}
-          alt=""
-          className="gd-tile-img"
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{
-            objectFit: "cover",
-            // Shown the moment it has loaded, with no fade: it replays on
-            // every page change otherwise.
-            opacity: loaded ? 1 : 0,
-          }}
-          onLoad={() => setLoaded(true)}
-        />
-      ) : (
-        <span
-          aria-hidden="true"
-          style={{ fontSize: 16, color: "var(--ink-subtle)" }}
-        >
-          Work
-        </span>
-      )}
+      <Image
+        src={p.thumbnail}
+        alt=""
+        className="gd-tile-img"
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        style={{
+          objectFit: "cover",
+          // Shown the moment it has loaded, with no fade: it replays on
+          // every page change otherwise.
+          opacity: loaded ? 1 : 0,
+        }}
+        onLoad={() => setLoaded(true)}
+      />
       {/* Labels sit above the image. The link already carries an
           aria-label, so the image alt is empty and these are visual only. */}
       <span className="gd-tile-scrim" aria-hidden="true" />

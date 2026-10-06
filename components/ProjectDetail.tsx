@@ -381,7 +381,7 @@ export default function ProjectDetail({
                       {sec.subtitle && (
                         <h3
                           style={{
-                            fontSize: "var(--type-sub)",
+                            fontSize: "var(--type-body)",
                             letterSpacing: "-0.0048em",
                             fontWeight: 500,
                             lineHeight: 1.3,
