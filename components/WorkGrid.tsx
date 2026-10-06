@@ -28,11 +28,11 @@ function GridTile({ p }: { p: WorkProject }) {
         <Image
           src={p.thumbnail}
           alt=""
+          className="gd-tile-img"
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{
             objectFit: "cover",
-            transition: "opacity 0.3s",
             opacity: loaded ? 1 : 0,
           }}
           onLoad={() => setLoaded(true)}
@@ -48,16 +48,18 @@ function GridTile({ p }: { p: WorkProject }) {
       {/* Labels sit above the image. The link already carries an
           aria-label, so the image alt is empty and these are visual only. */}
       <span className="gd-tile-scrim" aria-hidden="true" />
-      <p className="gd-tile-name">{p.name}</p>
-      {p.tags.length > 0 && (
-        <ul className="gd-tile-tags">
-          {p.tags.map((tag, i) => (
-            <li key={`${tag}-${i}`} className="gd-tile-tag">
-              {tag}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="gd-tile-label">
+        <p className="gd-tile-name">{p.name}</p>
+        {p.tags.length > 0 && (
+          <ul className="gd-tile-tags">
+            {p.tags.map((tag, i) => (
+              <li key={`${tag}-${i}`} className="gd-tile-tag">
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </Link>
   );
 }
