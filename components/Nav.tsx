@@ -11,7 +11,7 @@ export default function Nav() {
   // only (About stays).
   const isCarwow = pathname === "/work/carwow";
   const linkStyle = {
-    fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
+    fontSize: "var(--type-body)",
     color: "var(--ink)",
     fontWeight: 400,
   };
