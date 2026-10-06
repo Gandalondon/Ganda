@@ -34,10 +34,15 @@ export const metadata: Metadata = {
 // false to turn the whole effect off; nothing else needs to change.
 const FADE_ENABLED = true;
 
+// How things reveal as they scroll in. "blur": text, images and tiles all
+// start slightly blurred and sharpen, with no fade or movement. "rise": text
+// fades up (opacity and a 12px rise) while images and tiles still unblur.
+const FADE_STYLE: "blur" | "rise" = "blur";
+
 // Runs before first paint so below-the-fold text starts hidden without a
 // flash. Skipped for reduced motion and inside iframes (Storyblok editor).
 // The 4s fallback un-hides everything if the app script never starts.
-const FADE_BOOT = `(function(){try{var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches||window.top!==window)return;d.classList.add("gd-fade");setTimeout(function(){if(!window.__gdFade)d.classList.remove("gd-fade")},4000)}catch(e){}})()`;
+const FADE_BOOT = `(function(){try{var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches||window.top!==window)return;d.classList.add("gd-fade");${FADE_STYLE === "blur" ? 'd.classList.add("gd-fade-blur");' : ""}setTimeout(function(){if(!window.__gdFade)d.classList.remove("gd-fade")},4000)}catch(e){}})()`;
 
 export default function RootLayout({
   children,

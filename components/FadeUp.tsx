@@ -69,7 +69,9 @@ export default function FadeUp() {
         const n = perParent.get(parent) ?? 0;
         perParent.set(parent, n + 1);
         // Grid tiles and images reveal with no stagger.
-        const noStagger = el.matches(`${TILE_SELECTOR}, ${MEDIA_SELECTOR}`);
+        const noStagger =
+          root.classList.contains("gd-fade-blur") ||
+          el.matches(`${TILE_SELECTOR}, ${MEDIA_SELECTOR}`);
         el.style.transitionDelay = noStagger
           ? ""
           : `${Math.min(n, MAX_STAGGER_STEPS) * STAGGER_MS}ms`;
