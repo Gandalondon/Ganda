@@ -17,7 +17,8 @@ import { useEffect } from "react";
 //
 // Elements with data-fade-block (e.g. a quote and its byline) fade as one
 // unit; their children are not animated separately. This is applied
-// automatically to any container holding a long run of paragraphs (a list). Images (and the
+// automatically to any container holding a long run of paragraphs (a list)
+// and to any text column in a split layout with two or more text elements. Images (and the
 // prototype iframe) opt in with data-fade-media: they do not fade or move,
 // they start very slightly blurred and sharpen, quickly, as they scroll into
 // view. Work grid tiles count as images.
@@ -110,9 +111,20 @@ export default function FadeUp() {
       (el.matches(MEDIA_SELECTOR) ? mediaIo : io).observe(el);
     };
 
-    // Global rule: any run of LIST_MIN_PARAGRAPHS+ sibling paragraphs (a long
+    // Global rule 1: any run of LIST_MIN_PARAGRAPHS+ sibling paragraphs (a long
     // list of names, say) is one block, so it never fades line by line.
     const markLists = () => {
+      // Global rule 2: a text column of a split layout (heading, paragraphs,
+      // another heading, and so on) is one block, so e.g. a "Problem" and
+      // "Result" section fade in together. Columns that hold an image are
+      // left alone so the image keeps its own blur reveal.
+      document.querySelectorAll(".gd-split > *").forEach((col) => {
+        if (col.closest("[data-fade-block], .gd-grid-3")) return;
+        if (col.querySelector(MEDIA_SELECTOR)) return;
+        const texts = col.querySelectorAll("h1, h2, h3, p").length;
+        if (texts >= 2) col.setAttribute("data-fade-block", "");
+      });
+
       const parents = new Set<Element>();
       document.querySelectorAll("main p, footer p").forEach((p) => {
         const parent = p.parentElement;
