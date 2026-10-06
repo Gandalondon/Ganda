@@ -15,7 +15,7 @@
 <style>
 :root{--bg:#FAFAF8;--fg:#0A0A0A;--div:rgba(10,10,10,.05);--pad:round(clamp(24px,4vw,64px),8px);--gap:round(clamp(24px,3vw,48px),8px);--row:round(clamp(24px,2.6vw,40px),8px);--sec:round(clamp(120px,14vw,224px),8px);--h1:clamp(52px,6.8vw,112px);--h2:clamp(44px,4.8vw,80px);--h3:clamp(32px,3.2vw,52px);--w:clamp(26px,2.8vw,48px);--tl:-0.006em;--tm:-0.0048em;--s:1;--a:0}
 [data-mode="ai"]{--bg:#0A0A0A;--fg:#F4F4F1;--div:rgba(244,244,241,.32);--s:0;--a:1}
-*{box-sizing:border-box}
+*{box-sizing:border-box;text-wrap:pretty}
 html,body{margin:0;padding:0;background:var(--bg)}
 body{color:var(--fg);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;transition:background-color 600ms ease,color 600ms ease}
 a{color:inherit;text-decoration:none}
@@ -24,6 +24,7 @@ a{color:inherit;text-decoration:none}
 .x{display:grid}.x>*{grid-area:1/1;transition:opacity 450ms ease}
 .x>.s{opacity:var(--s)}.x>.a{opacity:var(--a)}
 .only-s{display:block}[data-mode="ai"] .only-s{display:none}
+[data-mode="ai"] .rec,[data-mode="ai"] .rec-h{display:none}[data-mode="ai"] figure{margin-top:0}
 
 header{position:sticky;top:0;z-index:10;background:var(--bg);transition:background-color 600ms ease;display:grid;grid-template-columns:auto auto 1fr;align-items:center;column-gap:40px;padding:24px var(--pad)}
 .name{font-family:Geist,sans-serif;font-weight:700;font-size:19px;letter-spacing:-0.02em;text-transform:uppercase;white-space:nowrap}
@@ -33,7 +34,8 @@ header{position:sticky;top:0;z-index:10;background:var(--bg);transition:backgrou
 [data-mode="ai"] .toggle .ind{transform:translateX(100%)}
 .toggle button{position:relative;min-width:96px;height:40px;padding:0 16px;border:0;background:transparent;cursor:pointer;font-family:Inter,sans-serif;font-weight:500;font-size:16px;letter-spacing:-0.01em;color:var(--fg);transition:color 420ms ease}
 [data-mode="strategy"] .toggle .t-s,[data-mode="ai"] .toggle .t-a{color:var(--bg)}
-.btn{display:flex;align-items:center;border-radius:999px;border:1.5px solid var(--fg);font-weight:600;white-space:nowrap;transition:background-color 220ms ease,color 220ms ease,border-color 600ms ease}
+.btn{display:flex;align-items:center;border-radius:999px;border:1.5px solid var(--fg);font-weight:600;white-space:nowrap;transition:background-color 220ms ease,color 220ms ease,border-color 220ms ease}
+[data-switching] .btn,[data-switching] .arrow{transition-duration:600ms}
 .btn-nav{justify-self:end;height:40px;padding:0 24px;font-size:14px;background:var(--bg);color:var(--fg)}
 .btn-nav:hover{background:var(--fg);color:var(--bg)}
 .btn-big{height:56px;padding:0 32px;font-size:17px;background:var(--fg);color:var(--bg)}
@@ -63,7 +65,8 @@ h1,h2{margin:0}
 .row.rec{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 56px;grid-template-areas:"title text ."}
 .row .tt{grid-area:title;font-size:var(--h3);letter-spacing:var(--tm)}
 .row .tx{grid-area:text;font-size:clamp(18px,1.3vw,20px);line-height:1.45;max-width:28em}
-.arrow{grid-area:arrow;position:relative;overflow:hidden;flex:none;display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:999px;border:1.5px solid var(--fg);background:transparent;color:var(--fg);transition:background-color 220ms ease,color 220ms ease,border-color 600ms ease}
+.arrow{grid-area:arrow;position:relative;overflow:hidden;flex:none;display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:999px;border:1.5px solid var(--fg);background:transparent;color:var(--fg);transition:background-color 220ms ease,color 220ms ease,border-color 220ms ease}
+[data-switching] .btn,[data-switching] .arrow{transition-duration:600ms}
 .arrow>span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:none}
 .arrow>span:last-child{transform:translateX(-100%)}
 .arrow i{display:block;width:12px;height:12px;margin-left:-4px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg)}
@@ -130,7 +133,7 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
     </div>
     <div class="card" data-reveal>
       <div class="disp x num"><span class="s">R/GA</span><span class="a" aria-hidden="true">10,000+</span></div>
-      <div class="x lbl"><span class="s">Strategy Director, with senior roles at MediaMonks, Contagious and Dare</span><span class="a" aria-hidden="true">Calls made by a live AI voice product</span></div>
+      <div class="x lbl"><span class="s">Strategy Director, with senior roles at MediaMonks, Contagious and Dare</span><span class="a" aria-hidden="true">Calls made to London venues by a live AI voice product</span></div>
     </div>
   </section>
 
@@ -168,14 +171,14 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
   </section>
 
   <section class="sec">
-    <h2 class="disp pb" data-reveal>Recognition</h2>
+    <h2 class="disp pb rec-h" data-reveal>Recognition</h2>
     <div class="row rec" data-reveal><div class="disp tt">BIMA 100</div><div class="tx">Tech Pioneer</div></div>
     <div class="row rec" data-reveal><div class="disp tt">Business Insider</div><div class="tx">30 Most Creative</div></div>
     <div class="row rec" data-reveal><div class="disp tt">Published author</div><div class="tx">BCS, 2024</div></div>
     <div class="row rec" data-reveal><div class="disp tt">AdWorld</div><div class="tx">Keynote, 2024</div></div>
     <figure data-reveal>
-      <blockquote class="disp">“An entrepreneurial, creative, detail-orientated business operator. Much more multi-faceted now. Hire him.”</blockquote>
-      <figcaption>Gabbi Cahane, via LinkedIn</figcaption>
+      <blockquote class="disp x"><span class="s">“An entrepreneurial, creative, detail-orientated business operator. Much more multi-faceted now. Hire him.”</span><span class="a" aria-hidden="true">“Mike took our idea from a conversation to a live AI product in under two weeks. Strategy and build, no hand-off.”</span></blockquote>
+      <figcaption class="x"><span class="s">Gabbi Cahane, Partner, Stride</span><span class="a" aria-hidden="true">Name Surname, Founder, Company</span></figcaption>
     </figure>
   </section>
 
@@ -193,6 +196,7 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
 <script>
 (function(){
   var root=document.documentElement;
+  var swT;new MutationObserver(function(){root.setAttribute('data-switching','');clearTimeout(swT);swT=setTimeout(function(){root.removeAttribute('data-switching');},650);}).observe(root,{attributes:true,attributeFilter:['data-mode']});
   function sync(){
     var ai=root.getAttribute('data-mode')==='ai';
     document.querySelector('.t-s').setAttribute('aria-selected',ai?'false':'true');
