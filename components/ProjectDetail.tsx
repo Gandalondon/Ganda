@@ -455,7 +455,13 @@ export default function ProjectDetail({
         if (block.component === "quote_block") {
           if (!block.text) return null;
           return (
-            <div key={i} className="gd-container" style={{ marginTop: 176 }}>
+            // data-fade-block: the quote and byline fade in together as one.
+            <div
+              key={i}
+              className="gd-container"
+              data-fade-block
+              style={{ marginTop: 176 }}
+            >
               <h2
                 style={{
                   maxWidth: 960,

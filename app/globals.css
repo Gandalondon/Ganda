@@ -343,52 +343,26 @@ body:has(.gd-writing-page) ::selection {
 }
 
 /* Scroll-in fade-up for text and work grid tiles. "gd-fade" is set on <html>
-   by the boot script in app/layout.tsx (motion allowed, not in an iframe);
-   components/FadeUp.tsx adds data-fade="in" as each element scrolls into view.
-   Keep the text selector in sync with TEXT_SELECTOR / EXCLUDE_SELECTOR in
-   FadeUp.tsx. Work grid tile labels are excluded from the text rule: they sit
-   on the thumbnails, which fade as whole tiles instead.
-
-   Tiles: the first row is never pre-hidden (so it is there on load, inviting
-   a scroll); later rows start hidden. The row length mirrors .gd-grid-3's
-   columns (3, then 2 under 1025px, then 1 under 641px). Tiles that start off
-   screen are hidden by FadeUp via data-fade="pending". */
+   by the boot script in app/layout.tsx (motion allowed, not in an iframe).
+   components/FadeUp.tsx only touches elements that start below the fold: it
+   marks them data-fade="pending" (hidden here) and then "in" as they scroll
+   into view. Anything already on screen is never hidden, so nothing moves on
+   page load or navigation. Without JS nothing is ever hidden.
+   Text and tile labels inside .gd-grid-3, and children of [data-fade-block],
+   are not animated on their own (the tile or block fades as one). */
 @media (prefers-reduced-motion: no-preference) {
   :root {
     --gd-fade-ms: 600ms;
     --gd-fade-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
-  html.gd-fade
-    :is(main :is(h1, h2, h3, p), footer p):not(.gd-grid-3 *, .sr-only),
-  html.gd-fade .gd-grid-3 > a {
+  html.gd-fade [data-fade="in"] {
     transition:
       opacity var(--gd-fade-ms) var(--gd-fade-ease),
       transform var(--gd-fade-ms) var(--gd-fade-ease);
   }
 
-  html.gd-fade
-    :is(main :is(h1, h2, h3, p), footer p):not(.gd-grid-3 *, .sr-only):not(
-      [data-fade="in"]
-    ),
-  html.gd-fade .gd-grid-3 > a:nth-child(n + 4):not([data-fade="in"]),
-  html.gd-fade .gd-grid-3 > a[data-fade="pending"] {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) and (max-width: 1200px) {
-  /* Two columns: the first row is two tiles, so the third is pre-hidden. */
-  html.gd-fade .gd-grid-3 > a:nth-child(3):not([data-fade="in"]) {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) and (max-width: 640px) {
-  /* One column: only the first tile is exempt. */
-  html.gd-fade .gd-grid-3 > a:nth-child(2):not([data-fade="in"]) {
+  html.gd-fade [data-fade="pending"] {
     opacity: 0;
     transform: translateY(12px);
   }
