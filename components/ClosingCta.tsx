@@ -12,8 +12,9 @@ export default function ClosingCta() {
   const pathname = usePathname();
 
   // The Carwow case study hides the nav's Book a call link, so the CTA that
-  // links to the same booking page is hidden there too.
-  if (pathname === "/work/carwow") return null;
+  // links to the same booking page is hidden there too. The writing page is
+  // not a work page, so it ends with the stories instead of a work pitch.
+  if (pathname === "/work/carwow" || pathname === "/writing") return null;
 
   return (
     <footer className="gd-container gd-closing-cta">
