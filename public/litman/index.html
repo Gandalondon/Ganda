@@ -109,6 +109,7 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
 }
 .js [data-reveal]{opacity:0;transform:translateY(16px);transition:opacity 600ms cubic-bezier(.22,.61,.36,1),transform 600ms cubic-bezier(.22,.61,.36,1)}
 .js [data-reveal].in{opacity:1;transform:none}
+.js .btn[data-reveal]{transition:opacity 600ms cubic-bezier(.22,.61,.36,1),transform 600ms cubic-bezier(.22,.61,.36,1),background-color 220ms ease,color 220ms ease,border-color 220ms ease}
 @media (prefers-reduced-motion:reduce){.js [data-reveal]{opacity:1;transform:none;transition:none}}
 </style>
 </head>
@@ -374,7 +375,7 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
     <div class="row rec" data-reveal><div class="disp tt">AdWorld</div><div class="tx">Keynote, 2024</div></div>
     <div class="row rec" data-reveal><div class="disp tt">The Webby Awards</div><div class="tx">Executive Academy Judge, 2022–2025</div></div>
     <figure data-reveal>
-      <blockquote class="disp x"><span class="s">“An entrepreneurial, creative, detail-orientated business operator. Much more multi-faceted now. Hire him.”</span><span class="a" aria-hidden="true">“Mike has always been full of ideas. AI finally lets him build them himself, and he hasn’t stopped since.”</span></blockquote>
+      <blockquote class="disp x"><span class="s">“An entrepreneurial, creative, detail-orientated business operator. Much more multi-faceted now. Hire him.”</span><span class="a" aria-hidden="true">“Mike has always been full of ideas. AI finally lets him build them himself.”</span></blockquote>
       <figcaption class="x"><span class="s">Gabbi Cahane, Partner, Stride</span><span class="a" aria-hidden="true">Tony Goff, Product Designer, Ganda</span></figcaption>
     </figure>
   </section>
@@ -426,7 +427,7 @@ figcaption{font-size:clamp(18px,1.3vw,20px);line-height:1.45}
     document.querySelectorAll('[data-reveal]:not(.in)').forEach(function(el){
       if(!el.offsetParent&&getComputedStyle(el).position!=='fixed')return;
       if(el.getBoundingClientRect().top<vh*0.94){
-        el.style.transitionDelay=(Math.min(i++,6)*70)+'ms';
+        var dl=Math.min(i++,6)*70;el.style.transitionDelay=dl+'ms';(function(e){setTimeout(function(){e.style.transitionDelay='';},dl+650);})(el);
         el.classList.add('in');
       }
     });
