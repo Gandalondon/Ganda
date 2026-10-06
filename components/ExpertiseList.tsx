@@ -38,6 +38,24 @@ function splitLines(value: unknown): string[] {
     : [];
 }
 
+// Same, but remembers where a blank line separated two lines, so a short
+// bio can keep its paragraph spacing while a plain list stays tight.
+function splitBlocks(value: unknown): { text: string; gap: boolean }[] {
+  if (typeof value !== "string") return [];
+  const out: { text: string; gap: boolean }[] = [];
+  let gap = false;
+  for (const raw of value.split("\n")) {
+    const text = raw.trim();
+    if (!text) {
+      gap = true;
+      continue;
+    }
+    out.push({ text, gap: gap && out.length > 0 });
+    gap = false;
+  }
+  return out;
+}
+
 export default function ExpertiseList({
   story,
 }: {
@@ -87,9 +105,15 @@ export default function ExpertiseList({
                   {group.title}
                 </Heading>
                 <div>
-                  {splitLines(group.items).map((item, j) => (
-                    <p key={j} style={textStyle}>
-                      {item}
+                  {splitBlocks(group.items).map((item, j) => (
+                    <p
+                      key={j}
+                      style={{
+                        ...textStyle,
+                        marginTop: item.gap ? "1.2em" : 0,
+                      }}
+                    >
+                      {item.text}
                     </p>
                   ))}
                 </div>
