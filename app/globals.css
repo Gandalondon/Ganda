@@ -28,23 +28,48 @@
   --type-small: 16px;
 }
 
-/* Sticky nav: content that scrolls underneath is blurred. The blur is a layer
-   behind the logo and links, covering the visible bar plus 16px, fading out
-   at its lower edge. Remove this block (and "gd-nav" in components/Nav.tsx)
-   to undo. */
-.gd-nav::before {
+/* Sticky nav: content that scrolls underneath fades into a progressive blur.
+   Two layers behind the logo and links: a light blur over the whole bar and
+   a stronger one over its top half, each fading to nothing at its lower edge
+   so there is no hard line. Remove this block (and "gd-nav" in
+   components/Nav.tsx) to undo. */
+.gd-nav::before,
+.gd-nav::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: calc(var(--gd-header-gap) - 16px);
   z-index: -1;
   pointer-events: none;
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent);
-  mask-image: linear-gradient(to bottom, #000 65%, transparent);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgba(0, 0, 0, 0.8) 25%,
+    rgba(0, 0, 0, 0.45) 55%,
+    rgba(0, 0, 0, 0.15) 80%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgba(0, 0, 0, 0.8) 25%,
+    rgba(0, 0, 0, 0.45) 55%,
+    rgba(0, 0, 0, 0.15) 80%,
+    transparent 100%
+  );
+}
+
+.gd-nav::before {
+  bottom: calc(var(--gd-header-gap) - 24px);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.gd-nav::after {
+  bottom: calc(var(--gd-header-gap) + 16px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 *,
