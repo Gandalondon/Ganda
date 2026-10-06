@@ -20,6 +20,9 @@ export type WorkProject = {
   slug: string;
   name: string;
   thumbnail?: string;
+  // Shown as chips on the grid tile, in the order typed in Storyblok and
+  // exactly as entered (no case changes). Missing field = [].
+  tags: string[];
 };
 
 // Minimal shape of a Storyblok work story, typed just enough to avoid `any`
@@ -29,9 +32,24 @@ type WorkStoryblokStory = {
   name: string;
   content?: {
     thumbnail?: { filename?: string };
+    // Text field, comma-separated, e.g. "Product design, Experimentation".
+    tags?: string;
     hide_from_work_grid?: boolean;
   };
 };
+
+// Comma-separated string -> ordered, trimmed, non-empty tags. Also tolerates
+// an array in case the field type ever changes to a list.
+function parseTags(value: unknown): string[] {
+  const parts: unknown[] = Array.isArray(value)
+    ? value
+    : typeof value === "string"
+      ? value.split(",")
+      : [];
+  return parts
+    .map((part) => (typeof part === "string" ? part.trim() : ""))
+    .filter(Boolean);
+}
 
 export async function getWorkProjects(): Promise<WorkProject[]> {
   const { isEnabled } = await draftMode();
@@ -49,5 +67,6 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
       slug: s.slug,
       name: s.name,
       thumbnail: s.content?.thumbnail?.filename,
+      tags: parseTags(s.content?.tags),
     }));
 }
