@@ -59,25 +59,45 @@ export default function ExpertiseList({
   );
 
   if (groups.length > 0) {
+    // Each group is a full row, laid out exactly like the Clients row: the
+    // group title is the big left heading, its items the small list on the
+    // right. The groups replace the single "Expertise" heading.
     return (
-      <div>
-        {groups.map((group, i) => (
-          <div
-            key={group._uid ?? i}
-            {...storyblokEditable(group)}
-            className="gd-expertise-row"
-          >
-            <p style={{ ...textStyle, fontWeight: 500 }}>{group.title}</p>
-            <div>
-              {splitLines(group.items).map((item, j) => (
-                <p key={j} style={textStyle}>
-                  {item}
-                </p>
-              ))}
+      <>
+        {groups.map((group, i) => {
+          // The page has no other title, so the first group is the h1.
+          const Heading = i === 0 ? "h1" : "h2";
+          return (
+            <div
+              key={group._uid ?? i}
+              {...storyblokEditable(group)}
+              className="gd-container"
+              style={{ marginTop: 96 }}
+            >
+              <div className="gd-split" style={{ gap: 24 }}>
+                <Heading
+                  style={{
+                    fontSize: "var(--type-display)",
+                    fontWeight: 500,
+                    letterSpacing: "-0.006em",
+                    lineHeight: 1.15,
+                    color: "var(--ink)",
+                  }}
+                >
+                  {group.title}
+                </Heading>
+                <div className="gd-clients">
+                  {splitLines(group.items).map((item, j) => (
+                    <p key={j} style={textStyle}>
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          );
+        })}
+      </>
     );
   }
 
@@ -86,12 +106,27 @@ export default function ExpertiseList({
   const expertise = lines.length > 0 ? lines : DEFAULT_EXPERTISE;
 
   return (
-    <div className="gd-clients">
-      {expertise.map((item, i) => (
-        <p key={i} style={textStyle}>
-          {item}
-        </p>
-      ))}
+    <div className="gd-container" style={{ marginTop: 96 }}>
+      <div className="gd-split" style={{ gap: 24 }}>
+        <h2
+          style={{
+            fontSize: "var(--type-display)",
+            fontWeight: 500,
+            letterSpacing: "-0.006em",
+            lineHeight: 1.15,
+            color: "var(--ink)",
+          }}
+        >
+          Expertise
+        </h2>
+        <div className="gd-clients">
+          {expertise.map((item, i) => (
+            <p key={i} style={textStyle}>
+              {item}
+            </p>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
