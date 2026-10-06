@@ -474,7 +474,7 @@ export default function ProjectDetail({
                   style={{
                     maxWidth: 816,
                     marginTop: 24,
-                    fontSize: 16,
+                    fontSize: "var(--type-body)",
                     fontWeight: 400,
                     color: "var(--ink)",
                   }}
