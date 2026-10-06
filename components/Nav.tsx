@@ -24,14 +24,14 @@ export default function Nav() {
         alignItems: "center",
         justifyContent: "space-between",
         paddingTop: "var(--gd-header-top)",
-        paddingBottom: 0,
-        // Sticky header. The 80px top padding scrolls away: the offset is
-        // chosen so the logo and links stick 24px from the top of the
-        // screen. No background for now (set one here to try white). The
+        paddingBottom: "var(--gd-header-gap)",
+        // Sticky header. It sits at the same distance from the top of the
+        // screen at rest and when stuck (--gd-header-top), so it never
+        // moves. No background for now (set one here to try white). The
         // header itself ignores clicks so the empty strip between the logo
         // and the links never blocks the content underneath.
         position: "sticky",
-        top: "calc(var(--gd-header-top) * -1 + 24px)",
+        top: 0,
         zIndex: 50,
         pointerEvents: "none",
       }}

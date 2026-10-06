@@ -2,7 +2,11 @@
 
 :root {
   --gd-gutter: 80px;
-  --gd-header-top: 80px;
+  /* Nav sits this far from the top of the screen, at the top of the page and
+     when it sticks (it never moves). --gd-header-gap is extra space under it,
+     so the page content stays where it was. */
+  --gd-header-top: 40px;
+  --gd-header-gap: 40px;
   --black: #231f20;
   --white: #ffffff;
   --grey-50: #f6f6f6;
@@ -239,7 +243,8 @@ img {
 @media (max-width: 1024px) {
   :root {
     --gd-gutter: 48px;
-    --gd-header-top: 48px;
+    --gd-header-top: 40px;
+    --gd-header-gap: 8px;
   }
 
   main {
@@ -270,7 +275,8 @@ img {
 @media (max-width: 640px) {
   :root {
     --gd-gutter: 24px;
-    --gd-header-top: 24px;
+    --gd-header-top: 32px;
+    --gd-header-gap: 0px;
   }
 
   main {
