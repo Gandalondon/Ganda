@@ -38,33 +38,6 @@ export default function LiveHomePage({
       </h1>
 
       <WorkGrid projects={projects} />
-
-      {/* Closing CTA. Uses the hero's type settings and the case-study
-          section spacing (176). maxWidth is in em so the break after
-          "interesting" holds at every size; narrow screens wrap naturally.
-          Link mirrors the nav's Book a call link. */}
-      <p
-        style={{
-          maxWidth: "13.3em",
-          marginTop: 176,
-          fontSize: "var(--type-display)",
-          lineHeight: 1.2,
-          fontWeight: 500,
-          letterSpacing: "-0.006em",
-          color: "var(--ink)",
-          textWrap: "pretty",
-        }}
-      >
-        Have something interesting to work on?{" "}
-        <a
-          href="https://cal.com/tony-goff-yu-an7khw/intro"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Let’s talk: book a call (opens in new tab)"
-        >
-          Let’s talk.
-        </a>
-      </p>
     </main>
   );
 }

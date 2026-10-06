@@ -176,6 +176,15 @@ img {
   white-space: nowrap;
 }
 
+/* Closing CTA (root layout footer). Each page's <main> ends with
+   padding-bottom 144 (120 tablet, 96 mobile, forced by the rules below), so
+   the margin tops these up to the 176px section gap, and the footer's own
+   padding-bottom restores the page's original bottom spacing. */
+.gd-closing-cta {
+  margin-top: 32px;
+  padding-bottom: 144px;
+}
+
 .gd-split {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -236,6 +245,11 @@ img {
     padding-bottom: 120px !important;
   }
 
+  .gd-closing-cta {
+    margin-top: 56px;
+    padding-bottom: 120px;
+  }
+
   .gd-grid-3 {
     grid-template-columns: repeat(2, 1fr) !important;
   }
@@ -255,6 +269,11 @@ img {
 
   main {
     padding-bottom: 96px !important;
+  }
+
+  .gd-closing-cta {
+    margin-top: 80px;
+    padding-bottom: 96px;
   }
 
   .gd-grid-3 {

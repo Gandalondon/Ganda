@@ -4,6 +4,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Nav from "@/components/Nav";
+import ClosingCta from "@/components/ClosingCta";
 import BackToTop from "@/components/BackToTop";
 import StoryblokProvider from "@/components/StoryblokProvider";
 
@@ -39,6 +40,7 @@ export default function RootLayout({
         <StoryblokProvider>
           <Nav />
           {children}
+          <ClosingCta />
           <BackToTop />
           <Analytics />
           <SpeedInsights />
