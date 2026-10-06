@@ -21,7 +21,7 @@
   /* Type scale */
   --type-display: clamp(28px, 2.6vw, 38px);
   --type-body: 18px;
-  --type-small: 15px;
+  --type-small: 16px;
 }
 
 *,
