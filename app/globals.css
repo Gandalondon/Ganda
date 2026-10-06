@@ -139,11 +139,12 @@ img {
 .gd-tile-name {
   position: absolute;
   left: 24px;
+  right: 24px;
   bottom: 20px;
   margin: 0;
   color: #fff;
   font-weight: 500;
-  font-size: clamp(20px, 1.5vw, 24px);
+  font-size: clamp(24px, 2.2vw, 32px);
   line-height: 1.15;
   letter-spacing: -0.006em;
 }
@@ -267,6 +268,7 @@ img {
 
   .gd-tile-name {
     left: 16px;
+    right: 16px;
     bottom: 14px;
   }
 
