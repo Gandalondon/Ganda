@@ -57,7 +57,11 @@ export default function FadeUp() {
           const parent = el.parentElement;
           const n = perParent.get(parent) ?? 0;
           perParent.set(parent, n + 1);
-          el.style.transitionDelay = `${Math.min(n, MAX_STAGGER_STEPS) * STAGGER_MS}ms`;
+          // Grid tiles arriving together reveal as one row, with no stagger.
+          const isTile = el.matches(TILE_SELECTOR);
+          el.style.transitionDelay = isTile
+            ? ""
+            : `${Math.min(n, MAX_STAGGER_STEPS) * STAGGER_MS}ms`;
           el.setAttribute("data-fade", "in");
           io.unobserve(el);
           // Drop the inline delay once done so it cannot affect later

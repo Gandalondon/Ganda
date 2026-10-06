@@ -124,9 +124,7 @@ img {
    Labels are separate layers and stay put. Hover devices only, and no scale
    for reduced motion. */
 .gd-tile-img {
-  transition:
-    opacity 0.3s,
-    transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
@@ -347,5 +345,19 @@ body:has(.gd-writing-page) ::selection {
   html.gd-fade [data-fade="pending"] {
     opacity: 0;
     transform: translateY(12px);
+  }
+
+  /* Work grid tiles that start below the fold unblur into place instead of
+     fading up: blurred and transparent to sharp, a touch slower and softer
+     than the text. Tiles already on screen are never touched. */
+  html.gd-fade .gd-grid-3 > a[data-fade="in"] {
+    transition:
+      opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html.gd-fade .gd-grid-3 > a[data-fade="pending"] {
+    filter: blur(14px);
   }
 }

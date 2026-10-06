@@ -33,6 +33,8 @@ function GridTile({ p }: { p: WorkProject }) {
           sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{
             objectFit: "cover",
+            // Shown the moment it has loaded, with no fade: it replays on
+            // every page change otherwise.
             opacity: loaded ? 1 : 0,
           }}
           onLoad={() => setLoaded(true)}
