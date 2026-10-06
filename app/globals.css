@@ -138,14 +138,15 @@ img {
 }
 
 /* Hover: a flat 12% black overlay across the whole tile, on top of the scrim.
-   Instant, no animation. It sits below the labels, so the text stays pure
-   white. Hover devices only. */
+   Fades in and out over 400ms. It sits below the labels, so the text stays
+   pure white. Hover devices only. */
 .gd-tile-hover {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.12);
   opacity: 0;
   pointer-events: none;
+  transition: opacity 400ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 @media (hover: hover) {
