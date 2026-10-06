@@ -368,7 +368,8 @@ body:has(.gd-writing-page) ::selection {
 
   /* "blur" style (FADE_STYLE in app/layout.tsx): text gets the same reveal
      as images. No fade, no movement, no stagger: just a slight blur that
-     sharpens. Set FADE_STYLE to "rise" to bring back the text fade-up. */
+     sharpens (text a little quicker than images, 350ms against 600ms).
+     Set FADE_STYLE to "rise" to bring back the text fade-up. */
   html.gd-fade-blur [data-fade="pending"] {
     opacity: 1;
     transform: none;
@@ -376,6 +377,6 @@ body:has(.gd-writing-page) ::selection {
   }
 
   html.gd-fade-blur [data-fade="in"] {
-    transition: filter 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: filter 350ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
