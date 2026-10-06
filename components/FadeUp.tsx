@@ -93,11 +93,11 @@ export default function FadeUp() {
       threshold: 0,
       rootMargin: "0px 0px -12% 0px",
     });
-    // Images unblur just before they scroll into view, so they are already
-    // sharp by the time they are seen.
+    // Images unblur as they scroll into view: the effect starts once the top
+    // edge is 8% up from the bottom of the screen, so you actually see it.
     const mediaIo = new IntersectionObserver(onHit, {
       threshold: 0,
-      rootMargin: "0px 0px 10% 0px",
+      rootMargin: "0px 0px -8% 0px",
     });
 
     // Already on screen (or scrolled past) as it appears: leave it alone, so

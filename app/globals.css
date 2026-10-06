@@ -348,15 +348,15 @@ body:has(.gd-writing-page) ::selection {
   }
 
   /* Images (data-fade-media) and work grid tiles never fade or move: they
-     start very slightly blurred and sharpen quickly as they approach the
+     start slightly blurred and sharpen quickly as they scroll into the
      screen. Only text fades up. */
   html.gd-fade :is([data-fade-media], .gd-grid-3 > a)[data-fade="pending"] {
     opacity: 1;
     transform: none;
-    filter: blur(8px);
+    filter: blur(10px);
   }
 
   html.gd-fade :is([data-fade-media], .gd-grid-3 > a)[data-fade="in"] {
-    transition: filter 350ms ease-out;
+    transition: filter 450ms ease-out;
   }
 }
