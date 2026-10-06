@@ -142,7 +142,7 @@ export default async function WritingPage() {
                         so it scales down on mobile instead of
                         overflowing the viewport. */}
                     {coverUrl && (
-                      <div className="gd-story-cover">
+                      <div className="gd-story-cover" data-fade-media>
                         <Image
                           src={coverUrl}
                           alt={`${s.title || "Story"} book cover`}

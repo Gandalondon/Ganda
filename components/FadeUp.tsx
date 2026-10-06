@@ -16,9 +16,11 @@ import { useEffect } from "react";
 // whole thing on.
 //
 // Elements with data-fade-block (e.g. a quote and its byline) fade as one
-// unit; their children are not animated separately. Images (and the
+// unit; their children are not animated separately. This is applied
+// automatically to any container holding a long run of paragraphs (a list). Images (and the
 // prototype iframe) opt in with data-fade-media: they do not fade or move,
-// they start blurred and sharpen as they scroll into view.
+// they start very slightly blurred and sharpen, quickly, as they scroll into
+// view. Work grid tiles count as images.
 //
 // To turn it all off: set FADE_ENABLED to false in app/layout.tsx. To remove
 // the code: delete this file, <FadeUp /> and the boot script in
@@ -29,7 +31,11 @@ const TEXT_SELECTOR =
   "main :is(h1, h2, h3, p), footer p, [data-fade-block], [data-fade-media]";
 const EXCLUDE_SELECTOR = ".gd-grid-3 *, .sr-only, [data-fade-block] *";
 const TILE_SELECTOR = ".gd-grid-3 > a";
-const MEDIA_SELECTOR = "[data-fade-media]";
+// Images: marked data-fade-media, plus the work grid tiles (image + label).
+const MEDIA_SELECTOR = "[data-fade-media], .gd-grid-3 > a";
+// A container with this many (or more) paragraphs directly inside it is
+// treated as a list, and fades in as one block rather than line by line.
+const LIST_MIN_PARAGRAPHS = 5;
 const STAGGER_MS = 60;
 // Stop a long list (e.g. the client names) from taking seconds to finish.
 const MAX_STAGGER_STEPS = 8;
@@ -104,7 +110,28 @@ export default function FadeUp() {
       (el.matches(MEDIA_SELECTOR) ? mediaIo : io).observe(el);
     };
 
+    // Global rule: any run of LIST_MIN_PARAGRAPHS+ sibling paragraphs (a long
+    // list of names, say) is one block, so it never fades line by line.
+    const markLists = () => {
+      const parents = new Set<Element>();
+      document.querySelectorAll("main p, footer p").forEach((p) => {
+        const parent = p.parentElement;
+        if (parent && !parent.closest(`[data-fade-block], .gd-grid-3`)) {
+          parents.add(parent);
+        }
+      });
+      parents.forEach((parent) => {
+        const count = Array.from(parent.children).filter(
+          (c) => c.tagName === "P",
+        ).length;
+        if (count >= LIST_MIN_PARAGRAPHS) {
+          parent.setAttribute("data-fade-block", "");
+        }
+      });
+    };
+
     const scan = () => {
+      markLists();
       document.querySelectorAll(TEXT_SELECTOR).forEach((el) => {
         if (!el.matches(EXCLUDE_SELECTOR)) track(el);
       });
