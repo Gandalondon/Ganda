@@ -111,6 +111,25 @@ img {
   }
 }
 
+/* About page expertise groups: group name left, its items right, no
+   dividers. Stacks on mobile. */
+.gd-expertise-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0 24px;
+}
+
+.gd-expertise-row + .gd-expertise-row {
+  margin-top: 32px;
+}
+
+@media (max-width: 640px) {
+  .gd-expertise-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
 /* Grid and split layout helpers */
 .gd-grid-3 {
   display: grid;
