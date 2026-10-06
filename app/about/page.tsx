@@ -99,7 +99,7 @@ export default async function AboutPage() {
       {story ? <ExpertiseList story={story} /> : null}
 
       {/* Row 3: Clients label left, client list right */}
-      <div className="gd-container" style={{ marginTop: 96 }}>
+      <div className="gd-container" data-fade-block style={{ marginTop: 96 }}>
         <div className="gd-split" style={{ gap: 24 }}>
           <h2
             style={{

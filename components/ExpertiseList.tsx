@@ -89,6 +89,8 @@ export default function ExpertiseList({
             <div
               key={group._uid ?? i}
               {...storyblokEditable(group)}
+              // One fade for the whole row (title and items together).
+              data-fade-block
               className="gd-container"
               style={{ marginTop: 96 }}
             >
@@ -130,7 +132,7 @@ export default function ExpertiseList({
   const expertise = lines.length > 0 ? lines : DEFAULT_EXPERTISE;
 
   return (
-    <div className="gd-container" style={{ marginTop: 96 }}>
+    <div className="gd-container" data-fade-block style={{ marginTop: 96 }}>
       <div className="gd-split" style={{ gap: 24 }}>
         <h2
           style={{
