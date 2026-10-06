@@ -39,6 +39,7 @@ function GridTile({ p }: { p: WorkProject }) {
       />
       {/* Labels sit above the image. The link already carries an
           aria-label, so the image alt is empty and these are visual only. */}
+      <span className="gd-tile-hover" aria-hidden="true" />
       <span className="gd-tile-scrim" aria-hidden="true" />
       <div className="gd-tile-label">
         <p className="gd-tile-name">{p.name}</p>
