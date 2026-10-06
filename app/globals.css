@@ -19,7 +19,7 @@
   --border: #e2e2e2;
 
   /* Type scale */
-  --type-display: clamp(28px, 3vw, 44px);
+  --type-display: clamp(28px, 2.6vw, 38px);
   --type-sub: clamp(22px, 1.8vw, 28px);
   --type-body: clamp(18px, 1.3vw, 20px);
 }
