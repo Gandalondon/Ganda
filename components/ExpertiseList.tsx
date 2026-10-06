@@ -33,9 +33,9 @@ export default function ExpertiseList({
         <p
           key={i}
           style={{
-            fontSize: 18,
+            fontSize: "var(--type-body)",
             fontWeight: 300,
-            lineHeight: 1.5,
+            lineHeight: 1.45,
             color: "var(--ink)",
           }}
         >

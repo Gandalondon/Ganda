@@ -255,10 +255,10 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
           {block.title && (
             <h2
               style={{
-                fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                fontWeight: 400,
-                letterSpacing: "1px",
-                lineHeight: 1.25,
+                fontSize: "var(--type-display)",
+                fontWeight: 500,
+                letterSpacing: "-0.006em",
+                lineHeight: 1.15,
                 marginBottom: 24,
               }}
             >
@@ -270,9 +270,9 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               <p
                 key={j}
                 style={{
-                  fontSize: 18,
+                  fontSize: "var(--type-body)",
                   fontWeight: 300,
-                  lineHeight: 1.5,
+                  lineHeight: 1.45,
                   marginBottom: "1em",
                   textWrap: "pretty",
                 }}
@@ -313,13 +313,13 @@ export default function ProjectDetail({
         <div className="gd-container">
           <h1
             style={{
-              maxWidth: 816,
+              maxWidth: 960,
               marginTop: 128,
               marginBottom: 128,
-              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-              lineHeight: 1.25,
-              fontWeight: 400,
-              letterSpacing: "1px",
+              fontSize: "var(--type-display)",
+              lineHeight: 1.2,
+              fontWeight: 500,
+              letterSpacing: "-0.006em",
               color: "var(--ink)",
               textWrap: "pretty",
             }}
@@ -362,10 +362,10 @@ export default function ProjectDetail({
                   {block.title && (
                     <h2
                       style={{
-                        fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                        fontWeight: 400,
-                        letterSpacing: "1px",
-                        lineHeight: 1.25,
+                        fontSize: "var(--type-display)",
+                        fontWeight: 500,
+                        letterSpacing: "-0.006em",
+                        lineHeight: 1.15,
                         marginBottom: 24,
                       }}
                     >
@@ -380,9 +380,10 @@ export default function ProjectDetail({
                       {sec.subtitle && (
                         <h3
                           style={{
-                            fontSize: 22,
-                            fontWeight: 400,
-                            lineHeight: 1.5,
+                            fontSize: "var(--type-sub)",
+                            letterSpacing: "-0.0048em",
+                            fontWeight: 500,
+                            lineHeight: 1.3,
                             marginBottom: "0.5em",
                           }}
                         >
@@ -394,9 +395,9 @@ export default function ProjectDetail({
                           <p
                             key={j}
                             style={{
-                              fontSize: 18,
+                              fontSize: "var(--type-body)",
                               fontWeight: 300,
-                              lineHeight: 1.5,
+                              lineHeight: 1.45,
                               marginBottom: "1em",
                               textWrap: "pretty",
                             }}
@@ -436,11 +437,11 @@ export default function ProjectDetail({
             <div key={i} className="gd-container" style={{ marginTop: 176 }}>
               <h2
                 style={{
-                  maxWidth: 816,
-                  fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                  lineHeight: 1.25,
-                  fontWeight: 400,
-                  letterSpacing: "1px",
+                  maxWidth: 960,
+                  fontSize: "var(--type-display)",
+                  lineHeight: 1.2,
+                  fontWeight: 500,
+                  letterSpacing: "-0.006em",
                   color: "var(--ink)",
                   textWrap: "pretty",
                 }}
@@ -457,11 +458,11 @@ export default function ProjectDetail({
             <div key={i} className="gd-container" style={{ marginTop: 176 }}>
               <h2
                 style={{
-                  maxWidth: 816,
-                  fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                  lineHeight: 1.25,
-                  fontWeight: 400,
-                  letterSpacing: "1px",
+                  maxWidth: 960,
+                  fontSize: "var(--type-display)",
+                  lineHeight: 1.2,
+                  fontWeight: 500,
+                  letterSpacing: "-0.006em",
                   color: "var(--ink)",
                   textWrap: "pretty",
                 }}
@@ -496,10 +497,10 @@ export default function ProjectDetail({
                 {block.Title && (
                   <h2
                     style={{
-                      fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                      fontWeight: 400,
-                      letterSpacing: "1px",
-                      lineHeight: 1.25,
+                      fontSize: "var(--type-display)",
+                      fontWeight: 500,
+                      letterSpacing: "-0.006em",
+                      lineHeight: 1.15,
                       marginBottom: 24,
                     }}
                   >
@@ -511,9 +512,9 @@ export default function ProjectDetail({
                     <p
                       key={j}
                       style={{
-                        fontSize: 18,
+                        fontSize: "var(--type-body)",
                         fontWeight: 300,
-                        lineHeight: 1.5,
+                        lineHeight: 1.45,
                         marginBottom: "1em",
                         textWrap: "pretty",
                       }}

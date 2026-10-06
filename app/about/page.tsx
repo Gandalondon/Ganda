@@ -41,10 +41,10 @@ export default async function AboutPage() {
         <div className="gd-split" style={{ gap: 24 }}>
           <h1
             style={{
-              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-              fontWeight: 400,
-              letterSpacing: "1px",
-              lineHeight: 1.25,
+              fontSize: "var(--type-display)",
+              fontWeight: 500,
+              letterSpacing: "-0.006em",
+              lineHeight: 1.15,
             }}
           >
             About
@@ -54,9 +54,9 @@ export default async function AboutPage() {
               <p
                 key={i}
                 style={{
-                  fontSize: 18,
+                  fontSize: "var(--type-body)",
                   fontWeight: 300,
-                  lineHeight: 1.5,
+                  lineHeight: 1.45,
                   color: "var(--ink)",
                   marginTop: i === 0 ? 0 : "1.2em",
                   textWrap: "pretty" as React.CSSProperties["textWrap"],
@@ -74,10 +74,10 @@ export default async function AboutPage() {
         <div className="gd-split" style={{ gap: 24 }}>
           <h2
             style={{
-              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-              fontWeight: 400,
-              letterSpacing: "1px",
-              lineHeight: 1.25,
+              fontSize: "var(--type-display)",
+              fontWeight: 500,
+              letterSpacing: "-0.006em",
+              lineHeight: 1.15,
               color: "var(--ink)",
             }}
           >
@@ -92,10 +92,10 @@ export default async function AboutPage() {
         <div className="gd-split" style={{ gap: 24 }}>
           <h2
             style={{
-              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-              fontWeight: 400,
-              letterSpacing: "1px",
-              lineHeight: 1.25,
+              fontSize: "var(--type-display)",
+              fontWeight: 500,
+              letterSpacing: "-0.006em",
+              lineHeight: 1.15,
               color: "var(--ink)",
             }}
           >
@@ -106,9 +106,9 @@ export default async function AboutPage() {
               <p
                 key={i}
                 style={{
-                  fontSize: 18,
+                  fontSize: "var(--type-body)",
                   fontWeight: 300,
-                  lineHeight: 1.5,
+                  lineHeight: 1.45,
                   color: "var(--ink)",
                 }}
               >

@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 // than the 300 in the design spec. Flagged in the handoff notes.
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -23,17 +23,17 @@ const DEFAULT_HERO_STATEMENT =
 const DEFAULT_STORIES_TITLE = "Stories";
 
 const labelStyle: React.CSSProperties = {
-  fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-  fontWeight: 400,
-  letterSpacing: "1px",
-  lineHeight: 1.25,
+  fontSize: "var(--type-display)",
+  fontWeight: 500,
+  letterSpacing: "-0.006em",
+  lineHeight: 1.15,
   color: "#ffffff",
 };
 
 const bodyTextStyle: React.CSSProperties = {
-  fontSize: 18,
+  fontSize: "var(--type-body)",
   fontWeight: 300,
-  lineHeight: 1.5,
+  lineHeight: 1.45,
   color: "#ffffff",
 };
 
@@ -93,11 +93,11 @@ export default async function WritingPage() {
               // scale, so the two pages line up exactly.
               marginTop: 128,
               marginBottom: 128,
-              maxWidth: 816,
-              fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-              lineHeight: 1.25,
-              letterSpacing: "1px",
-              fontWeight: 400,
+              maxWidth: 960,
+              fontSize: "var(--type-display)",
+              lineHeight: 1.2,
+              letterSpacing: "-0.006em",
+              fontWeight: 500,
               color: "#ffffff",
               textWrap: "pretty" as React.CSSProperties["textWrap"],
             }}

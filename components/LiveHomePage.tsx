@@ -23,13 +23,13 @@ export default function LiveHomePage({
     <main className="gd-container" style={{ paddingBottom: 144 }}>
       <h1
         style={{
-          maxWidth: 816,
+          maxWidth: 960,
           marginTop: 128,
           marginBottom: 128,
-          fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-          lineHeight: 1.25,
-          fontWeight: 400,
-          letterSpacing: "1px",
+          fontSize: "var(--type-display)",
+          lineHeight: 1.2,
+          fontWeight: 500,
+          letterSpacing: "-0.006em",
           color: "var(--ink)",
           textWrap: "pretty",
         }}

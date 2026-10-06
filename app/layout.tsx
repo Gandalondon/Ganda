@@ -7,7 +7,7 @@ import Nav from "@/components/Nav";
 import BackToTop from "@/components/BackToTop";
 import StoryblokProvider from "@/components/StoryblokProvider";
 
-const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400"] });
+const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
 export const metadata: Metadata = {
   title: "Ganda — Tony Goff-Yu",
