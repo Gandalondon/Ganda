@@ -135,18 +135,18 @@ img {
   }
 }
 
-/* Work grid tile labels (name, then tags beneath it, bottom-left) over the image.
-   Colours are fixed rather than tokens: the scrim/chip tint is --ink
-   (#231f20) at set opacities and the text must stay white on any image. */
+/* Work grid tile labels (name, then tags beneath it, bottom-left) over the
+   image. Plain text only. Colours are fixed rather than tokens: the scrim is
+   --ink (#231f20) at set opacities and the text must stay white on any image. */
 .gd-tile-scrim {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 55%;
+  height: 45%;
   background: linear-gradient(
     to top,
-    rgba(35, 31, 32, 0.68),
+    rgba(35, 31, 32, 0.7),
     rgba(35, 31, 32, 0)
   );
   pointer-events: none;
@@ -156,11 +156,10 @@ img {
   position: absolute;
   left: 24px;
   right: 24px;
-  bottom: 20px;
+  bottom: 22px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
+  gap: 6px;
 }
 
 .gd-tile-name {
@@ -173,27 +172,11 @@ img {
 }
 
 .gd-tile-tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 8px;
   margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.gd-tile-tag {
-  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 15px;
   font-weight: 400;
-  line-height: 1;
-  padding: 6px 9px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: #fff;
-  background: rgba(35, 31, 32, 0.72);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  white-space: nowrap;
+  line-height: 1.3;
 }
 
 /* Closing CTA (root layout footer). Each page's <main> ends with
@@ -308,8 +291,7 @@ img {
   .gd-tile-label {
     left: 16px;
     right: 16px;
-    bottom: 14px;
-    gap: 10px;
+    bottom: 16px;
   }
 
   .gd-split {

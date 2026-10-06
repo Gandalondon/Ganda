@@ -51,13 +51,7 @@ function GridTile({ p }: { p: WorkProject }) {
       <div className="gd-tile-label">
         <p className="gd-tile-name">{p.name}</p>
         {p.tags.length > 0 && (
-          <ul className="gd-tile-tags">
-            {p.tags.map((tag, i) => (
-              <li key={`${tag}-${i}`} className="gd-tile-tag">
-                {tag}
-              </li>
-            ))}
-          </ul>
+          <p className="gd-tile-tags">{p.tags.join(" \u00b7 ")}</p>
         )}
       </div>
     </Link>
