@@ -9,7 +9,7 @@ import { useEffect } from "react";
 // screen when it appears (page load, client-side navigation, Storyblok data
 // arriving) is left alone and simply shows, with no movement. Off-screen
 // elements are marked data-fade="pending" (hidden, in globals.css) and then
-// "in" once they reach 15% visibility, staggering siblings that arrive
+// "in" once they are 12% of the screen up from the bottom edge, staggering siblings that arrive
 // together by 60ms. The "gd-fade" flag on <html> (set before first paint by
 // the inline script in app/layout.tsx, only when motion is allowed and the
 // page is not inside an iframe, e.g. the Storyblok visual editor) switches the
@@ -17,7 +17,8 @@ import { useEffect } from "react";
 //
 // Elements with data-fade-block (e.g. a quote and its byline) fade as one
 // unit; their children are not animated separately. Images (and the
-// prototype iframe) opt in with data-fade-media and get the same treatment.
+// prototype iframe) opt in with data-fade-media: they do not fade or move,
+// they start blurred and sharpen as they scroll into view.
 //
 // To turn it all off: set FADE_ENABLED to false in app/layout.tsx. To remove
 // the code: delete this file, <FadeUp /> and the boot script in
@@ -28,6 +29,7 @@ const TEXT_SELECTOR =
   "main :is(h1, h2, h3, p), footer p, [data-fade-block], [data-fade-media]";
 const EXCLUDE_SELECTOR = ".gd-grid-3 *, .sr-only, [data-fade-block] *";
 const TILE_SELECTOR = ".gd-grid-3 > a";
+const MEDIA_SELECTOR = "[data-fade-media]";
 const STAGGER_MS = 60;
 // Stop a long list (e.g. the client names) from taking seconds to finish.
 const MAX_STAGGER_STEPS = 8;
@@ -41,42 +43,56 @@ export default function FadeUp() {
 
     const seen = new WeakSet<Element>();
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        const hits = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) =>
-            a.target.compareDocumentPosition(b.target) &
-            Node.DOCUMENT_POSITION_FOLLOWING
-              ? -1
-              : 1,
-          );
-        const perParent = new Map<Element | null, number>();
-        for (const entry of hits) {
-          const el = entry.target as HTMLElement;
-          const parent = el.parentElement;
-          const n = perParent.get(parent) ?? 0;
-          perParent.set(parent, n + 1);
-          // Grid tiles arriving together reveal as one row, with no stagger.
-          const isTile = el.matches(TILE_SELECTOR);
-          el.style.transitionDelay = isTile
-            ? ""
-            : `${Math.min(n, MAX_STAGGER_STEPS) * STAGGER_MS}ms`;
-          el.setAttribute("data-fade", "in");
-          io.unobserve(el);
-          // Drop the inline delay once done so it cannot affect later
-          // transitions on the same element.
-          el.addEventListener(
-            "transitionend",
-            () => {
-              el.style.transitionDelay = "";
-            },
-            { once: true },
-          );
-        }
-      },
-      { threshold: 0.15 },
-    );
+    const onHit = (
+      entries: IntersectionObserverEntry[],
+      obs: IntersectionObserver,
+    ) => {
+      const hits = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) =>
+          a.target.compareDocumentPosition(b.target) &
+          Node.DOCUMENT_POSITION_FOLLOWING
+            ? -1
+            : 1,
+        );
+      const perParent = new Map<Element | null, number>();
+      for (const entry of hits) {
+        const el = entry.target as HTMLElement;
+        const parent = el.parentElement;
+        const n = perParent.get(parent) ?? 0;
+        perParent.set(parent, n + 1);
+        // Grid tiles and images reveal with no stagger.
+        const noStagger = el.matches(`${TILE_SELECTOR}, ${MEDIA_SELECTOR}`);
+        el.style.transitionDelay = noStagger
+          ? ""
+          : `${Math.min(n, MAX_STAGGER_STEPS) * STAGGER_MS}ms`;
+        el.setAttribute("data-fade", "in");
+        obs.unobserve(el);
+        // Drop the inline delay once done so it cannot affect later
+        // transitions on the same element.
+        el.addEventListener(
+          "transitionend",
+          () => {
+            el.style.transitionDelay = "";
+          },
+          { once: true },
+        );
+      }
+    };
+
+    // Reveal once an element's top edge is 12% of the viewport above the
+    // bottom edge. (A percentage-visible threshold never fires for an
+    // element much taller than the screen, e.g. a full-page screenshot.)
+    const io = new IntersectionObserver(onHit, {
+      threshold: 0,
+      rootMargin: "0px 0px -12% 0px",
+    });
+    // Images unblur just before they scroll into view, so they are already
+    // sharp by the time they are seen.
+    const mediaIo = new IntersectionObserver(onHit, {
+      threshold: 0,
+      rootMargin: "0px 0px 10% 0px",
+    });
 
     // Already on screen (or scrolled past) as it appears: leave it alone, so
     // it shows with no movement. Otherwise hide it and wait for the scroll.
@@ -85,7 +101,7 @@ export default function FadeUp() {
       seen.add(el);
       if (el.getBoundingClientRect().top < window.innerHeight) return;
       el.setAttribute("data-fade", "pending");
-      io.observe(el);
+      (el.matches(MEDIA_SELECTOR) ? mediaIo : io).observe(el);
     };
 
     const scan = () => {
@@ -109,6 +125,7 @@ export default function FadeUp() {
       cancelAnimationFrame(frame);
       mo.disconnect();
       io.disconnect();
+      mediaIo.disconnect();
     };
   }, []);
 

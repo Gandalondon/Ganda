@@ -347,6 +347,18 @@ body:has(.gd-writing-page) ::selection {
     transform: translateY(12px);
   }
 
+  /* Images (data-fade-media) never fade or move: they start blurred and
+     sharpen quickly as they approach the screen. */
+  html.gd-fade [data-fade-media][data-fade="pending"] {
+    opacity: 1;
+    transform: none;
+    filter: blur(16px);
+  }
+
+  html.gd-fade [data-fade-media][data-fade="in"] {
+    transition: filter 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   /* Work grid tiles that start below the fold unblur into place instead of
      fading up: blurred and transparent to sharp, a touch slower and softer
      than the text. Tiles already on screen are never touched. */
