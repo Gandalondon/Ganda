@@ -28,6 +28,25 @@
   --type-small: 16px;
 }
 
+/* Sticky nav: content that scrolls underneath is blurred. The blur is a layer
+   behind the logo and links, covering the visible bar plus 16px, fading out
+   at its lower edge. Remove this block (and "gd-nav" in components/Nav.tsx)
+   to undo. */
+.gd-nav::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--gd-header-gap) - 16px);
+  z-index: -1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent);
+}
+
 *,
 *::before,
 *::after {
