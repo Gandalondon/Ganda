@@ -21,7 +21,7 @@ export default function ClosingCta() {
       <p
         style={{
           maxWidth: "13.3em",
-          fontSize: "var(--type-display)",
+          fontSize: "var(--type-hero)",
           lineHeight: 1.2,
           fontWeight: 500,
           letterSpacing: "-0.006em",

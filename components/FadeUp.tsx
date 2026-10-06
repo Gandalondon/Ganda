@@ -23,8 +23,8 @@ import { useEffect } from "react";
 // Images are marked data-fade-media; work grid tiles (image + label) are
 // handled as one unit, so anything inside the grid is skipped.
 const IMAGE_SELECTOR = "[data-fade-media]";
-const EXCLUDE_SELECTOR = ".gd-grid-3 *, .sr-only";
-const TILE_SELECTOR = ".gd-grid-3 > a";
+const EXCLUDE_SELECTOR = ".gd-grid-3 *, .gd-list *, .sr-only";
+const TILE_SELECTOR = ".gd-grid-3 > a, .gd-list > li";
 
 export default function FadeUp() {
   useEffect(() => {
