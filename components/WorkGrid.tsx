@@ -27,7 +27,7 @@ function GridTile({ p }: { p: WorkProject }) {
       {p.thumbnail ? (
         <Image
           src={p.thumbnail}
-          alt={p.name}
+          alt=""
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           style={{
@@ -44,6 +44,19 @@ function GridTile({ p }: { p: WorkProject }) {
         >
           Work
         </span>
+      )}
+      {/* Labels sit above the image. The link already carries an
+          aria-label, so the image alt is empty and these are visual only. */}
+      <span className="gd-tile-scrim" aria-hidden="true" />
+      <p className="gd-tile-name">{p.name}</p>
+      {p.tags.length > 0 && (
+        <ul className="gd-tile-tags">
+          {p.tags.map((tag, i) => (
+            <li key={`${tag}-${i}`} className="gd-tile-tag">
+              {tag}
+            </li>
+          ))}
+        </ul>
       )}
     </Link>
   );

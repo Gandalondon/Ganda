@@ -119,6 +119,62 @@ img {
   row-gap: 24px;
 }
 
+/* Work grid tile labels (name bottom-left, tags top-right) over the image.
+   Colours are fixed rather than tokens: the scrim/chip tint is --ink
+   (#231f20) at set opacities and the text must stay white on any image. */
+.gd-tile-scrim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  background: linear-gradient(
+    to top,
+    rgba(35, 31, 32, 0.68),
+    rgba(35, 31, 32, 0)
+  );
+  pointer-events: none;
+}
+
+.gd-tile-name {
+  position: absolute;
+  left: 24px;
+  bottom: 20px;
+  margin: 0;
+  color: #fff;
+  font-weight: 500;
+  font-size: clamp(20px, 1.5vw, 24px);
+  line-height: 1.15;
+  letter-spacing: -0.006em;
+}
+
+.gd-tile-tags {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  max-width: 70%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gd-tile-tag {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 7px 10px;
+  border-radius: 4px;
+  color: #fff;
+  background: rgba(35, 31, 32, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
 .gd-split {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -202,6 +258,16 @@ img {
 
   .gd-grid-3 {
     grid-template-columns: 1fr !important;
+  }
+
+  .gd-tile-tags {
+    top: 16px;
+    right: 16px;
+  }
+
+  .gd-tile-name {
+    left: 16px;
+    bottom: 14px;
   }
 
   .gd-split {
