@@ -7,39 +7,39 @@ import type { WorkProject } from "@/lib/storyblok";
 // slugs. Projects without a thumbnail stay hidden, as before.
 const SUMMARIES: Record<string, { text: string; tags: string }> = {
   finn: {
-    text: "Five years shaping car discovery, pricing and checkout through design and experimentation.",
+    text: "Five years shaping car discovery, pricing and checkout through product design and experimentation.",
     tags: "Product design · Experimentation",
   },
   lionel: {
-    text: "Designing and building a working prototype for a more personal way to find your next car.",
+    text: "Designing and building a working prototype to help drivers find their next car in a more personal way.",
     tags: "Product design · Prototyping",
   },
   telescopic: {
-    text: "Bringing a digital transformation consultancy’s identity and site together.",
+    text: "Creating a brand identity and site for a consultancy helping businesses with digital transformation.",
     tags: "Branding · Site design",
   },
   cazoo: {
-    text: "Designing the online car-buying experience during Cazoo’s founding phase.",
+    text: "Designing discovery, finance and checkout for an online car retailer during its early founding phase.",
     tags: "Product design · E-commerce",
   },
   gap: {
-    text: "Creating the identity and site for Gap Inc’s internal digital innovation agency.",
+    text: "Creating the brand identity and site for Thomas Street, Gap Inc’s internal digital innovation agency.",
     tags: "Branding · Site design",
   },
   inpay: {
-    text: "Redesigning a global payments company’s site, with improvements to performance and accessibility.",
+    text: "Redesigning a global payments company’s site to improve performance, accessibility and sustainability.",
     tags: "Site design · Fintech",
   },
   takumi: {
-    text: "Evolving an influencer marketing agency’s identity and site through bold imagery and motion.",
+    text: "Evolving an influencer marketing agency’s identity and site with bold imagery and expressive motion.",
     tags: "Branding · Site design",
   },
   barclays: {
-    text: "Helping founders find relevant business support through the Eagle Labs site.",
+    text: "Designing the Eagle Labs site to help founders find workspaces, programmes and relevant business support.",
     tags: "Site design · UX design",
   },
   archive: {
-    text: "Selected earlier work across digital products, sites and brand identities.",
+    text: "Selected earlier work across digital products, sites and brand identities for a wide range of clients.",
     tags: "Product design · Site design",
   },
 };
