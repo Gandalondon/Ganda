@@ -432,25 +432,13 @@ body:has(.gd-writing-page) ::selection {
   /* Images (data-fade-media) and work grid tiles never fade or move: they
      start slightly blurred and sharpen quickly as they scroll into the
      screen. Text is never animated. */
-  html.gd-fade :is([data-fade-media], .gd-grid-3 > a)[data-fade="pending"] {
+  html.gd-fade :is([data-fade-media], .gd-grid-3 > a, .gd-list > li)[data-fade="pending"] {
     opacity: 1;
     transform: none;
     filter: blur(6px);
   }
 
-  html.gd-fade :is([data-fade-media], .gd-grid-3 > a)[data-fade="in"] {
+  html.gd-fade :is([data-fade-media], .gd-grid-3 > a, .gd-list > li)[data-fade="in"] {
     transition: filter 600ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  /* Project list rows fade up 12px instead of unblurring. */
-  html.gd-fade .gd-list > li[data-fade="pending"] {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  html.gd-fade .gd-list > li[data-fade="in"] {
-    transition:
-      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
