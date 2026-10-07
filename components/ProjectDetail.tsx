@@ -296,6 +296,7 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
 
 export default function ProjectDetail({
   story: initialStory,
+  slug,
   projects,
 }: {
   story: unknown;
@@ -557,7 +558,12 @@ export default function ProjectDetail({
       {/* Work grid */}
       {!content.hide_work_grid && (
         <div className="gd-container" style={{ marginTop: 200 }}>
-          <WorkGrid projects={projects} />
+          {/* The page's own project is left out of its list. */}
+          <WorkGrid
+            projects={projects.filter(
+              (p) => p.slug.toLowerCase() !== slug?.toLowerCase(),
+            )}
+          />
         </div>
       )}
     </main>
