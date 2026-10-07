@@ -55,8 +55,7 @@ const FALLBACK: Record<string, { text: string; tags: string }> = {
   },
 };
 
-// Same icon family, size and weight as the back-to-top arrow
-// (components/BackToTop.tsx), pointing right.
+// Material "arrow_forward", filled, 24px.
 function Arrow() {
   return (
     <svg

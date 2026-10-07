@@ -331,13 +331,6 @@ a.gd-row:visited {
   border: 0;
 }
 
-/* Back to top — desktop only */
-@media (max-width: 1024px) {
-  .gd-back-to-top {
-    display: none;
-  }
-}
-
 /* Tablet (<1024px) — reduce gutters, stack grids */
 @media (max-width: 1024px) {
   :root {

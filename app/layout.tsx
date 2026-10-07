@@ -6,7 +6,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Nav from "@/components/Nav";
 import ClosingCta from "@/components/ClosingCta";
 import FadeUp from "@/components/FadeUp";
-import BackToTop from "@/components/BackToTop";
 import StoryblokProvider from "@/components/StoryblokProvider";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500"] });
@@ -62,7 +61,6 @@ export default function RootLayout({
           {children}
           <ClosingCta />
           {FADE_ENABLED && <FadeUp />}
-          <BackToTop />
           <Analytics />
           <SpeedInsights />
         </StoryblokProvider>
