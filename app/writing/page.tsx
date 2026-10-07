@@ -94,7 +94,7 @@ export default async function WritingPage() {
               marginTop: 128,
               marginBottom: 128,
               maxWidth: 960,
-              fontSize: "var(--type-display)",
+              fontSize: "var(--type-hero)",
               lineHeight: 1.2,
               letterSpacing: "-0.006em",
               fontWeight: 500,
