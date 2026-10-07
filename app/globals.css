@@ -285,6 +285,13 @@ a.gd-row:visited {
     row-gap: 8px;
     padding: 36px 0;
   }
+
+  /* On mobile the name sits above the description, so the arrow lines up
+     with the name instead: centre of the 24px arrow on the name's cap
+     height (cap top 6.6px, cap height about 0.7em, arrow centre at 12px). */
+  .gd-row-arrow {
+    margin-top: calc(6.6px + 0.35 * var(--type-list) - 12px);
+  }
 }
 
 /* Closing CTA (root layout footer). Each page's <main> ends with
