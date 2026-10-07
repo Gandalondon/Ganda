@@ -12,7 +12,8 @@ const LAYOUT: "list" | "grid" = "list";
 //   name         -> story name
 //   description  -> "list_description" (Textarea)
 //   tags         -> "tags" (Text, comma-separated), shown as "A · B"
-// Projects without a thumbnail stay hidden, as with the grid.
+// Thumbnails are not used by the list, so a project does not need one to show
+// here. (The "grid" layout still hides projects without a thumbnail.)
 //
 // FALLBACK only covers the gap until list_description is filled in for each
 // story. Once every project has one in Storyblok, delete this map.
@@ -72,7 +73,7 @@ function Arrow() {
 
 export default function WorkGrid({ projects }: { projects: WorkProject[] }) {
   if (LAYOUT === "grid") return <WorkGridTiles projects={projects} />;
-  const visible = projects.filter((p) => p.thumbnail);
+  const visible = projects;
   return (
     <ul className="gd-list">
       {visible.map((p) => {
