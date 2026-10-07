@@ -24,7 +24,10 @@ import { useEffect } from "react";
 // handled as one unit, so anything inside the grid is skipped.
 const IMAGE_SELECTOR = "[data-fade-media]";
 const EXCLUDE_SELECTOR = ".gd-grid-3 *, .gd-list *, .sr-only";
-const TILE_SELECTOR = ".gd-grid-3 > a, .gd-list > li";
+const TILE_SELECTOR = ".gd-grid-3 > a";
+// Project list rows and the closing CTA fade up instead (CSS in
+// globals.css), staggered 70ms when several arrive at once, matching /litman.
+const ROW_SELECTOR = ".gd-list > li, .gd-closing-cta > p";
 
 export default function FadeUp() {
   useEffect(() => {
@@ -47,8 +50,16 @@ export default function FadeUp() {
             ? -1
             : 1,
         );
+      let row = 0;
       for (const entry of hits) {
         const el = entry.target as HTMLElement;
+        if (el.matches(ROW_SELECTOR)) {
+          const delay = Math.min(row++, 6) * 70;
+          el.style.transitionDelay = `${delay}ms`;
+          window.setTimeout(() => {
+            el.style.transitionDelay = "";
+          }, delay + 650);
+        }
         el.setAttribute("data-fade", "in");
         obs.unobserve(el);
       }
@@ -61,21 +72,28 @@ export default function FadeUp() {
       rootMargin: "0px 0px -8% 0px",
     });
 
+    // Rows come in once their top passes 94% of the screen height.
+    const rowIo = new IntersectionObserver(onHit, {
+      threshold: 0,
+      rootMargin: "0px 0px -6% 0px",
+    });
+
     // Already on screen (or scrolled past) as it appears: leave it alone, so
     // it shows with no movement. Otherwise hide it and wait for the scroll.
-    const track = (el: Element) => {
+    const track = (el: Element, io: IntersectionObserver = mediaIo) => {
       if (seen.has(el)) return;
       seen.add(el);
       if (el.getBoundingClientRect().top < window.innerHeight) return;
       el.setAttribute("data-fade", "pending");
-      mediaIo.observe(el);
+      io.observe(el);
     };
 
     const scan = () => {
       document.querySelectorAll(IMAGE_SELECTOR).forEach((el) => {
         if (!el.matches(EXCLUDE_SELECTOR)) track(el);
       });
-      document.querySelectorAll(TILE_SELECTOR).forEach(track);
+      document.querySelectorAll(TILE_SELECTOR).forEach((el) => track(el));
+      document.querySelectorAll(ROW_SELECTOR).forEach((el) => track(el, rowIo));
     };
 
     // Pages swap content on client-side navigation and when Storyblok data
@@ -92,6 +110,7 @@ export default function FadeUp() {
       cancelAnimationFrame(frame);
       mo.disconnect();
       mediaIo.disconnect();
+      rowIo.disconnect();
     };
   }, []);
 
