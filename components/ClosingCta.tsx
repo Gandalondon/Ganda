@@ -17,7 +17,10 @@ export default function ClosingCta() {
   if (pathname === "/work/carwow" || pathname === "/writing") return null;
 
   return (
-    <footer className="gd-container gd-closing-cta">
+    // Keyed by path so each page gets a fresh element: the scroll fade in
+    // FadeUp.tsx tracks elements once, and the layout otherwise keeps this
+    // one (already faded in) across client-side navigation.
+    <footer key={pathname} className="gd-container gd-closing-cta">
       <p
         style={{
           maxWidth: "13.3em",

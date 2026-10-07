@@ -76,6 +76,12 @@ img {
   max-width: 100%;
 }
 
+/* No single-word last lines (widows). Chrome, Edge and Safari 26+; other
+   browsers wrap normally. */
+:is(p, li, h1, h2, h3, h4, blockquote) {
+  text-wrap: pretty;
+}
+
 @keyframes gd-shimmer {
   0% {
     background-position: -200% 0;
