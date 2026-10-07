@@ -111,7 +111,6 @@ const PLACEHOLDER_BLOCKS: TextBlock[] = [
   },
 ];
 
-
 // Same breakpoint the site's CSS already switches to a stacked, mobile
 // layout at (see .gd-split / .gd-grid-3 in globals.css), reused here so
 // desktop vs mobile stays consistent across the page.
@@ -293,37 +292,183 @@ export default function ProjectDetail({
         </div>
       )}
 
-      {/* Body blocks */}
-      {blocks.map((block, i) => {
-        if (block.component === "image") {
-          if (!block.image?.filename) return null;
-          return (
-            <div key={i} className="gd-container" style={{ marginTop: 176 }}>
-              <BlurImage
-                src={block.image.filename}
-                alt={block.image.alt ?? ""}
-                width={1200}
-                height={900}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "block",
-                  ...(block.show_image_border === true
-                    ? { border: "1px solid var(--border)" }
-                    : {}),
-                }}
-              />
-            </div>
-          );
-        }
+      {/* Body blocks. With no hero text above them, the first block is the
+          page title, so it sits at the same 128px from the nav as the
+          homepage hero and the About title (every block otherwise carries a
+          176px top margin). See .gd-body-first in globals.css. */}
+      <div className={content.hero_text ? undefined : "gd-body-first"}>
+        {blocks.map((block, i) => {
+          if (block.component === "image") {
+            if (!block.image?.filename) return null;
+            return (
+              <div key={i} className="gd-container" style={{ marginTop: 176 }}>
+                <BlurImage
+                  src={block.image.filename}
+                  alt={block.image.alt ?? ""}
+                  width={1200}
+                  height={900}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                    ...(block.show_image_border === true
+                      ? { border: "1px solid var(--border)" }
+                      : {}),
+                  }}
+                />
+              </div>
+            );
+          }
 
-        if (block.component === "text_block_sections") {
-          const sections = block.sections ?? [];
+          if (block.component === "text_block_sections") {
+            const sections = block.sections ?? [];
+            return (
+              <div key={i} className="gd-container" style={{ marginTop: 176 }}>
+                <div className="gd-split" style={{ gap: 24 }}>
+                  <div style={{ maxWidth: "calc(100% - 24px)" }}>
+                    {block.title && (
+                      <h2
+                        style={{
+                          fontSize: "var(--type-display)",
+                          fontWeight: 500,
+                          letterSpacing: "-0.006em",
+                          lineHeight: 1.15,
+                          marginBottom: 24,
+                        }}
+                      >
+                        {block.title}
+                      </h2>
+                    )}
+                    {sections.map((sec, si) => (
+                      <div
+                        key={sec._uid ?? si}
+                        style={{ marginTop: si === 0 ? 0 : 32 }}
+                      >
+                        {sec.subtitle && (
+                          <h3
+                            style={{
+                              fontSize: "var(--type-body)",
+                              letterSpacing: "-0.0048em",
+                              fontWeight: 500,
+                              lineHeight: 1.3,
+                              marginBottom: "0.5em",
+                            }}
+                          >
+                            {sec.subtitle}
+                          </h3>
+                        )}
+                        {sec.body &&
+                          sec.body.split("\n\n").map((para, j) => (
+                            <p
+                              key={j}
+                              style={{
+                                fontSize: "var(--type-body)",
+                                fontWeight: 300,
+                                lineHeight: 1.45,
+                                marginBottom: "1em",
+                                textWrap: "pretty",
+                              }}
+                            >
+                              {renderInlineLinks(para)}
+                            </p>
+                          ))}
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    {block.image?.filename && (
+                      <BlurImage
+                        src={block.image.filename}
+                        alt={block.image.alt ?? ""}
+                        width={1200}
+                        height={900}
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          display: "block",
+                          ...(block.show_image_border === true
+                            ? { border: "1px solid var(--border)" }
+                            : {}),
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (block.component === "hero_block") {
+            if (!block.text) return null;
+            return (
+              <div key={i} className="gd-container" style={{ marginTop: 176 }}>
+                <h2
+                  style={{
+                    maxWidth: 960,
+                    fontSize: "var(--type-display)",
+                    lineHeight: 1.2,
+                    fontWeight: 500,
+                    letterSpacing: "-0.006em",
+                    color: "var(--ink)",
+                    textWrap: "pretty",
+                  }}
+                >
+                  {renderInlineLinks(block.text)}
+                </h2>
+              </div>
+            );
+          }
+
+          if (block.component === "quote_block") {
+            if (!block.text) return null;
+            return (
+              // data-fade-block: the quote and byline fade in together as one.
+              <div
+                key={i}
+                className="gd-container"
+                data-fade-block
+                style={{ marginTop: 176 }}
+              >
+                <h2
+                  style={{
+                    maxWidth: 960,
+                    fontSize: "var(--type-display)",
+                    lineHeight: 1.2,
+                    fontWeight: 500,
+                    letterSpacing: "-0.006em",
+                    color: "var(--ink)",
+                    textWrap: "pretty",
+                  }}
+                >
+                  {block.text}
+                </h2>
+                {block.byline && (
+                  <p
+                    style={{
+                      maxWidth: 816,
+                      marginTop: 24,
+                      fontSize: "var(--type-body)",
+                      fontWeight: 300,
+                      lineHeight: 1.45,
+                      color: "var(--ink)",
+                    }}
+                  >
+                    {block.byline}
+                  </p>
+                )}
+              </div>
+            );
+          }
+
+          if (block.component === "prototype_embed") {
+            return <PrototypeEmbed key={i} block={block} />;
+          }
+
           return (
             <div key={i} className="gd-container" style={{ marginTop: 176 }}>
               <div className="gd-split" style={{ gap: 24 }}>
                 <div style={{ maxWidth: "calc(100% - 24px)" }}>
-                  {block.title && (
+                  {block.Title && (
                     <h2
                       style={{
                         fontSize: "var(--type-display)",
@@ -333,44 +478,24 @@ export default function ProjectDetail({
                         marginBottom: 24,
                       }}
                     >
-                      {block.title}
+                      {block.Title}
                     </h2>
                   )}
-                  {sections.map((sec, si) => (
-                    <div
-                      key={sec._uid ?? si}
-                      style={{ marginTop: si === 0 ? 0 : 32 }}
-                    >
-                      {sec.subtitle && (
-                        <h3
-                          style={{
-                            fontSize: "var(--type-body)",
-                            letterSpacing: "-0.0048em",
-                            fontWeight: 500,
-                            lineHeight: 1.3,
-                            marginBottom: "0.5em",
-                          }}
-                        >
-                          {sec.subtitle}
-                        </h3>
-                      )}
-                      {sec.body &&
-                        sec.body.split("\n\n").map((para, j) => (
-                          <p
-                            key={j}
-                            style={{
-                              fontSize: "var(--type-body)",
-                              fontWeight: 300,
-                              lineHeight: 1.45,
-                              marginBottom: "1em",
-                              textWrap: "pretty",
-                            }}
-                          >
-                            {renderInlineLinks(para)}
-                          </p>
-                        ))}
-                    </div>
-                  ))}
+                  {block.text &&
+                    block.text.split("\n\n").map((para, j) => (
+                      <p
+                        key={j}
+                        style={{
+                          fontSize: "var(--type-body)",
+                          fontWeight: 300,
+                          lineHeight: 1.45,
+                          marginBottom: "1em",
+                          textWrap: "pretty",
+                        }}
+                      >
+                        {renderInlineLinks(para)}
+                      </p>
+                    ))}
                 </div>
                 <div>
                   {block.image?.filename && (
@@ -383,7 +508,7 @@ export default function ProjectDetail({
                         width: "100%",
                         height: "auto",
                         display: "block",
-                        ...(block.show_image_border === true
+                        ...(block.show_image_border !== false
                           ? { border: "1px solid var(--border)" }
                           : {}),
                       }}
@@ -393,129 +518,8 @@ export default function ProjectDetail({
               </div>
             </div>
           );
-        }
-
-        if (block.component === "hero_block") {
-          if (!block.text) return null;
-          return (
-            <div key={i} className="gd-container" style={{ marginTop: 176 }}>
-              <h2
-                style={{
-                  maxWidth: 960,
-                  fontSize: "var(--type-display)",
-                  lineHeight: 1.2,
-                  fontWeight: 500,
-                  letterSpacing: "-0.006em",
-                  color: "var(--ink)",
-                  textWrap: "pretty",
-                }}
-              >
-                {renderInlineLinks(block.text)}
-              </h2>
-            </div>
-          );
-        }
-
-        if (block.component === "quote_block") {
-          if (!block.text) return null;
-          return (
-            // data-fade-block: the quote and byline fade in together as one.
-            <div
-              key={i}
-              className="gd-container"
-              data-fade-block
-              style={{ marginTop: 176 }}
-            >
-              <h2
-                style={{
-                  maxWidth: 960,
-                  fontSize: "var(--type-display)",
-                  lineHeight: 1.2,
-                  fontWeight: 500,
-                  letterSpacing: "-0.006em",
-                  color: "var(--ink)",
-                  textWrap: "pretty",
-                }}
-              >
-                {block.text}
-              </h2>
-              {block.byline && (
-                <p
-                  style={{
-                    maxWidth: 816,
-                    marginTop: 24,
-                    fontSize: "var(--type-body)",
-                    fontWeight: 300,
-                    lineHeight: 1.45,
-                    color: "var(--ink)",
-                  }}
-                >
-                  {block.byline}
-                </p>
-              )}
-            </div>
-          );
-        }
-
-        if (block.component === "prototype_embed") {
-          return <PrototypeEmbed key={i} block={block} />;
-        }
-
-        return (
-          <div key={i} className="gd-container" style={{ marginTop: 176 }}>
-            <div className="gd-split" style={{ gap: 24 }}>
-              <div style={{ maxWidth: "calc(100% - 24px)" }}>
-                {block.Title && (
-                  <h2
-                    style={{
-                      fontSize: "var(--type-display)",
-                      fontWeight: 500,
-                      letterSpacing: "-0.006em",
-                      lineHeight: 1.15,
-                      marginBottom: 24,
-                    }}
-                  >
-                    {block.Title}
-                  </h2>
-                )}
-                {block.text &&
-                  block.text.split("\n\n").map((para, j) => (
-                    <p
-                      key={j}
-                      style={{
-                        fontSize: "var(--type-body)",
-                        fontWeight: 300,
-                        lineHeight: 1.45,
-                        marginBottom: "1em",
-                        textWrap: "pretty",
-                      }}
-                    >
-                      {renderInlineLinks(para)}
-                    </p>
-                  ))}
-              </div>
-              <div>
-                {block.image?.filename && (
-                  <BlurImage
-                    src={block.image.filename}
-                    alt={block.image.alt ?? ""}
-                    width={1200}
-                    height={900}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                      ...(block.show_image_border !== false
-                        ? { border: "1px solid var(--border)" }
-                        : {}),
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      })}
+        })}
+      </div>
 
       {/* Work grid */}
       {!content.hide_work_grid && (

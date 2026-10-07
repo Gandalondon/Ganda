@@ -294,6 +294,13 @@ a.gd-row:visited {
   }
 }
 
+/* Case study with no hero text: the first block is the page title, so it
+   sits 128px below the nav, matching the homepage hero and the About title.
+   Blocks carry a 176px top margin inline, hence !important. */
+.gd-body-first > :first-child {
+  margin-top: 128px !important;
+}
+
 /* Closing CTA (root layout footer). Each page's <main> ends with
    padding-bottom 144 (120 tablet, 96 mobile, forced by the rules below), so
    the margin tops these up to the 176px section gap, and the footer's own
