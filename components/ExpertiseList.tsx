@@ -6,6 +6,7 @@ import {
   type ISbStoryData,
   type SbBlokData,
 } from "@storyblok/react";
+import { renderInlineLinks } from "@/lib/inline";
 
 const DEFAULT_EXPERTISE = [
   "Product Design",
@@ -115,7 +116,7 @@ export default function ExpertiseList({
                         marginTop: item.gap ? "1.2em" : 0,
                       }}
                     >
-                      {item.text}
+                      {renderInlineLinks(item.text)}
                     </p>
                   ))}
                 </div>

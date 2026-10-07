@@ -82,6 +82,13 @@ img {
   text-wrap: pretty;
 }
 
+/* Bold in Storyblok copy (**text**). Body is weight 300, and the browser's
+   default "bolder" only reaches 400, so use 500, the heading weight. */
+strong,
+b {
+  font-weight: 500;
+}
+
 @keyframes gd-shimmer {
   0% {
     background-position: -200% 0;

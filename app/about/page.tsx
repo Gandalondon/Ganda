@@ -1,5 +1,6 @@
 import { getStory, getWorkProjects } from "@/lib/storyblok";
 import WorkGrid from "@/components/WorkGrid";
+import { renderInlineLinks } from "@/lib/inline";
 import ExpertiseList from "@/components/ExpertiseList";
 import type { Metadata } from "next";
 
@@ -86,7 +87,7 @@ export default async function AboutPage() {
                   textWrap: "pretty" as React.CSSProperties["textWrap"],
                 }}
               >
-                {para}
+                {renderInlineLinks(para)}
               </p>
             ))}
           </div>
