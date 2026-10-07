@@ -55,19 +55,18 @@ const FALLBACK: Record<string, { text: string; tags: string }> = {
   },
 };
 
-function Chevron() {
+// Same icon family, size and weight as the back-to-top arrow
+// (components/BackToTop.tsx), pointing right.
+function Arrow() {
   return (
     <svg
-      width="28"
-      height="28"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
     >
-      <path d="M9 5l7 7-7 7" />
+      <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z" />
     </svg>
   );
 }
@@ -91,7 +90,7 @@ export default function WorkGrid({ projects }: { projects: WorkProject[] }) {
                 {tags && <span className="gd-row-tags">{tags}</span>}
               </span>
               <span className="gd-row-arrow" aria-hidden="true">
-                <Chevron />
+                <Arrow />
               </span>
             </Link>
           </li>
