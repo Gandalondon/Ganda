@@ -65,6 +65,32 @@ button:focus-visible {
   border-radius: 2px;
 }
 
+/* Skip link: off screen until it gets keyboard focus. */
+.gd-skip {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--surface);
+  font-size: var(--type-small);
+  text-decoration: none;
+}
+
+.gd-skip:focus {
+  top: 16px;
+}
+
+body:has(.gd-writing-page) .gd-skip {
+  background: #ffffff;
+  color: #231f20;
+}
+
+a.gd-skip:visited {
+  color: var(--surface);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gd-skeleton {
     animation: none;

@@ -38,7 +38,7 @@ export function pageMetadata({
       images: [{ url: SHARE_IMAGE, width: 1200, height: 630 }],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
       images: [SHARE_IMAGE],

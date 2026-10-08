@@ -82,13 +82,14 @@ export default async function WritingPage() {
 
   return (
     <main
+      id="main"
       className={`gd-writing-page ${instrumentSans.className}`}
       style={{ paddingBottom: 144 }}
     >
       {/* Hero */}
       <section>
         <div className="gd-container">
-          <p
+          <h1
             style={{
               // Same position and measure as the homepage h1: marginTop/
               // marginBottom 128, maxWidth 816 — not the hero's own padding
@@ -105,7 +106,7 @@ export default async function WritingPage() {
             }}
           >
             {heroStatement}
-          </p>
+          </h1>
         </div>
       </section>
 
@@ -121,7 +122,7 @@ export default async function WritingPage() {
           heading in the DOM. */}
       <div className="gd-container">
         <div className="gd-split" style={{ gap: 24 }}>
-          <h1 style={labelStyle}>{storiesTitle}</h1>
+          <h2 style={labelStyle}>{storiesTitle}</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 96 }}>
             {stories.map((s, i) => {
               // No local fallback image — every story is expected to have

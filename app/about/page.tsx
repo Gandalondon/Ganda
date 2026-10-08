@@ -45,7 +45,7 @@ export default async function AboutPage() {
     groups.some((g) => typeof g === "object" && g !== null && g.title);
   if (story && hasGroups) {
     return (
-      <main style={{ paddingBottom: 144 }}>
+      <main id="main" style={{ paddingBottom: 144 }}>
         {/* Each row carries a 96px top margin; 32px more matches the 128px
             the old title sat at. */}
         <div style={{ paddingTop: 32 }}>
@@ -59,7 +59,7 @@ export default async function AboutPage() {
   }
 
   return (
-    <main style={{ paddingBottom: 144 }}>
+    <main id="main" style={{ paddingBottom: 144 }}>
       {/* Title — full width, above the split */}
       <div
         className="gd-container"

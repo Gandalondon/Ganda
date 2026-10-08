@@ -20,7 +20,7 @@ export default function LiveHomePage({
     "Hello, I'm Tony Goff-Yu. I have over twenty years of design experience across branding, user experience and interaction design. I help businesses improve customer experience and conversion. This is my work.";
 
   return (
-    <main className="gd-container" style={{ paddingBottom: 144 }}>
+    <main id="main" className="gd-container" style={{ paddingBottom: 144 }}>
       <h1
         style={{
           maxWidth: 1160,

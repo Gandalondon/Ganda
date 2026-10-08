@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Ganda — Tony Goff-Yu",
     description: SITE_DESCRIPTION,
   },
@@ -50,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={dmSans.className} suppressHydrationWarning>
+    <html lang="en-GB" className={dmSans.className} suppressHydrationWarning>
       <head>
         {FADE_ENABLED && (
           <script dangerouslySetInnerHTML={{ __html: FADE_BOOT }} />
@@ -58,6 +58,9 @@ export default function RootLayout({
       </head>
       <body>
         <StoryblokProvider>
+          <a href="#main" className="gd-skip">
+            Skip to content
+          </a>
           <Nav />
           {children}
           <ClosingCta />

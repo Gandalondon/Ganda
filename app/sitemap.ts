@@ -7,6 +7,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = await getWorkProjects().catch(() => []);
   const workEntries = projects.map((p) => ({
     url: `${BASE}/work/${p.slug}`,
+    ...(p.updated ? { lastModified: p.updated } : {}),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));

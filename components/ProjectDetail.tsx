@@ -283,7 +283,6 @@ export default function ProjectDetail({
       case "prototype_embed":
         return Boolean(b.title);
       case "hero_block":
-        return Boolean(b.text);
       case "image":
       case "quote_block":
         return false;
@@ -293,7 +292,7 @@ export default function ProjectDetail({
   });
 
   return (
-    <main style={{ paddingBottom: 144 }}>
+    <main id="main" style={{ paddingBottom: 144 }}>
       {content.hero_text && (
         <div className="gd-container">
           <h1
@@ -318,6 +317,13 @@ export default function ProjectDetail({
           page title, so it sits at the same 128px from the nav as the
           homepage hero and the About title (every block otherwise carries a
           176px top margin). See .gd-body-first in globals.css. */}
+      {!content.hero_text && firstHeadingIndex === -1 && (
+        <h1 className="sr-only">
+          {content.client ??
+            content.title ??
+            (story as { name?: string } | null)?.name}
+        </h1>
+      )}
       <div className={content.hero_text ? undefined : "gd-body-first"}>
         {blocks.map((block, i) => {
           // The page's h1: its hero text, or when there is none, the first
@@ -428,7 +434,7 @@ export default function ProjectDetail({
             if (!block.text) return null;
             return (
               <div key={i} className="gd-container" style={{ marginTop: 176 }}>
-                <Tag
+                <p
                   style={{
                     maxWidth: 960,
                     fontSize: "var(--type-display)",
@@ -440,7 +446,7 @@ export default function ProjectDetail({
                   }}
                 >
                   {renderInlineLinks(block.text)}
-                </Tag>
+                </p>
               </div>
             );
           }
@@ -455,7 +461,7 @@ export default function ProjectDetail({
                 data-fade-block
                 style={{ marginTop: 176 }}
               >
-                <Tag
+                <blockquote
                   style={{
                     maxWidth: 960,
                     fontSize: "var(--type-display)",
@@ -467,7 +473,7 @@ export default function ProjectDetail({
                   }}
                 >
                   {block.text}
-                </Tag>
+                </blockquote>
                 {block.byline && (
                   <p
                     style={{

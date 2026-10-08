@@ -26,6 +26,8 @@ export type WorkProject = {
   // One-line description for the project list ("list_description" field,
   // Textarea). Separate from "summary", which is the page's meta description.
   listDescription?: string;
+  // When the story was last published (ISO date), for the sitemap.
+  updated?: string;
 };
 
 // Minimal shape of a Storyblok work story, typed just enough to avoid `any`
@@ -33,6 +35,7 @@ export type WorkProject = {
 type WorkStoryblokStory = {
   slug: string;
   name: string;
+  published_at?: string | null;
   content?: {
     thumbnail?: { filename?: string };
     // Text field, comma-separated, e.g. "Product design, Experimentation".
@@ -73,5 +76,6 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
       thumbnail: s.content?.thumbnail?.filename,
       tags: parseTags(s.content?.tags),
       listDescription: s.content?.list_description?.trim() || undefined,
+      updated: s.published_at ?? undefined,
     }));
 }
