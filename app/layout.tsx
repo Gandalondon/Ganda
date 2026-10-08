@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Nav from "@/components/Nav";
 import ClosingCta from "@/components/ClosingCta";
 import FadeUp from "@/components/FadeUp";
+import ScrollToTop from "@/components/ScrollToTop";
 import StoryblokProvider from "@/components/StoryblokProvider";
 import { SITE_DESCRIPTION } from "@/lib/seo";
 
@@ -61,6 +62,7 @@ export default function RootLayout({
           <a href="#main" className="gd-skip">
             Skip to content
           </a>
+          <ScrollToTop />
           <Nav />
           {children}
           <ClosingCta />
