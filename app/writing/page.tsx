@@ -2,6 +2,7 @@ import { getStory } from "@/lib/storyblok";
 import { Instrument_Sans } from "next/font/google";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
 // Instrument Sans on Google Fonts only ships 400/500/600/700 — there is no
 // 300/Light weight, so body copy renders at 400 (closest available) rather
@@ -11,11 +12,12 @@ const instrumentSans = Instrument_Sans({
   weight: ["400", "500", "700"],
 });
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Writing — Ganda",
   description:
     "Short science-fiction stories about work, judgement and what happens when automation still needs a human.",
-};
+  path: "/writing",
+});
 
 const DEFAULT_HERO_STATEMENT =
   "I write short science-fiction stories about work, judgement and what happens when automation can do almost everything, but still needs a human.";

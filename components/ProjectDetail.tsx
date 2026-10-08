@@ -120,7 +120,13 @@ const DESKTOP_BREAKPOINT = "(min-width: 1025px)";
 // Split into its own component (rather than inlined in the body-block
 // map) because it needs its own hook state, and hooks cannot be called
 // from inside a .map() callback.
-function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
+function PrototypeEmbed({
+  block,
+  TitleTag = "h2",
+}: {
+  block: PrototypeEmbedBlock;
+  TitleTag?: "h1" | "h2";
+}) {
   const [showPrototype, setShowPrototype] = useState(false);
 
   useEffect(() => {
@@ -215,7 +221,7 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
       <div className="gd-split" style={{ gap: 24 }}>
         <div style={{ maxWidth: "calc(100% - 24px)" }}>
           {block.title && (
-            <h2
+            <TitleTag
               style={{
                 fontSize: "var(--type-display)",
                 fontWeight: 500,
@@ -225,7 +231,7 @@ function PrototypeEmbed({ block }: { block: PrototypeEmbedBlock }) {
               }}
             >
               {block.title}
-            </h2>
+            </TitleTag>
           )}
           {block.body &&
             block.body.split("\n\n").map((para, j) => (
@@ -270,6 +276,22 @@ export default function ProjectDetail({
 
   const blocks = content.body?.length ? content.body : PLACEHOLDER_BLOCKS;
 
+  // Index of the first block that renders a heading (see the h1 note below).
+  const firstHeadingIndex = blocks.findIndex((b) => {
+    switch (b.component) {
+      case "text_block_sections":
+      case "prototype_embed":
+        return Boolean(b.title);
+      case "hero_block":
+        return Boolean(b.text);
+      case "image":
+      case "quote_block":
+        return false;
+      default:
+        return Boolean((b as { Title?: string }).Title);
+    }
+  });
+
   return (
     <main style={{ paddingBottom: 144 }}>
       {content.hero_text && (
@@ -298,6 +320,10 @@ export default function ProjectDetail({
           176px top margin). See .gd-body-first in globals.css. */}
       <div className={content.hero_text ? undefined : "gd-body-first"}>
         {blocks.map((block, i) => {
+          // The page's h1: its hero text, or when there is none, the first
+          // block title (so every case study has exactly one h1).
+          const Tag =
+            !content.hero_text && i === firstHeadingIndex ? "h1" : "h2";
           if (block.component === "image") {
             if (!block.image?.filename) return null;
             return (
@@ -327,7 +353,7 @@ export default function ProjectDetail({
                 <div className="gd-split" style={{ gap: 24 }}>
                   <div style={{ maxWidth: "calc(100% - 24px)" }}>
                     {block.title && (
-                      <h2
+                      <Tag
                         style={{
                           fontSize: "var(--type-display)",
                           fontWeight: 500,
@@ -337,7 +363,7 @@ export default function ProjectDetail({
                         }}
                       >
                         {block.title}
-                      </h2>
+                      </Tag>
                     )}
                     {sections.map((sec, si) => (
                       <div
@@ -402,7 +428,7 @@ export default function ProjectDetail({
             if (!block.text) return null;
             return (
               <div key={i} className="gd-container" style={{ marginTop: 176 }}>
-                <h2
+                <Tag
                   style={{
                     maxWidth: 960,
                     fontSize: "var(--type-display)",
@@ -414,7 +440,7 @@ export default function ProjectDetail({
                   }}
                 >
                   {renderInlineLinks(block.text)}
-                </h2>
+                </Tag>
               </div>
             );
           }
@@ -429,7 +455,7 @@ export default function ProjectDetail({
                 data-fade-block
                 style={{ marginTop: 176 }}
               >
-                <h2
+                <Tag
                   style={{
                     maxWidth: 960,
                     fontSize: "var(--type-display)",
@@ -441,7 +467,7 @@ export default function ProjectDetail({
                   }}
                 >
                   {block.text}
-                </h2>
+                </Tag>
                 {block.byline && (
                   <p
                     style={{
@@ -461,7 +487,7 @@ export default function ProjectDetail({
           }
 
           if (block.component === "prototype_embed") {
-            return <PrototypeEmbed key={i} block={block} />;
+            return <PrototypeEmbed key={i} block={block} TitleTag={Tag} />;
           }
 
           return (
@@ -469,7 +495,7 @@ export default function ProjectDetail({
               <div className="gd-split" style={{ gap: 24 }}>
                 <div style={{ maxWidth: "calc(100% - 24px)" }}>
                   {block.Title && (
-                    <h2
+                    <Tag
                       style={{
                         fontSize: "var(--type-display)",
                         fontWeight: 500,
@@ -479,7 +505,7 @@ export default function ProjectDetail({
                       }}
                     >
                       {block.Title}
-                    </h2>
+                    </Tag>
                   )}
                   {block.text &&
                     block.text.split("\n\n").map((para, j) => (

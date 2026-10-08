@@ -7,16 +7,17 @@ import Nav from "@/components/Nav";
 import ClosingCta from "@/components/ClosingCta";
 import FadeUp from "@/components/FadeUp";
 import StoryblokProvider from "@/components/StoryblokProvider";
+import { SITE_DESCRIPTION } from "@/lib/seo";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
 export const metadata: Metadata = {
   title: "Ganda — Tony Goff-Yu",
-  description: "Design, branding and digital experience.",
+  description: SITE_DESCRIPTION,
   metadataBase: new URL("https://gandalondon.com"),
   openGraph: {
     title: "Ganda — Tony Goff-Yu",
-    description: "Design, branding and digital experience.",
+    description: SITE_DESCRIPTION,
     url: "https://gandalondon.com",
     siteName: "Ganda",
     locale: "en_GB",
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "Ganda — Tony Goff-Yu",
-    description: "Design, branding and digital experience.",
+    description: SITE_DESCRIPTION,
   },
 };
 

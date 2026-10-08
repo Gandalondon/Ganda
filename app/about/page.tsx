@@ -3,12 +3,14 @@ import WorkGrid from "@/components/WorkGrid";
 import { renderInlineLinks } from "@/lib/inline";
 import ExpertiseList from "@/components/ExpertiseList";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About — Ganda",
   description:
     "Tony Goff-Yu — product design, strategy and digital experience.",
-};
+  path: "/about",
+});
 
 const DEFAULT_BIO =
   "Studio introduction goes here. A short statement describing the studio or individual, the focus of the work and the approach taken.\n\nA second paragraph with more detail — the kinds of clients, sectors or disciplines covered, and the way projects are typically run.\n\nA closing line, for example an invitation to get in touch about new work.";

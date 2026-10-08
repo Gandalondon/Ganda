@@ -2,6 +2,7 @@ import { getStory, getWorkProjects } from "@/lib/storyblok";
 import ProjectDetail from "@/components/ProjectDetail";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -20,13 +21,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       }
     )?.content ?? {};
   const title = content.client ?? content.title ?? slug;
-  return {
+  // Unlisted pages stay reachable at their direct URL but are kept out of
+  // search results.
+  return pageMetadata({
     title: `${title} — Ganda`,
     description: content.summary ?? undefined,
-    // Unlisted pages stay reachable at their direct URL but are kept out of
-    // search results.
-    ...(content.hide_from_work_grid ? { robots: { index: false } } : {}),
-  };
+    path: `/work/${slug}`,
+    noindex: Boolean(content.hide_from_work_grid),
+  });
 }
 
 export default async function WorkPage({ params }: Props) {
