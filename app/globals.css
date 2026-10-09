@@ -29,8 +29,8 @@
   --type-hero: clamp(34px, 3.15vw, 46px);
   /* Project list names */
   --type-list: clamp(26px, 2.7vw, 39px);
-  --type-body: 18px;
-  --type-small: 18px;
+  --type-body: 20px;
+  --type-small: 20px;
 }
 
 *,

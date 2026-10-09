@@ -20,11 +20,12 @@
 main.alt-home {
   --alt-row-pad: 52px; /* project row padding, as .gd-row */
   /* Nav to GANDA: 24px from the bottom of the name's descender (the g in
-     "Designer") to the top of the capitals. The descender hangs 3px above the
-     bottom of the 24px nav row, so the padding under the row is 21px, plus
-     0.0085em (GANDA's size) because the capitals' ink rises that far above
-     the text box. Measured with 3x screenshots at 1920, 1440, 768 and 390. */
-  --alt-top: calc(21px + (100vw - 2 * var(--gd-gutter)) * 0.00239);
+     "Designer") to the top of the capitals. The descender hangs 0.7px above
+     the bottom of the 24px nav row (20px text), so the padding under the row
+     is 23.3px, less the 0.0085em GANDA's capitals rise above their text box
+     (the second term adds it back). Measured with 3x screenshots at 1920,
+     1440, 768 and 390. */
+  --alt-top: calc(23.3px + (100vw - 2 * var(--gd-gutter)) * 0.00239);
 }
 
 /* ---------- Nav label ---------- */
@@ -81,6 +82,13 @@ header a[href="/"]::after {
 @media (max-width: 640px) {
   header a[href="/"]::after {
     content: "Tony Goff-Yu";
+  }
+}
+
+/* On the narrowest phones it is the first name only, so it clears the links. */
+@media (max-width: 359px) {
+  header a[href="/"]::after {
+    content: "Tony";
   }
 }
 
