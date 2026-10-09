@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --gd-gutter: 80px;
+  /* Edge to edge: 24px gutters at every width (alternative layout). */
+  --gd-gutter: 24px;
   /* Nav sits this far from the top of the screen, at the top of the page and
      when it sticks (it never moves). --gd-header-gap is extra space under it,
      so the page content stays where it was. */
-  --gd-header-top: 40px;
-  --gd-header-gap: 40px;
+  --gd-header-top: 24px;
+  --gd-header-gap: 56px;
   --black: #231f20;
   --white: #ffffff;
   --grey-50: #f6f6f6;
@@ -138,7 +139,7 @@ b {
 
 /* Centred content container */
 .gd-container {
-  max-width: 1680px;
+  max-width: none;
   margin: 0 auto;
   padding-left: var(--gd-gutter);
   padding-right: var(--gd-gutter);
@@ -381,9 +382,9 @@ a.gd-row:visited {
 /* Tablet (<1024px) — reduce gutters, stack grids */
 @media (max-width: 1024px) {
   :root {
-    --gd-gutter: 48px;
-    --gd-header-top: 40px;
-    --gd-header-gap: 8px;
+    --gd-gutter: 24px;
+    --gd-header-top: 24px;
+    --gd-header-gap: 24px;
   }
 
   main {
@@ -414,8 +415,8 @@ a.gd-row:visited {
 @media (max-width: 640px) {
   :root {
     --gd-gutter: 24px;
-    --gd-header-top: 32px;
-    --gd-header-gap: 0px;
+    --gd-header-top: 24px;
+    --gd-header-gap: 8px;
   }
 
   main {

@@ -17,25 +17,13 @@
 
 /* Edge to edge: 24px gutters on all four sides at every width, and no cap on
    the content width. The nav is part of the page, so its top spacing and the
-   shared gutter variables are set here for the whole document. */
+   shared gutter variables are set in globals.css; the home page has no gap
+   under the nav, because GANDA sits straight beneath it. */
 :root:has(.alt-home) {
-  --gd-gutter: 24px;
-  --gd-header-top: 24px;
   --gd-header-gap: 0px;
 }
 
-:root:has(.alt-home) .gd-container {
-  max-width: none;
-}
-
-/* The shared footer statement of the current home is replaced by .alt-talk. */
-body:has(.alt-home) .gd-closing-cta {
-  display: none;
-}
-
-/* The site gives every <main> bottom padding for its closing CTA. */
 main.alt-home {
-  padding-bottom: 0 !important;
   --alt-gap: 96px; /* intro to project list */
   --alt-row-pad: 52px; /* project row padding, as .gd-row */
   --alt-top: 24px; /* nav to GANDA */
@@ -162,7 +150,10 @@ main.alt-home .gd-row-tags {
 
 .alt-talk {
   container-type: inline-size;
-  margin-top: 160px;
+  /* Each page's <main> ends with padding-bottom 144 (120 tablet, 96 mobile),
+     so these margins top it up to the site's 176px gap above the closing
+     statement. The footer's own bottom gutter is 24px, like the sides. */
+  margin-top: 32px;
   padding-bottom: 24px;
 }
 
@@ -274,7 +265,7 @@ a.alt-talk-link:visited {
   }
 
   .alt-talk {
-    margin-top: 120px;
+    margin-top: 56px;
   }
 }
 
@@ -306,6 +297,6 @@ a.alt-talk-link:visited {
   }
 
   .alt-talk {
-    margin-top: 96px;
+    margin-top: 80px;
   }
 }

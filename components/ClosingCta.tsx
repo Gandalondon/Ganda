@@ -1,47 +1,22 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import AltTalk from "@/components/alt/AltTalk";
 
-// Site-wide closing CTA, rendered once in the root layout after each page's
-// <main>. Uses the hero's type settings. maxWidth is in em so the break after
-// "interesting" holds at every size; narrow screens wrap naturally. The link
-// mirrors the nav's Book a call link. Spacing lives in globals.css
-// (.gd-closing-cta) so the gap above it stays 176px at every breakpoint,
-// matching the original home page footer.
+// Site-wide closing statement, rendered once in the root layout after each
+// page's <main>: a large "Let's talk" that links to the booking page and types
+// in once as it scrolls into view (components/alt/AltTalk.tsx, styles in
+// app/alt/alt.css). Spacing above it is set in alt.css (.alt-talk).
 export default function ClosingCta() {
   const pathname = usePathname();
 
-  // The Carwow case study hides the nav's Book a call link, so the CTA that
-  // links to the same booking page is hidden there too. The writing page is
-  // not a work page, so it ends with the stories instead of a work pitch.
+  // The Carwow case study hides the nav's Book a call link, so the statement
+  // that links to the same booking page is hidden there too. The writing page
+  // is not a work page, so it ends with the stories instead of a work pitch.
   if (pathname === "/work/carwow" || pathname === "/writing") return null;
 
-  return (
-    // Keyed by path so each page gets a fresh element: the scroll fade in
-    // FadeUp.tsx tracks elements once, and the layout otherwise keeps this
-    // one (already faded in) across client-side navigation.
-    <footer key={pathname} className="gd-container gd-closing-cta">
-      <p
-        style={{
-          maxWidth: "13.3em",
-          fontSize: "var(--type-hero)",
-          lineHeight: 1.2,
-          fontWeight: 500,
-          letterSpacing: "-0.006em",
-          color: "var(--ink)",
-          textWrap: "pretty",
-        }}
-      >
-        Have something interesting to work on?{" "}
-        <a
-          href="https://cal.com/tony-goff-yu-an7khw/intro"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Let’s talk: book a call (opens in new tab)"
-        >
-          Let’s talk.
-        </a>
-      </p>
-    </footer>
-  );
+  // Keyed by path so each page gets a fresh element and the type-in plays
+  // again, rather than the layout keeping one (already revealed) across
+  // client-side navigation.
+  return <AltTalk key={pathname} />;
 }
