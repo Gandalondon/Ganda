@@ -52,33 +52,6 @@ export default function AltHero({
     };
   }, []);
 
-  // Nav label. No logo on load: "Product Design" shows where it would be (set
-  // in CSS, so it is there from the first paint), and once GANDA has scrolled
-  // up past the nav the logo takes its place and stays. This adds the
-  // alt-passed class to <html> when that happens (styles in alt.css) and
-  // removes it when leaving the page.
-  useLayoutEffect(() => {
-    const root = document.documentElement;
-    const word =
-      hero.current?.querySelector<HTMLElement>(".alt-wordmark") ?? null;
-    const header = document.querySelector("header");
-    if (!word || !header) return;
-    const update = () => {
-      const passed =
-        word.getBoundingClientRect().bottom <=
-        header.getBoundingClientRect().bottom;
-      root.classList.toggle("alt-passed", passed);
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      root.classList.remove("alt-passed");
-    };
-  }, []);
-
   return (
     <section ref={hero} className="alt-hero gd-container">
       <h1 className={`alt-wordmark ${fontClass}`}>

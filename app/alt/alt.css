@@ -2,17 +2,12 @@
    that contains .alt-home, so nothing here touches the current home page.
    Spacing is on the 8px system (optical exceptions are commented). */
 
-.alt-home,
-.alt-talk {
-  --alt-ease: cubic-bezier(0.65, 0, 0.35, 1); /* the wipe, shared by GANDA, the nav and the footer */
-}
-
 /* Edge to edge: 24px gutters on all four sides at every width, and no cap on
    the content width. The nav is part of the page, so its top spacing and the
    shared gutter variables are set in globals.css; the home page has no gap
    under the nav, because GANDA sits straight beneath it. */
 :root:has(.alt-home) {
-  --gd-header-gap: 0px;
+  --gd-header-gap: 8px;
 }
 
 main.alt-home {
@@ -23,28 +18,29 @@ main.alt-home {
 
 /* ---------- Nav label ---------- */
 
-/* No logo on load. The label "Tony Goff-Yu · Product Designer" (same size and
-   weight as the nav links, not underlined) sits where the logo would be. Both
-   states are set by CSS alone, so the logo is already hidden in the very first
-   paint (no flash, and no waiting for JavaScript). Once GANDA has scrolled up
-   past the nav, AltHero.tsx adds the alt-passed class and the swap is a mask,
+/* On every page: no logo on load. The label "Tony Goff-Yu · Product Designer"
+   (same size and weight as the nav links, not underlined) sits where the logo
+   would be. Both states are set by CSS alone, so the logo is already hidden in
+   the very first paint (no flash, and no waiting for JavaScript). Once the page
+   has scrolled (on the home page, once GANDA has scrolled up past the nav),
+   Nav.tsx adds the alt-passed class and the swap is a mask,
    not a fade: the label is wiped away left to right and the logo is wiped in
    behind it, the way nickclement.com unmasks its header text (inverted). The
    label is generated text, not in the page: the link keeps its own accessible
    name. The logo keeps its space while hidden, so nothing moves. */
-:root:has(.alt-home) header a[href="/"] {
+header a[href="/"] {
   --alt-mask-ease: cubic-bezier(0.65, 0, 0.35, 1);
   --alt-mask-time: 480ms;
   position: relative;
 }
 
 /* Hidden: clipped from the right, so a reveal wipes in from the left. */
-:root:has(.alt-home) header a[href="/"] img {
+header a[href="/"] img {
   clip-path: inset(0 100% 0 0);
   transition: clip-path var(--alt-mask-time) var(--alt-mask-ease) 140ms;
 }
 
-:root:has(.alt-home) header a[href="/"]::after {
+header a[href="/"]::after {
   content: "Tony Goff-Yu \00b7  Product Designer";
   position: absolute;
   left: 0;
@@ -60,25 +56,25 @@ main.alt-home {
   transition: clip-path var(--alt-mask-time) var(--alt-mask-ease);
 }
 
-:root.alt-passed:has(.alt-home) header a[href="/"] img {
+:root.alt-passed header a[href="/"] img {
   clip-path: inset(0 0 0 0);
 }
 
 /* Leaving: clipped from the left, so the wipe runs the same way as the reveal. */
-:root.alt-passed:has(.alt-home) header a[href="/"]::after {
+:root.alt-passed header a[href="/"]::after {
   clip-path: inset(0 0 0 100%);
 }
 
 /* The nav links sit close on a phone, so the label is the name alone. */
 @media (max-width: 640px) {
-  :root:has(.alt-home) header a[href="/"]::after {
+  header a[href="/"]::after {
     content: "Tony Goff-Yu";
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root:has(.alt-home) header a[href="/"] img,
-  :root:has(.alt-home) header a[href="/"]::after {
+  header a[href="/"] img,
+  header a[href="/"]::after {
     transition: none;
   }
 }
@@ -102,7 +98,7 @@ main.alt-home {
      .gd-row-name) + half the title's 1.15em line. The gap between the intro
      and the list is the hero's own padding, so it is not part of the sum. */
   --alt-fit: calc(
-    var(--gd-header-top) + 32px + var(--gd-header-gap) + 1px +
+    var(--gd-header-top) + 24px + var(--gd-header-gap) + 1px +
       var(--alt-row-pad) + 6.6px + 0.359 * var(--type-list)
   );
   min-height: calc(100vh - var(--alt-fit));
@@ -206,40 +202,6 @@ a.alt-talk-link:visited {
   bottom: 0.075em;
   height: max(3px, 0.04em);
   background: currentColor;
-}
-
-/* ---------- Mask reveals ---------- */
-
-/* GANDA and the closing statement are unmasked with a left to right wipe, the
-   same motion the nav swap uses (after nickclement.com). The clip is padded by
-   0.1em so the round letters' overshoot is never cut. GANDA plays once on load
-   from the CSS alone, so there is no flash and no wait for JavaScript. The
-   closing statement is marked "pending" by JavaScript before first paint and
-   "in" when it scrolls into view; the underline under "talk" sits inside the
-   mask, so it is wiped in with the letters. Neither is applied under reduced
-   motion, so the full text is simply there. */
-@keyframes alt-mask-in {
-  from {
-    clip-path: inset(-0.1em 100% -0.1em -0.1em);
-  }
-  to {
-    clip-path: inset(-0.1em -0.1em -0.1em -0.1em);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .alt-wordmark {
-    animation: alt-mask-in 1000ms var(--alt-ease) 100ms both;
-  }
-
-  [data-reveal="pending"] .alt-talk-text {
-    clip-path: inset(-0.1em 100% -0.1em -0.1em);
-  }
-
-  [data-reveal="in"] .alt-talk-text {
-    clip-path: inset(-0.1em -0.1em -0.1em -0.1em);
-    transition: clip-path 1000ms var(--alt-ease);
-  }
 }
 
 /* ---------- Breakpoints (match globals.css) ---------- */

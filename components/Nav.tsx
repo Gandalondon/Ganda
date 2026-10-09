@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useLayoutEffect } from "react";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -10,10 +11,40 @@ export default function Nav() {
   // Carwow case study: hide the global Book-a-call link on this page
   // only (About stays).
   const isCarwow = pathname === "/work/carwow";
+  // Name to logo swap (the styles are in app/alt/alt.css). The name shows at
+  // the top left on every page, and the logo takes its place once the page has
+  // scrolled: on the home page when GANDA has gone up past the nav, elsewhere
+  // after 64px. Sets the alt-passed class on <html>; removed on leaving.
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    const header = document.querySelector("header");
+    if (!header) return;
+    const update = () => {
+      const word = document.querySelector<HTMLElement>(".alt-wordmark");
+      const passed = word
+        ? word.getBoundingClientRect().bottom <=
+          header.getBoundingClientRect().bottom
+        : window.scrollY > 64;
+      root.classList.toggle("alt-passed", passed);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      root.classList.remove("alt-passed");
+    };
+  }, [pathname]);
+
   const linkStyle = {
     fontSize: "var(--type-small)",
     color: "var(--ink)",
     fontWeight: 400,
+    // Same height as the 24px logo, so the two centre on one line and the
+    // header is 24px tall under its padding.
+    lineHeight: "24px",
+    display: "block",
   };
 
   return (
@@ -44,8 +75,8 @@ export default function Nav() {
         <Image
           src="/logo-mark.svg"
           alt="Ganda"
-          width={32}
-          height={32}
+          width={24}
+          height={24}
           priority
         />
       </Link>

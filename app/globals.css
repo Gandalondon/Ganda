@@ -7,7 +7,7 @@
      when it sticks (it never moves). --gd-header-gap is extra space under it,
      so the page content stays where it was. */
   --gd-header-top: 24px;
-  --gd-header-gap: 56px;
+  --gd-header-gap: 64px;
   --black: #231f20;
   --white: #ffffff;
   --grey-50: #f6f6f6;
@@ -30,7 +30,7 @@
   /* Project list names */
   --type-list: clamp(26px, 2.7vw, 39px);
   --type-body: 18px;
-  --type-small: 16px;
+  --type-small: 18px;
 }
 
 *,
@@ -391,7 +391,7 @@ a.gd-row:visited {
   :root {
     --gd-gutter: 24px;
     --gd-header-top: 24px;
-    --gd-header-gap: 24px;
+    --gd-header-gap: 32px;
   }
 
   main {
@@ -423,7 +423,7 @@ a.gd-row:visited {
   :root {
     --gd-gutter: 24px;
     --gd-header-top: 24px;
-    --gd-header-gap: 8px;
+    --gd-header-gap: 16px;
   }
 
   main {
