@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import WorkGrid from "@/components/WorkGrid";
-import AltHero from "@/components/alt/AltHero";
+import "./alt/hb.css";
+import HbStage from "@/components/alt/HbStage";
 import { altDisplay } from "@/app/alt/fonts";
 import { HOME_JSON_LD } from "@/lib/seo";
 import { getWorkProjects } from "@/lib/storyblok";
@@ -22,10 +23,12 @@ export default async function HomePage() {
           __html: JSON.stringify(HOME_JSON_LD).replace(/</g, "\\u003c"),
         }}
       />
-      <main id="main" className="alt-home">
-        <AltHero fontClass={altDisplay.className} intro={INTRO} />
-        <div className="gd-container">
-          <WorkGrid projects={projects} />
+      <main id="main" className="hb-home">
+        <HbStage fontClass={altDisplay.className} intro={INTRO} />
+        <div className="hb-work">
+          <div className="gd-container">
+            <WorkGrid projects={projects} />
+          </div>
         </div>
       </main>
     </>

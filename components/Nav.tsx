@@ -13,28 +13,93 @@ export default function Nav() {
   const isCarwow = pathname === "/work/carwow";
 
   // Name to logo swap (the styles are in app/alt/alt.css). The name shows at
-  // the top left on every page, and the logo takes its place once the page has
-  // scrolled: on the home page when GANDA has gone up past the nav, elsewhere
-  // after 64px. Sets the alt-passed class on <html>; removed on leaving.
+  // the top left on every page and the logo takes its place as the page
+  // scrolls, as two masks that run one after the other, never together:
+  //
+  //   --nav-n  0 to 1: the name is masked away from the bottom upwards.
+  //   --nav-l  0 to 1: starts when --nav-n has finished; the logo is revealed
+  //            from the bottom upwards.
+  //
+  // Both come from the live scroll position, so scrolling back up runs it
+  // backwards. On the home page the position is where the work section is on
+  // top of GANDA (the name goes as the letters are covered, then the logo);
+  // on every other page it is the distance scrolled: 128px for the name, then
+  // 96px for the logo (both scaled up with the page above 1728px wide, as
+  // --u in globals.css). Reduced motion: no in-between, one step. The class
+  // nav-logo is on <html> once the logo has started, so the keyboard focus
+  // ring and the screen reader label follow whichever is showing. Everything
+  // is removed on leaving the page.
   useLayoutEffect(() => {
     const root = document.documentElement;
     const header = document.querySelector("header");
     if (!header) return;
+    const word = document.querySelector<HTMLElement>(".hb-wordmark");
+    const work = document.querySelector<HTMLElement>(".hb-work");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const round = (v: number) => Math.round(v * 1000) / 1000;
+    const clamp = (v: number) => Math.min(1, Math.max(0, v));
+
     const update = () => {
-      const word = document.querySelector<HTMLElement>(".alt-wordmark");
-      const passed = word
-        ? word.getBoundingClientRect().bottom <=
-          header.getBoundingClientRect().bottom
-        : window.scrollY > 64;
-      root.classList.toggle("alt-passed", passed);
+      const scale = Math.min(2, Math.max(1, window.innerWidth / 1728));
+      const ramp = 96 * scale;
+      let n: number;
+      let l: number;
+      if (word && work) {
+        const w = word.getBoundingClientRect();
+        if (reduce.matches) {
+          const gone = w.bottom <= header.getBoundingClientRect().bottom;
+          n = gone ? 1 : 0;
+          l = n;
+        } else {
+          // The letters' ink, not the text box: the round G rises about
+          // 0.022em above the box (and sinks 0.004em below it), so "covered"
+          // is counted between those and the word is completely covered, with
+          // no sliver left, exactly when n reaches 1.
+          const fs = parseFloat(getComputedStyle(word).fontSize);
+          const inkBottom = w.bottom + 0.004 * fs;
+          const ink = w.height + 0.026 * fs;
+          const covered = inkBottom - work.getBoundingClientRect().top;
+          n = clamp(covered / ink);
+          l = clamp((covered - ink) / ramp);
+        }
+      } else {
+        const y = window.scrollY;
+        if (reduce.matches) {
+          n = y > 64 ? 1 : 0;
+          l = n;
+        } else {
+          const dist = 128 * scale;
+          n = clamp(y / dist);
+          l = clamp((y - dist) / ramp);
+        }
+      }
+      root.style.setProperty("--nav-n", String(round(n)));
+      root.style.setProperty("--nav-l", String(round(l)));
+      root.classList.toggle("nav-logo", l > 0);
     };
+
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        update();
+      });
+    };
+
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    reduce.addEventListener("change", onScroll);
+    document.fonts?.ready.then(onScroll);
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      root.classList.remove("alt-passed");
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      reduce.removeEventListener("change", onScroll);
+      root.style.removeProperty("--nav-n");
+      root.style.removeProperty("--nav-l");
+      root.classList.remove("nav-logo");
     };
   }, [pathname]);
 

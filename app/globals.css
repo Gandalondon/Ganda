@@ -352,11 +352,17 @@ a.gd-row:visited {
   padding-bottom: calc(144 * var(--u));
 }
 
-/* Reading width: body text wraps at 816px (the same cap the case study
-   intro uses), so on wide screens it stops short of the right edge instead
-   of running the full width of its column. */
+/* Reading width. One wrap point for the site's intro paragraphs: the home
+   page intro and the About text stop at the same width, which is the width of
+   the line "...experimentation." in the intro copy (about 35.9 body-text ems,
+   plus a little room, 36.3em). It is in ems of the paragraph's own text, so
+   it scales with the type. Descriptions in the work list are not capped. */
+:root {
+  --wrap: 36.3em;
+}
+
 .gd-split p {
-  max-width: calc(816 * var(--u));
+  max-width: var(--wrap);
 }
 
 .gd-split {

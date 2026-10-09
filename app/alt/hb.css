@@ -1,17 +1,15 @@
-/* Alternative home B (/hero-b). Every rule is scoped to .hb-* classes or to a
-   page that contains .hb-home (:has), so nothing here touches the home page
-   at "/", the shared nav on any other page, or any other route. Spacing is on
-   the --u scale from globals.css (1px up to 1728px wide). */
+/* The home page: the introduction near the top, GANDA at the foot of the
+   opening screen, and the work rising over it. Every rule is scoped to .hb-*
+   classes or to a page that contains .hb-home (:has), so nothing here touches
+   any other page. (The nav's scroll masks and the closing statement's reveal
+   are site-wide, in alt.css.) Spacing is on the --u scale from globals.css
+   (1px up to 1728px wide). */
 
 /* ---------- Page ---------- */
 
 :root:has(.hb-home) {
   /* The nav row has 24 under it here, as on the home page. */
   --gd-header-gap: calc(24 * var(--u));
-  /* Scroll-driven nav state, set by components/alt/HbStage.tsx. Without
-     JavaScript they stay at 0: the name shows, the logo is hidden. */
-  --hb-n: 0;
-  --hb-l: 0;
 }
 
 main.hb-home {
@@ -38,7 +36,7 @@ main.hb-home {
   display: flex;
   flex-direction: column;
   gap: calc(48 * var(--u)); /* the least space between the intro and GANDA */
-  padding-top: calc(var(--hb-header) + 24 * var(--u));
+  padding-top: calc(var(--hb-header) + 40 * var(--u));
   padding-bottom: calc(48 * var(--u)); /* GANDA to the top of the work */
 
   /* Distance from the top of the work section to the middle of the first
@@ -68,6 +66,7 @@ main.hb-home {
 
 .hb-intro {
   grid-column: 7 / 13;
+  max-width: var(--wrap); /* the site's wrap point (globals.css) */
   font-size: var(--type-body);
   line-height: 1.45;
   font-weight: 300;
@@ -115,46 +114,6 @@ main.hb-home {
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
-}
-
-/* ---------- Nav: vertical masks, driven by scroll ---------- */
-
-/* The name is masked away from the bottom upwards as the work covers GANDA
-   (--hb-n, 0 to 1). When GANDA has gone, the logo is revealed from the top
-   down (--hb-l, 0 to 1). The two never show together: --hb-l is 0 until
-   --hb-n is 1. Same selectors as alt.css with more weight (html, :has), and no
-   transitions: the scroll position is the animation. The nav's size and the
-   links on the right are untouched. */
-html:root:has(.hb-home) header a[href="/"] img {
-  clip-path: inset(0 0 calc((1 - var(--hb-l)) * 100%) 0);
-  transition: none;
-}
-
-html:root:has(.hb-home) header a[href="/"]::after {
-  /* 6px of padding top, bottom and sides (the focus ring), kept at both ends:
-     fully hidden is a zero-height slice. */
-  clip-path: inset(
-    -6px -6px calc(-6px + var(--hb-n) * (100% + 12px)) -6px
-  );
-  transition: none;
-}
-
-/* Keyboard focus follows whichever is showing: the ring goes round the name,
-   and round the logo once it has started to appear. */
-html:root:has(.hb-home):not(.hb-logo) header a[href="/"]:focus-visible {
-  outline: none;
-}
-
-html:root:has(.hb-home):not(.hb-logo) header a[href="/"]:focus-visible::after {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-html:root:has(.hb-home).hb-logo header a[href="/"]:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
-  border-radius: 2px;
 }
 
 /* ---------- Breakpoints (match globals.css) ---------- */
