@@ -62,14 +62,15 @@ h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
 .ocard{position:relative;display:block;aspect-ratio:4 / 5;overflow:clip;color:#FBF9F1;text-decoration:none}
 .ocard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.001);transition:filter .5s ease,transform .5s ease}
 .ocard:hover img,.ocard:focus-visible img{filter:blur(10px);transform:scale(1.04)}
-.ocap{position:sticky;top:0;z-index:1;display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:24px;padding:280px 24px 24px;font-size:16px;line-height:1.3;text-shadow:0 0 16px rgba(0,0,0,.25)}
+.ocard::before{content:"";position:absolute;inset:0 0 auto 0;height:33%;z-index:1;background:linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,0));pointer-events:none}
+.ocap{position:absolute;top:0;left:0;right:0;z-index:2;display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:24px;padding:24px;font-size:16px;line-height:1.3;text-shadow:0 0 16px rgba(0,0,0,.25)}
 .ocat{text-transform:uppercase;letter-spacing:.02em}
-@media (max-width: 720px){.ogrid{grid-template-columns:1fr}.ocap{padding:24px}}
+@media (max-width: 720px){.ogrid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion: reduce){.ocard img{transition:none}}
 /* Floating navigation: fixed to the top of the window, no background */
 .hbar{position:fixed !important;top:0;left:0;right:0;padding:24px;box-sizing:border-box}
 .htop{padding-top:32px}
-@media (max-width: 720px){.hbar{padding:16px 24px}.htop{display:block !important;padding-top:56px}}
+@media (max-width: 720px){.hbar{position:absolute !important;padding:16px 24px}.htop{display:block !important;padding-top:56px}.mbtn{position:fixed;top:16px;right:24px;z-index:30}}
 /* Two-column content: title left, content right, aligned to the work grid */
 .split{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:24px;align-items:start}
 .split > :nth-child(2){max-width:520px}
