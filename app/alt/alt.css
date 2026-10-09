@@ -4,14 +4,7 @@
 
 .alt-home,
 .alt-talk {
-  /* Closing statement typewriter: each letter appears at once, --alt-step
-     after the one before ("Let's talk": 9 letters, 8 steps of 40ms, 320ms). */
-  --alt-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --alt-step: 70ms;
-}
-
-.alt-talk {
-  --alt-step: 40ms;
+  --alt-ease: cubic-bezier(0.65, 0, 0.35, 1); /* the wipe, shared by GANDA, the nav and the footer */
 }
 
 /* Edge to edge: 24px gutters on all four sides at every width, and no cap on
@@ -213,46 +206,18 @@ a.alt-talk-link:visited {
   bottom: 0.075em;
   height: max(3px, 0.04em);
   background: currentColor;
-  transform-origin: left center;
 }
 
-/* ---------- Letter reveal ---------- */
+/* ---------- Mask reveals ---------- */
 
-.alt-w {
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.alt-l {
-  display: inline-block;
-}
-
-/* Closing statement: JavaScript marks it "pending"
-   before first paint and "in" when it scrolls into view. Never applied under
-   reduced motion, so the full text is simply there. */
-@keyframes alt-letter-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes alt-line-in {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* GANDA is unmasked rather than typed: a left to right wipe, the same motion
-   the nav swap uses (after nickclement.com). The clip is padded by 0.1em so
-   the round letters' overshoot is never cut. It plays once on load from the
-   CSS alone, so there is no flash and no wait for JavaScript, and it is not
-   applied under reduced motion. */
+/* GANDA and the closing statement are unmasked with a left to right wipe, the
+   same motion the nav swap uses (after nickclement.com). The clip is padded by
+   0.1em so the round letters' overshoot is never cut. GANDA plays once on load
+   from the CSS alone, so there is no flash and no wait for JavaScript. The
+   closing statement is marked "pending" by JavaScript before first paint and
+   "in" when it scrolls into view; the underline under "talk" sits inside the
+   mask, so it is wiped in with the letters. Neither is applied under reduced
+   motion, so the full text is simply there. */
 @keyframes alt-mask-in {
   from {
     clip-path: inset(-0.1em 100% -0.1em -0.1em);
@@ -264,26 +229,16 @@ a.alt-talk-link:visited {
 
 @media (prefers-reduced-motion: no-preference) {
   .alt-wordmark {
-    animation: alt-mask-in 1000ms cubic-bezier(0.65, 0, 0.35, 1) 100ms both;
+    animation: alt-mask-in 1000ms var(--alt-ease) 100ms both;
   }
 
-  [data-reveal="in"] .alt-l {
-    animation: alt-letter-in 1ms steps(1, end) both;
-    animation-delay: calc(var(--i) * var(--alt-step));
+  [data-reveal="pending"] .alt-talk-text {
+    clip-path: inset(-0.1em 100% -0.1em -0.1em);
   }
 
-  /* The underline draws left to right while "talk" is typed. */
-  [data-reveal="in"] .alt-talk-u::after {
-    animation: alt-line-in calc(4 * var(--alt-step)) linear both;
-    animation-delay: calc(6 * var(--alt-step));
-  }
-
-  [data-reveal="pending"] .alt-l {
-    opacity: 0;
-  }
-
-  [data-reveal="pending"] .alt-talk-u::after {
-    transform: scaleX(0);
+  [data-reveal="in"] .alt-talk-text {
+    clip-path: inset(-0.1em -0.1em -0.1em -0.1em);
+    transition: clip-path 1000ms var(--alt-ease);
   }
 }
 

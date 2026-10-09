@@ -1,13 +1,12 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
-import Letters from "@/components/alt/Letters";
 
 const BOOKING_URL = "https://cal.com/tony-goff-yu-an7khw/intro";
 
 // Closing statement for the alternative home (/alt). Visible by default, so it
 // is complete with JavaScript off. With JavaScript and motion allowed it is
-// hidden just before first paint and revealed letter by letter, once, when it
+// hidden just before first paint and unmasked with a left to right wipe, once, when it
 // first scrolls into view. Reduced motion never hides it.
 export default function AltTalk() {
   const footer = useRef<HTMLElement>(null);
@@ -46,9 +45,8 @@ export default function AltTalk() {
         <span className="sr-only">
           Let’s talk: book a call (opens in new tab)
         </span>
-        <Letters text="Let’s" />{" "}
-        <span className="alt-talk-u">
-          <Letters text="talk" start={6} />
+        <span className="alt-talk-text" aria-hidden="true">
+          Let’s <span className="alt-talk-u">talk</span>
         </span>
       </a>
     </footer>
