@@ -233,7 +233,7 @@ header a[href="/"]::after {
 .alt-intro {
   grid-column: 2;
   max-width: 30em;
-  font-size: clamp(22px, 1.9vw, 54.72px);
+  font-size: calc(22 * var(--u)); /* 22px up to 1728px wide, then scales with the page */
   line-height: 1.25;
   font-weight: 300;
   letter-spacing: -0.006em;

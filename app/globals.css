@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  /* Scale unit. 1px up to a 1440px-wide window, then it grows with the window
-     width to 2px at 2880px and stays there. Every desktop size and space below
-     is N * var(--u), so past 1440px the whole page (type, gaps, padding)
+  /* Scale unit. 1px up to a 1728px-wide window (a 15in or 16in MacBook at its
+     default setting), then it grows with the window width to 2px at 3456px and
+     stays there. Every desktop size and space below
+     is N * var(--u), so past 1728px the whole page (type, gaps, padding)
      scales up together instead of sitting in the middle of a bigger screen.
-     At 1440px and below it is exactly 1px, so nothing there changes. The
+     At 1728px and below it is exactly 1px, so nothing there changes. The
      tablet and phone rules further down use plain px (the unit is 1px there). */
-  --u: clamp(1px, 0.069444vw, 2px);
+  --u: clamp(1px, 0.05787vw, 2px);
   /* Edge to edge: 24px gutters at every width (alternative layout). */
   --gd-gutter: calc(24 * var(--u));
   /* Nav sits this far from the top of the screen, at the top of the page and
@@ -31,11 +32,11 @@
   --border: #e2e2e2;
 
   /* Type scale */
-  --type-display: clamp(28px, 2.6vw, 74.88px);
+  --type-display: clamp(28px, 2.6vw, calc(38 * var(--u)));
   /* Home intro and closing CTA (feat/project-list trial) */
-  --type-hero: clamp(34px, 3.15vw, 90.72px);
+  --type-hero: clamp(34px, 3.15vw, calc(46 * var(--u)));
   /* Project list names */
-  --type-list: clamp(26px, 2.7vw, 77.76px);
+  --type-list: clamp(26px, 2.7vw, calc(39 * var(--u)));
   --type-body: calc(20 * var(--u));
   --type-small: calc(20 * var(--u));
   /* Tags are metadata: smaller than the body, at weight 600 (alt.css). 16px
@@ -239,7 +240,7 @@ b {
   margin: 0;
   color: #fff;
   font-weight: 500;
-  font-size: clamp(22px, 2.2vw, 63.36px);
+  font-size: clamp(22px, 2.2vw, calc(32 * var(--u)));
   line-height: 1.15;
   letter-spacing: -0.006em;
 }

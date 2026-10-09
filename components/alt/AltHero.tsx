@@ -41,7 +41,7 @@ export default function AltHero({
       el.style.setProperty("--alt-fit", `${Math.round(fit * 10) / 10}px`);
 
       // The tallest the hero may be: its own padding, GANDA, the intro and at
-      // most --alt-gap-max (256px, 240px on a phone, scaled above 1440px wide) between them. Past that
+      // most --alt-gap-max (256px, 240px on a phone, scaled above 1728px wide) between them. Past that
       // the hero stops following the window height, so a tall window, a
       // zoomed-out page or a big monitor shows more of the list instead of a
       // wider gap. Built from the children's own sizes, so nothing is changed
@@ -50,10 +50,10 @@ export default function AltHero({
       const row = el.querySelector<HTMLElement>(".alt-intro-row");
       if (wordEl && row) {
         const cs = getComputedStyle(el);
-        // 256px (240px on a phone) at 1440px wide and below, growing with the
+        // 256px (240px on a phone) at 1728px wide and below, growing with the
         // page above that: the same scale as --u in globals.css, which CSS
         // cannot hand back to a script as a number.
-        const scale = Math.min(2, Math.max(1, window.innerWidth / 1440));
+        const scale = Math.min(2, Math.max(1, window.innerWidth / 1728));
         const cap = (window.matchMedia("(max-width: 640px)").matches ? 240 : 256) * scale;
         const max =
           parseFloat(cs.paddingTop) +
