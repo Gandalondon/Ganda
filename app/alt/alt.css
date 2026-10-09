@@ -4,8 +4,9 @@
 
 /* Edge to edge: 24px gutters on all four sides at every width, and no cap on
    the content width. The nav is part of the page, so its top spacing and the
-   shared gutter variables are set in globals.css; the home page has no gap
-   under the nav, because GANDA sits straight beneath it. */
+   shared gutter variables are set in globals.css. On the home page the nav
+   gets 24px under it (the same as above it), and GANDA's own padding adds the
+   rest of the gap below. */
 :root {
   /* The gap between the intro and the project list on the home page, and
      under the closing statement on every page: the same distance at the top
@@ -14,18 +15,53 @@
 }
 
 :root:has(.alt-home) {
-  --gd-header-gap: 0px;
+  --gd-header-gap: 24px;
 }
 
 main.alt-home {
   --alt-row-pad: 52px; /* project row padding, as .gd-row */
-  /* Nav to GANDA: 24px from the bottom of the name's descender (the g in
-     "Designer") to the top of the capitals. The descender hangs 0.7px above
-     the bottom of the 24px nav row (20px text), so the padding under the row
-     is 23.3px, less the 0.0085em GANDA's capitals rise above their text box
-     (the second term adds it back). Measured with 3x screenshots at 1920,
-     1440, 768 and 390. */
+  /* Nav to GANDA: 48px from the bottom of the name's descender (the g in
+     "Designer") to the top of the capitals. The nav row has 24px under it
+     (--gd-header-gap above) and the descender hangs 0.7px above the bottom of
+     the 24px row (20px text), so the padding under the nav is 23.3px, less the
+     0.0085em GANDA's capitals rise above their text box (the second term adds
+     it back). Measured with 3x screenshots at 1920, 1440, 768 and 390. */
   --alt-top: calc(23.3px + (100vw - 2 * var(--gd-gutter)) * 0.00239);
+}
+
+/* ---------- Nav background ---------- */
+
+/* A solid white band behind the sticky nav: 24px above the row, the row, and
+   24px below it, so the page scrolls away under a clean edge. It is a
+   pseudo-element, not the header's own background, because on most pages the
+   header also carries a spacer (--gd-header-gap) that must stay see-through.
+   It sits behind the nav's text (z-index -1 inside the header's own stacking
+   context) and takes clicks, so nothing hidden under it can be pressed. The
+   dark writing page swaps the colour. */
+:root {
+  --alt-nav-bg: #ffffff;
+}
+
+body:has(.gd-writing-page) {
+  --alt-nav-bg: #231f20;
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+  height: calc(var(--gd-header-top) + 48px);
+  background: var(--alt-nav-bg);
+  pointer-events: auto;
+}
+
+/* The nav links (About, Book a call, Folio) are not underlined; only the nav
+   is changed, links elsewhere keep theirs. */
+header nav a {
+  text-decoration: none;
 }
 
 /* ---------- Nav label ---------- */
@@ -36,7 +72,7 @@ main.alt-home {
    hidden in the very first paint (no flash, and no waiting for JavaScript).
    Once the page has scrolled (on the home page, once GANDA has scrolled up past
    the nav), Nav.tsx adds the alt-passed class and the swap is a mask, not a
-   fade, after nickclement.com: the name is swiped off to the left (its end,
+   fade, after nickclement.com: the name (a link home, like the logo) is swiped off to the left (its end,
    "Product Designer", goes first) and the logo is wiped in from the left
    behind it. Scrolling back up reverses both. The label is generated text, not
    in the page: the link keeps its own accessible name. The logo keeps its
@@ -65,7 +101,9 @@ header a[href="/"]::after {
   line-height: 1.3;
   color: var(--ink);
   clip-path: inset(0 0 0 0);
-  pointer-events: none;
+  /* Part of the home link: the name is clickable, like the logo. Where the mask
+     has hidden it, it takes no clicks. */
+  pointer-events: auto;
   transition: clip-path var(--alt-mask-time) var(--alt-mask-ease);
 }
 

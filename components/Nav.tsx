@@ -58,9 +58,10 @@ export default function Nav() {
         paddingBottom: "var(--gd-header-gap)",
         // Sticky header. It sits at the same distance from the top of the
         // screen at rest and when stuck (--gd-header-top), so it never
-        // moves. No background for now (set one here to try white). The
-        // header itself ignores clicks so the empty strip between the logo
-        // and the links never blocks the content underneath.
+        // moves. The white band behind it is header::before in alt.css (not
+        // a background here, so the spacer under the nav stays see-through).
+        // The header itself ignores clicks so the empty strip between the
+        // logo and the links never blocks the content underneath.
         position: "sticky",
         top: 0,
         zIndex: 50,
