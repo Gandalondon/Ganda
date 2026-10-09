@@ -150,6 +150,14 @@ html.alt-nav.alt-top header a[href="/"]::after {
   text-wrap: pretty;
 }
 
+/* ---------- Project list ---------- */
+
+/* Tags ("Product design · Site design") at weight 500, the same as the project
+   names, instead of the list's usual 400. Only on this page. */
+main.alt-home .gd-row-tags {
+  font-weight: 500;
+}
+
 /* ---------- Closing statement ---------- */
 
 .alt-talk {
@@ -159,12 +167,12 @@ html.alt-nav.alt-top header a[href="/"]::after {
 }
 
 /* "Let's talk": weight 500, the same as the project names (.gd-row-name), at
-   about two thirds of GANDA's size. --alt-talk-ratio sets the size as a share
+   about half of GANDA's size. --alt-talk-ratio sets the size as a share
    of the content width (font-size = width / ratio), so it scales with GANDA.
    --alt-talk-lsb is the L's left side bearing in em, pulled back so the stem
    meets the margin. */
 .alt-talk-link {
-  --alt-talk-ratio: 5.4;
+  --alt-talk-ratio: 6.4;
   --alt-talk-lsb: 0.062;
   --alt-u-lsb: 0.031;
   --alt-u-rsb: -0.009;
