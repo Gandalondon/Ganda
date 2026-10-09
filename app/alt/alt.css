@@ -236,7 +236,7 @@ header a[href="/"]::after {
      project descriptions below it. Same size as them (--type-body: 20px, 19px on
      a phone, scaled on big screens). */
   font-size: var(--type-body);
-  line-height: 1.25;
+  line-height: 1.45; /* as .gd-row-text */
   font-weight: 300;
   letter-spacing: -0.006em;
   color: var(--ink);
