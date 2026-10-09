@@ -53,11 +53,11 @@ export default function AltHero({
     };
   }, []);
 
-  // Nav label. No logo on load: "Product Design" shows where it would be, and
-  // once GANDA has scrolled up past the nav the logo takes its place and stays.
-  // The CSS is in alt.css, keyed to two classes on <html>: alt-nav (this page,
-  // JavaScript on) and alt-top (GANDA still under or below the nav). Both are
-  // removed when leaving the page.
+  // Nav label. No logo on load: "Product Design" shows where it would be (set
+  // in CSS, so it is there from the first paint), and once GANDA has scrolled
+  // up past the nav the logo takes its place and stays. This adds the
+  // alt-passed class to <html> when that happens (styles in alt.css) and
+  // removes it when leaving the page.
   useLayoutEffect(() => {
     const root = document.documentElement;
     const word =
@@ -68,16 +68,15 @@ export default function AltHero({
       const passed =
         word.getBoundingClientRect().bottom <=
         header.getBoundingClientRect().bottom;
-      root.classList.toggle("alt-top", !passed);
+      root.classList.toggle("alt-passed", passed);
     };
-    root.classList.add("alt-nav");
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     return () => {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
-      root.classList.remove("alt-nav", "alt-top");
+      root.classList.remove("alt-passed");
     };
   }, []);
 

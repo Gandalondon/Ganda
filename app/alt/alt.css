@@ -32,20 +32,23 @@ main.alt-home {
 /* ---------- Nav label ---------- */
 
 /* No logo on load. The label "Product Design" (same size and weight as the nav
-   links, not underlined) sits where the logo would be. Once GANDA has
-   scrolled up past the nav, AltHero.tsx drops the alt-top class and the logo
-   takes the label's place and stays there, as the nav is sticky. The label is
-   generated text, not in the page: the link keeps its own accessible name. The
-   logo keeps its space while hidden, so nothing moves. */
-html.alt-nav header a[href="/"] {
+   links, not underlined) sits where the logo would be. Both are set by CSS
+   alone, so the logo is already hidden in the very first paint (no flash, and
+   no waiting for JavaScript). Once GANDA has scrolled up past the nav,
+   AltHero.tsx adds the alt-passed class: the logo takes the label's place and
+   stays there, as the nav is sticky. The label is generated text, not in the
+   page: the link keeps its own accessible name. The logo keeps its space while
+   hidden, so nothing moves. */
+:root:has(.alt-home) header a[href="/"] {
   position: relative;
 }
 
-html.alt-nav header a[href="/"] img {
+:root:has(.alt-home) header a[href="/"] img {
+  opacity: 0;
   transition: opacity 150ms ease;
 }
 
-html.alt-nav header a[href="/"]::after {
+:root:has(.alt-home) header a[href="/"]::after {
   content: "Product Design";
   position: absolute;
   left: 0;
@@ -56,22 +59,22 @@ html.alt-nav header a[href="/"]::after {
   font-weight: 400;
   line-height: 1.3;
   color: var(--ink);
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
   transition: opacity 150ms ease;
 }
 
-html.alt-nav.alt-top header a[href="/"] img {
-  opacity: 0;
-}
-
-html.alt-nav.alt-top header a[href="/"]::after {
+:root.alt-passed:has(.alt-home) header a[href="/"] img {
   opacity: 1;
 }
 
+:root.alt-passed:has(.alt-home) header a[href="/"]::after {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html.alt-nav header a[href="/"] img,
-  html.alt-nav header a[href="/"]::after {
+  :root:has(.alt-home) header a[href="/"] img,
+  :root:has(.alt-home) header a[href="/"]::after {
     transition: none;
   }
 }
@@ -152,9 +155,9 @@ main.alt-home .gd-row-tags {
   container-type: inline-size;
   /* Each page's <main> ends with padding-bottom 144 (120 tablet, 96 mobile),
      so these margins top it up to the site's 176px gap above the closing
-     statement. The footer's own bottom gutter is 24px, like the sides. */
+     statement. The footer's own bottom padding gives it room to breathe. */
   margin-top: 32px;
-  padding-bottom: 24px;
+  padding-bottom: 96px;
 }
 
 /* "Let's talk": weight 500, the same as the project names (.gd-row-name), at
@@ -266,6 +269,7 @@ a.alt-talk-link:visited {
 
   .alt-talk {
     margin-top: 56px;
+    padding-bottom: 72px;
   }
 }
 
@@ -298,5 +302,6 @@ a.alt-talk-link:visited {
 
   .alt-talk {
     margin-top: 80px;
+    padding-bottom: 56px;
   }
 }
