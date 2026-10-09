@@ -16,10 +16,6 @@ import Letters from "@/components/alt/Letters";
 // browser bars show or hide (svh is the small viewport, bars showing). The CSS
 // in alt.css carries a close estimate of --alt-fit so that the first paint,
 // and a browser with JavaScript off, are already almost exact.
-// Scroll distance (px) at which the nav's "Product Design" label gives way to
-// the logo. Keep in step with NAV_BOOT in app/alt/page.tsx.
-const NAV_SWAP_AT = 24;
-
 export default function AltHero({
   fontClass,
   intro,
@@ -57,19 +53,30 @@ export default function AltHero({
     };
   }, []);
 
-  // Nav label. The logo is hidden at the top of the page and a text label
-  // ("Product Design") shows in its place; scrolling swaps them. The CSS is in
-  // alt.css, keyed to two classes on <html>: alt-nav (this page, JavaScript on)
-  // and alt-top (not yet scrolled). Both are removed when leaving the page.
+  // Nav label. No logo on load: "Product Design" shows where it would be, and
+  // once GANDA has scrolled up past the nav the logo takes its place and stays.
+  // The CSS is in alt.css, keyed to two classes on <html>: alt-nav (this page,
+  // JavaScript on) and alt-top (GANDA still under or below the nav). Both are
+  // removed when leaving the page.
   useLayoutEffect(() => {
     const root = document.documentElement;
-    const update = () =>
-      root.classList.toggle("alt-top", window.scrollY <= NAV_SWAP_AT);
+    const word =
+      hero.current?.querySelector<HTMLElement>(".alt-wordmark") ?? null;
+    const header = document.querySelector("header");
+    if (!word || !header) return;
+    const update = () => {
+      const passed =
+        word.getBoundingClientRect().bottom <=
+        header.getBoundingClientRect().bottom;
+      root.classList.toggle("alt-top", !passed);
+    };
     root.classList.add("alt-nav");
     update();
     window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
     return () => {
       window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
       root.classList.remove("alt-nav", "alt-top");
     };
   }, []);

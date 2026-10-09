@@ -4,16 +4,28 @@
 
 .alt-home,
 .alt-talk {
-  /* Letter reveal: a letter takes --alt-dur, each starts --alt-step after the
-     one before. GANDA (5 letters) lands in 4 x 50 + 130 = 330ms; "Let's talk"
-     (9 letters, 8 steps of 32ms) in about 390ms. */
+  /* Typewriter reveal: each letter appears at once, --alt-step after the one
+     before. GANDA (5 letters, 4 steps of 70ms) is complete in 280ms; "Let's
+     talk" (9 letters, 8 steps of 40ms) in 320ms. */
   --alt-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --alt-dur: 130ms;
-  --alt-step: 50ms;
+  --alt-step: 70ms;
 }
 
 .alt-talk {
-  --alt-step: 32ms;
+  --alt-step: 40ms;
+}
+
+/* Edge to edge: 24px gutters on all four sides at every width, and no cap on
+   the content width. The nav is part of the page, so its top spacing and the
+   shared gutter variables are set here for the whole document. */
+:root:has(.alt-home) {
+  --gd-gutter: 24px;
+  --gd-header-top: 24px;
+  --gd-header-gap: 0px;
+}
+
+:root:has(.alt-home) .gd-container {
+  max-width: none;
 }
 
 /* The shared footer statement of the current home is replaced by .alt-talk. */
@@ -26,22 +38,23 @@ main.alt-home {
   padding-bottom: 0 !important;
   --alt-gap: 96px; /* intro to project list */
   --alt-row-pad: 52px; /* project row padding, as .gd-row */
-  --alt-top: 8px; /* extra space under the nav (nav gap is 40px) */
+  --alt-top: 24px; /* nav to GANDA */
 }
 
 /* ---------- Nav label ---------- */
 
-/* At the top of the page the logo is hidden and the label "Product Design"
-   (same size and weight as the nav links) sits where it would be; scrolling
-   swaps them. The label is generated text, not in the page: the link keeps
-   its own accessible name, "Ganda, home". The logo stays in the layout while
-   hidden, so nothing moves. */
+/* No logo on load. The label "Product Design" (same size and weight as the nav
+   links, not underlined) sits where the logo would be. Once GANDA has
+   scrolled up past the nav, AltHero.tsx drops the alt-top class and the logo
+   takes the label's place and stays there, as the nav is sticky. The label is
+   generated text, not in the page: the link keeps its own accessible name. The
+   logo keeps its space while hidden, so nothing moves. */
 html.alt-nav header a[href="/"] {
   position: relative;
 }
 
 html.alt-nav header a[href="/"] img {
-  transition: opacity 200ms ease;
+  transition: opacity 150ms ease;
 }
 
 html.alt-nav header a[href="/"]::after {
@@ -57,7 +70,7 @@ html.alt-nav header a[href="/"]::after {
   color: var(--ink);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 200ms ease;
+  transition: opacity 150ms ease;
 }
 
 html.alt-nav.alt-top header a[href="/"] img {
@@ -66,6 +79,20 @@ html.alt-nav.alt-top header a[href="/"] img {
 
 html.alt-nav.alt-top header a[href="/"]::after {
   opacity: 1;
+}
+
+/* The nav has no background, so while GANDA scrolls up beneath it, ink would
+   sit on ink. The nav therefore blends by difference: --ink here is the
+   inverse of the page ink (#231f20 -> #dce0df), which comes out as exactly
+   #231f20 on white and as light grey over the black letters. The logo is
+   inverted to match. */
+:root:has(.alt-home) header {
+  --ink: #dce0df;
+  mix-blend-mode: difference;
+}
+
+:root:has(.alt-home) header img {
+  filter: invert(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -142,7 +169,7 @@ html.alt-nav.alt-top header a[href="/"]::after {
 .alt-talk {
   container-type: inline-size;
   margin-top: 160px;
-  padding-bottom: 64px;
+  padding-bottom: 24px;
 }
 
 /* "Let's talk": fitted to the same width as GANDA, which makes its type size
@@ -198,11 +225,9 @@ a.alt-talk-link:visited {
 @keyframes alt-letter-in {
   from {
     opacity: 0;
-    transform: translateY(0.14em);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -218,18 +243,16 @@ a.alt-talk-link:visited {
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal="load"] .alt-l,
   [data-reveal="in"] .alt-l {
-    animation: alt-letter-in var(--alt-dur) var(--alt-ease) both;
+    animation: alt-letter-in 1ms steps(1, end) both;
     animation-delay: calc(var(--i) * var(--alt-step));
   }
 
   [data-reveal="in"] .alt-talk-link::after {
-    animation: alt-line-in calc(var(--alt-dur) + 8 * var(--alt-step))
-      var(--alt-ease) both;
+    animation: alt-line-in calc(8 * var(--alt-step) + 80ms) var(--alt-ease) both;
   }
 
   [data-reveal="pending"] .alt-l {
     opacity: 0;
-    transform: translateY(0.14em);
   }
 
   [data-reveal="pending"] .alt-talk-link::after {
@@ -242,12 +265,10 @@ a.alt-talk-link:visited {
 @media (max-width: 1024px) {
   main.alt-home {
     --alt-gap: 80px;
-    --alt-top: 40px;
   }
 
   .alt-talk {
     margin-top: 120px;
-    padding-bottom: 56px;
   }
 }
 
@@ -263,7 +284,6 @@ a.alt-talk-link:visited {
   main.alt-home {
     --alt-gap: 64px;
     --alt-row-pad: 36px;
-    --alt-top: 40px;
   }
 
   .alt-hero {
@@ -281,6 +301,5 @@ a.alt-talk-link:visited {
 
   .alt-talk {
     margin-top: 96px;
-    padding-bottom: 48px;
   }
 }
