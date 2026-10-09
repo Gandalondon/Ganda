@@ -13,7 +13,7 @@
 }
 
 main.hb-home {
-  --hb-row-pad: calc(52 * var(--u)); /* project row padding, as .gd-row */
+  --hb-row-pad: calc(48 * var(--u)); /* project row padding, as .gd-row */
   /* The height of the sticky nav (24 above, the 24 row, the gap under it). */
   --hb-header: calc(var(--gd-header-top) + 24 * var(--u) + var(--gd-header-gap));
   /* The work section carries the bottom space, so nothing of the pinned stage
@@ -66,7 +66,14 @@ main.hb-home {
 
 .hb-intro {
   grid-column: 7 / 13;
-  max-width: var(--wrap); /* the site's wrap point (globals.css) */
+  /* Starts at column 7 and ends at the site's wrap point (globals.css), which
+     is measured from where a project description starts (a third of the width
+     less 2.667px, against column 7 at half the width plus 12px). It never
+     runs into the arrow track at the right (56px: arrow plus gap). */
+  max-width: min(
+    calc(var(--wrap) - 100cqw / 6 - 14.667 * var(--u)),
+    calc(100% - 56 * var(--u))
+  );
   font-size: var(--type-body);
   line-height: 1.45;
   font-weight: 300;
@@ -121,6 +128,11 @@ main.hb-home {
 @media (max-width: 1024px) {
   .hb-intro {
     grid-column: 5 / 13;
+    /* Column 5 starts a third of the width plus 8px in; the description column
+       starts 2.667px short of a third. Pulled back 10.667px so the text starts
+       where the descriptions do. */
+    margin-left: -10.667px;
+    max-width: min(var(--wrap), calc(100% - 45.333px));
   }
 
   .hb-work {
@@ -130,7 +142,7 @@ main.hb-home {
 
 @media (max-width: 640px) {
   main.hb-home {
-    --hb-row-pad: 36px;
+    --hb-row-pad: 32px;
   }
 
   .hb-stage {
@@ -140,6 +152,8 @@ main.hb-home {
 
   .hb-intro {
     grid-column: 1 / -1;
+    margin-left: 0;
+    max-width: var(--wrap);
   }
 
   .hb-work {

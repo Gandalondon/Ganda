@@ -159,7 +159,7 @@ export default async function WritingPage() {
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: "calc(14 * var(--u))",
+                        gap: "calc(16 * var(--u))",
                         maxWidth: "calc(576 * var(--u))",
                       }}
                     >

@@ -19,7 +19,7 @@
 }
 
 main.alt-home {
-  --alt-row-pad: calc(52 * var(--u)); /* project row padding, as .gd-row */
+  --alt-row-pad: calc(48 * var(--u)); /* project row padding, as .gd-row */
   /* Nav to GANDA: 48px from the bottom of the name's descender (the g in
      "Designer") to the top of the capitals. The nav row has 24px under it
      (--gd-header-gap above) and the descender hangs 0.7px above the bottom of
@@ -353,7 +353,7 @@ a.alt-talk-link:visited {
   }
 
   main.alt-home {
-    --alt-row-pad: 36px;
+    --alt-row-pad: 32px;
     /* 19px nav text: its descender sits 2px lower than at 20px, so 1.3px less. */
     --alt-top: calc(22px + (100vw - 2 * var(--gd-gutter)) * 0.00239);
   }

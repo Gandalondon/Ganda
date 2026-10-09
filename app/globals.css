@@ -230,10 +230,10 @@ b {
   position: absolute;
   left: calc(24 * var(--u));
   right: calc(24 * var(--u));
-  bottom: calc(22 * var(--u));
+  bottom: calc(24 * var(--u));
   display: flex;
   flex-direction: column;
-  gap: calc(6 * var(--u));
+  gap: calc(8 * var(--u));
 }
 
 .gd-tile-name {
@@ -268,7 +268,7 @@ b {
   grid-template-areas: "name desc arrow";
   column-gap: calc(24 * var(--u));
   align-items: start;
-  padding: calc(52 * var(--u)) 0;
+  padding: calc(48 * var(--u)) 0;
   border-bottom: 1px solid var(--border);
   color: var(--ink);
   text-decoration: none;
@@ -291,7 +291,7 @@ a.gd-row:visited {
   grid-area: desc;
   display: flex;
   flex-direction: column;
-  gap: calc(18 * var(--u));
+  gap: calc(16 * var(--u));
 }
 
 .gd-row-text {
@@ -304,7 +304,7 @@ a.gd-row:visited {
 .gd-row-tags {
   font-size: var(--type-tag);
   font-weight: 400;
-  line-height: 1.3;
+  line-height: calc(24 * var(--u));
   color: var(--ink);
 }
 
@@ -325,7 +325,7 @@ a.gd-row:visited {
     grid-template-columns: minmax(0, 1fr) 24px;
     grid-template-areas: "name arrow" "desc arrow";
     row-gap: 8px;
-    padding: 36px 0;
+    padding: 32px 0;
   }
 
   /* On mobile the name sits above the description, so the arrow lines up
@@ -352,22 +352,28 @@ a.gd-row:visited {
   padding-bottom: calc(144 * var(--u));
 }
 
-/* Reading width. One wrap point for the site's intro paragraphs: the home
-   page intro and the About text stop at the same width, which is the width of
-   the line "...experimentation." in the intro copy (about 35.9 body-text ems,
-   plus a little room, 36.3em). It is in ems of the paragraph's own text, so
-   it scales with the type. Descriptions in the work list are not capped. */
+/* Reading width. One wrap point for the site's intro text: the home intro and
+   the About text end at the same place as the longest line of a project
+   description in the work list (the FINN line, "...product design and
+   experimentation."), measured from where the description column starts.
+   It is in ems of the paragraph's own text, so it scales with the type.
+   Descriptions in the work list are not capped. */
 :root {
-  --wrap: 36.3em;
+  --wrap: 45em;
 }
 
 .gd-split p {
   max-width: var(--wrap);
 }
 
+/* The second column starts exactly where the description column of a project
+   row starts (.gd-row: 1fr, 2fr and a 32px arrow track with 24px gaps), so the
+   text on About, Writing and the case studies lines up with the work list.
+   The first column is a third of what is left after the arrow track and the
+   two gaps; the second takes the rest. */
 .gd-split {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: calc((100% - 80 * var(--u)) / 3) minmax(0, 1fr);
   gap: calc(24 * var(--u));
   align-items: start;
 }
