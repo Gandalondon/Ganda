@@ -179,9 +179,9 @@ function PrototypeEmbed({
             // size than our wide column renders it at) - the browser
             // shrinks width to match once maxHeight kicks in, keeping
             // the exact ratio rather than cropping or distorting it.
-            maxWidth: 880,
+            maxWidth: "calc(880 * var(--u))",
             aspectRatio: "880 / 922",
-            maxHeight: 824,
+            maxHeight: "calc(824 * var(--u))",
             height: "auto",
             border: "none",
             display: "block",
@@ -210,16 +210,16 @@ function PrototypeEmbed({
 
   if (!hasText) {
     return (
-      <div className="gd-container" style={{ marginTop: 176 }}>
-        <div style={{ maxWidth: 880, margin: "0 auto" }}>{media}</div>
+      <div className="gd-container" style={{ marginTop: "calc(176 * var(--u))" }}>
+        <div style={{ maxWidth: "calc(880 * var(--u))", margin: "0 auto" }}>{media}</div>
       </div>
     );
   }
 
   return (
-    <div className="gd-container" style={{ marginTop: 176 }}>
-      <div className="gd-split" style={{ gap: 24 }}>
-        <div style={{ maxWidth: "calc(100% - 24px)" }}>
+    <div className="gd-container" style={{ marginTop: "calc(176 * var(--u))" }}>
+      <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
+        <div style={{ maxWidth: "calc(100% - 24 * var(--u))" }}>
           {block.title && (
             <TitleTag
               style={{
@@ -227,7 +227,7 @@ function PrototypeEmbed({
                 fontWeight: 500,
                 letterSpacing: "-0.006em",
                 lineHeight: 1.15,
-                marginBottom: 24,
+                marginBottom: "calc(24 * var(--u))",
               }}
             >
               {block.title}
@@ -253,7 +253,7 @@ function PrototypeEmbed({
             stretched track - push it to the column's right edge so the
             leftover gap sits in the middle gutter (next to the text)
             instead of trailing on the page's outer right edge. */}
-        <div style={{ marginLeft: "auto", maxWidth: 880, width: "100%" }}>
+        <div style={{ marginLeft: "auto", maxWidth: "calc(880 * var(--u))", width: "100%" }}>
           {media}
         </div>
       </div>
@@ -292,14 +292,14 @@ export default function ProjectDetail({
   });
 
   return (
-    <main id="main" style={{ paddingBottom: 144 }}>
+    <main id="main" style={{ paddingBottom: "calc(144 * var(--u))" }}>
       {content.hero_text && (
         <div className="gd-container">
           <h1
             style={{
-              maxWidth: 960,
-              marginTop: 128,
-              marginBottom: 128,
+              maxWidth: "calc(960 * var(--u))",
+              marginTop: "calc(128 * var(--u))",
+              marginBottom: "calc(128 * var(--u))",
               fontSize: "var(--type-display)",
               lineHeight: 1.2,
               fontWeight: 500,
@@ -333,7 +333,7 @@ export default function ProjectDetail({
           if (block.component === "image") {
             if (!block.image?.filename) return null;
             return (
-              <div key={i} className="gd-container" style={{ marginTop: 176 }}>
+              <div key={i} className="gd-container" style={{ marginTop: "calc(176 * var(--u))" }}>
                 <BlurImage
                   src={block.image.filename}
                   alt={block.image.alt ?? ""}
@@ -355,9 +355,9 @@ export default function ProjectDetail({
           if (block.component === "text_block_sections") {
             const sections = block.sections ?? [];
             return (
-              <div key={i} className="gd-container" style={{ marginTop: 176 }}>
-                <div className="gd-split" style={{ gap: 24 }}>
-                  <div style={{ maxWidth: "calc(100% - 24px)" }}>
+              <div key={i} className="gd-container" style={{ marginTop: "calc(176 * var(--u))" }}>
+                <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
+                  <div style={{ maxWidth: "calc(100% - 24 * var(--u))" }}>
                     {block.title && (
                       <Tag
                         style={{
@@ -365,7 +365,7 @@ export default function ProjectDetail({
                           fontWeight: 500,
                           letterSpacing: "-0.006em",
                           lineHeight: 1.15,
-                          marginBottom: 24,
+                          marginBottom: "calc(24 * var(--u))",
                         }}
                       >
                         {block.title}
@@ -374,7 +374,7 @@ export default function ProjectDetail({
                     {sections.map((sec, si) => (
                       <div
                         key={sec._uid ?? si}
-                        style={{ marginTop: si === 0 ? 0 : 32 }}
+                        style={{ marginTop: si === 0 ? 0 : "calc(32 * var(--u))" }}
                       >
                         {sec.subtitle && (
                           <h3
@@ -433,10 +433,10 @@ export default function ProjectDetail({
           if (block.component === "hero_block") {
             if (!block.text) return null;
             return (
-              <div key={i} className="gd-container" style={{ marginTop: 176 }}>
+              <div key={i} className="gd-container" style={{ marginTop: "calc(176 * var(--u))" }}>
                 <p
                   style={{
-                    maxWidth: 960,
+                    maxWidth: "calc(960 * var(--u))",
                     fontSize: "var(--type-display)",
                     lineHeight: 1.2,
                     fontWeight: 500,
@@ -459,11 +459,11 @@ export default function ProjectDetail({
                 key={i}
                 className="gd-container"
                 data-fade-block
-                style={{ marginTop: 176 }}
+                style={{ marginTop: "calc(176 * var(--u))" }}
               >
                 <blockquote
                   style={{
-                    maxWidth: 960,
+                    maxWidth: "calc(960 * var(--u))",
                     fontSize: "var(--type-display)",
                     lineHeight: 1.2,
                     fontWeight: 500,
@@ -477,8 +477,8 @@ export default function ProjectDetail({
                 {block.byline && (
                   <p
                     style={{
-                      maxWidth: 816,
-                      marginTop: 24,
+                      maxWidth: "calc(816 * var(--u))",
+                      marginTop: "calc(24 * var(--u))",
                       fontSize: "var(--type-body)",
                       fontWeight: 300,
                       lineHeight: 1.45,
@@ -497,9 +497,9 @@ export default function ProjectDetail({
           }
 
           return (
-            <div key={i} className="gd-container" style={{ marginTop: 176 }}>
-              <div className="gd-split" style={{ gap: 24 }}>
-                <div style={{ maxWidth: "calc(100% - 24px)" }}>
+            <div key={i} className="gd-container" style={{ marginTop: "calc(176 * var(--u))" }}>
+              <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
+                <div style={{ maxWidth: "calc(100% - 24 * var(--u))" }}>
                   {block.Title && (
                     <Tag
                       style={{
@@ -507,7 +507,7 @@ export default function ProjectDetail({
                         fontWeight: 500,
                         letterSpacing: "-0.006em",
                         lineHeight: 1.15,
-                        marginBottom: 24,
+                        marginBottom: "calc(24 * var(--u))",
                       }}
                     >
                       {block.Title}
@@ -555,7 +555,7 @@ export default function ProjectDetail({
 
       {/* Work grid */}
       {!content.hide_work_grid && (
-        <div className="gd-container" style={{ marginTop: 200 }}>
+        <div className="gd-container" style={{ marginTop: "calc(200 * var(--u))" }}>
           {/* The page's own project is left out of its list. */}
           <WorkGrid
             projects={projects.filter(

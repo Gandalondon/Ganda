@@ -53,7 +53,7 @@ function GridTile({ p }: { p: WorkProject }) {
 
 export default function WorkGridTiles({ projects }: { projects: WorkProject[] }) {
   return (
-    <div className="gd-grid-3" style={{ columnGap: 24, rowGap: 24 }}>
+    <div className="gd-grid-3" style={{ columnGap: "calc(24 * var(--u))", rowGap: "calc(24 * var(--u))" }}>
       {projects.map((p) => (
         <GridTile key={p.slug} p={p} />
       ))}

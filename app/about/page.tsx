@@ -45,13 +45,13 @@ export default async function AboutPage() {
     groups.some((g) => typeof g === "object" && g !== null && g.title);
   if (story && hasGroups) {
     return (
-      <main id="main" style={{ paddingBottom: 144 }}>
+      <main id="main" style={{ paddingBottom: "calc(144 * var(--u))" }}>
         {/* Each row carries a 96px top margin; 32px more matches the 128px
             the old title sat at. */}
-        <div style={{ paddingTop: 32 }}>
+        <div style={{ paddingTop: "calc(32 * var(--u))" }}>
           <ExpertiseList story={story} />
         </div>
-        <div className="gd-container" style={{ marginTop: 200 }}>
+        <div className="gd-container" style={{ marginTop: "calc(200 * var(--u))" }}>
           <WorkGrid projects={projects} />
         </div>
       </main>
@@ -59,13 +59,13 @@ export default async function AboutPage() {
   }
 
   return (
-    <main id="main" style={{ paddingBottom: 144 }}>
+    <main id="main" style={{ paddingBottom: "calc(144 * var(--u))" }}>
       {/* Title — full width, above the split */}
       <div
         className="gd-container"
-        style={{ paddingTop: 128, paddingBottom: 0 }}
+        style={{ paddingTop: "calc(128 * var(--u))", paddingBottom: 0 }}
       >
-        <div className="gd-split" style={{ gap: 24 }}>
+        <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
           <h1
             style={{
               fontSize: "var(--type-display)",
@@ -102,8 +102,8 @@ export default async function AboutPage() {
       {story ? <ExpertiseList story={story} /> : null}
 
       {/* Row 3: Clients label left, client list right */}
-      <div className="gd-container" data-fade-block style={{ marginTop: 96 }}>
-        <div className="gd-split" style={{ gap: 24 }}>
+      <div className="gd-container" data-fade-block style={{ marginTop: "calc(96 * var(--u))" }}>
+        <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
           <h2
             style={{
               fontSize: "var(--type-display)",
@@ -134,7 +134,7 @@ export default async function AboutPage() {
       </div>
 
       {/* Work grid */}
-      <div className="gd-container" style={{ marginTop: 200 }}>
+      <div className="gd-container" style={{ marginTop: "calc(200 * var(--u))" }}>
         <WorkGrid projects={projects} />
       </div>
     </main>

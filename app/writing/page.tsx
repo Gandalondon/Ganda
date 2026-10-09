@@ -84,7 +84,7 @@ export default async function WritingPage() {
     <main
       id="main"
       className={`gd-writing-page ${instrumentSans.className}`}
-      style={{ paddingBottom: 144 }}
+      style={{ paddingBottom: "calc(144 * var(--u))" }}
     >
       {/* Hero */}
       <section>
@@ -94,9 +94,9 @@ export default async function WritingPage() {
               // Same position and measure as the homepage h1: marginTop/
               // marginBottom 128, maxWidth 816 — not the hero's own padding
               // scale, so the two pages line up exactly.
-              marginTop: 128,
-              marginBottom: 128,
-              maxWidth: 960,
+              marginTop: "calc(128 * var(--u))",
+              marginBottom: "calc(128 * var(--u))",
+              maxWidth: "calc(960 * var(--u))",
               fontSize: "var(--type-hero)",
               lineHeight: 1.2,
               letterSpacing: "-0.006em",
@@ -121,9 +121,9 @@ export default async function WritingPage() {
           story has a title, so a story without one never leaves an empty
           heading in the DOM. */}
       <div className="gd-container">
-        <div className="gd-split" style={{ gap: 24 }}>
+        <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
           <h2 style={labelStyle}>{storiesTitle}</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 96 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "calc(96 * var(--u))" }}>
             {stories.map((s, i) => {
               // No local fallback image — every story is expected to have
               // its own cover set in Storyblok, so the cover box is simply
@@ -159,8 +159,8 @@ export default async function WritingPage() {
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: 14,
-                        maxWidth: 576,
+                        gap: "calc(14 * var(--u))",
+                        maxWidth: "calc(576 * var(--u))",
                       }}
                     >
                       <div>
@@ -221,9 +221,9 @@ export default async function WritingPage() {
         <div
           key={sec._uid ?? i}
           className="gd-container"
-          style={{ marginTop: 96 }}
+          style={{ marginTop: "calc(96 * var(--u))" }}
         >
-          <div className="gd-split" style={{ gap: 24 }}>
+          <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
             {sec.title && <h2 style={labelStyle}>{sec.title}</h2>}
             <div>
               {(sec.body || "").split("\n\n").map((para, pi) => (

@@ -12,12 +12,8 @@ export default function AltTalk({ fontClass }: { fontClass: string }) {
         rel="noopener noreferrer"
         className={`alt-talk-link ${fontClass}`}
       >
-        <span className="sr-only">
-          Let’s talk: book a call (opens in new tab)
-        </span>
-        <span aria-hidden="true">
-          LET’S <span className="alt-talk-u">TALK</span>
-        </span>
+        Let’s <span className="alt-talk-u">talk</span>
+        <span className="sr-only">: book a call (opens in new tab)</span>
       </a>
     </footer>
   );

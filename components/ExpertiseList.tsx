@@ -93,9 +93,9 @@ export default function ExpertiseList({
               // One fade for the whole row (title and items together).
               data-fade-block
               className="gd-container"
-              style={{ marginTop: 96 }}
+              style={{ marginTop: "calc(96 * var(--u))" }}
             >
-              <div className="gd-split" style={{ gap: 24 }}>
+              <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
                 <Heading
                   style={{
                     fontSize: "var(--type-display)",
@@ -133,8 +133,8 @@ export default function ExpertiseList({
   const expertise = lines.length > 0 ? lines : DEFAULT_EXPERTISE;
 
   return (
-    <div className="gd-container" data-fade-block style={{ marginTop: 96 }}>
-      <div className="gd-split" style={{ gap: 24 }}>
+    <div className="gd-container" data-fade-block style={{ marginTop: "calc(96 * var(--u))" }}>
+      <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
         <h2
           style={{
             fontSize: "var(--type-display)",

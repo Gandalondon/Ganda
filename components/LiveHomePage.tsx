@@ -20,12 +20,12 @@ export default function LiveHomePage({
     "Hello, I'm Tony Goff-Yu. I have over twenty years of design experience across branding, user experience and interaction design. I help businesses improve customer experience and conversion. This is my work.";
 
   return (
-    <main id="main" className="gd-container" style={{ paddingBottom: 144 }}>
+    <main id="main" className="gd-container" style={{ paddingBottom: "calc(144 * var(--u))" }}>
       <h1
         style={{
-          maxWidth: 1160,
-          marginTop: 128,
-          marginBottom: 128,
+          maxWidth: "calc(1160 * var(--u))",
+          marginTop: "calc(128 * var(--u))",
+          marginBottom: "calc(128 * var(--u))",
           fontSize: "var(--type-hero)",
           lineHeight: 1.2,
           fontWeight: 500,

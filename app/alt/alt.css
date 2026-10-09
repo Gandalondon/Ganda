@@ -11,22 +11,22 @@
   /* The gap between the intro and the project list on the home page, and
      under the closing statement on every page: the same distance at the top
      and the bottom of the home page. */
-  --alt-gap: 96px;
+  --alt-gap: calc(96 * var(--u));
 }
 
 :root:has(.alt-home) {
-  --gd-header-gap: 24px;
+  --gd-header-gap: calc(24 * var(--u));
 }
 
 main.alt-home {
-  --alt-row-pad: 52px; /* project row padding, as .gd-row */
+  --alt-row-pad: calc(52 * var(--u)); /* project row padding, as .gd-row */
   /* Nav to GANDA: 48px from the bottom of the name's descender (the g in
      "Designer") to the top of the capitals. The nav row has 24px under it
      (--gd-header-gap above) and the descender hangs 0.7px above the bottom of
      the 24px row (20px text), so the padding under the nav is 23.3px, less the
      0.0085em GANDA's capitals rise above their text box (the second term adds
      it back). Measured with 3x screenshots at 1920, 1440, 768 and 390. */
-  --alt-top: calc(23.3px + (100vw - 2 * var(--gd-gutter)) * 0.00239);
+  --alt-top: calc(23.3 * var(--u) + (100vw - 2 * var(--gd-gutter)) * 0.00239);
 }
 
 /* ---------- Nav background ---------- */
@@ -53,7 +53,7 @@ header::before {
   right: 0;
   left: 0;
   z-index: -1;
-  height: calc(var(--gd-header-top) + 48px);
+  height: calc(var(--gd-header-top) + 48 * var(--u));
   background: var(--alt-nav-bg);
   pointer-events: auto;
 }
@@ -62,6 +62,13 @@ header::before {
    is changed, links elsewhere keep theirs. */
 header nav a {
   text-decoration: none;
+}
+
+/* The nav row is 24 * --u tall: the logo is that size, and the links' line
+   height (Nav.tsx) matches, so they centre on one line at every scale. */
+header a[href="/"] img {
+  width: calc(24 * var(--u));
+  height: calc(24 * var(--u));
 }
 
 /* ---------- Nav label ---------- */
@@ -79,14 +86,20 @@ header nav a {
    space while hidden, so nothing moves. */
 header a[href="/"] {
   --alt-mask-ease: cubic-bezier(0.65, 0, 0.35, 1);
-  --alt-mask-time: 480ms;
+  --alt-mask-time: 340ms; /* one wipe; the swap is two, one after the other */
   position: relative;
 }
 
-/* Hidden: clipped from the right, so a reveal wipes in from the left. */
+/* One wipe finishes before the next one starts, so the name and the logo are
+   never on screen together, however fast the page is scrolled. Each rule's
+   transition belongs to the state it moves to: wiping out starts at once,
+   wiping in waits for the other one to have gone. */
+
+/* Hidden: clipped from the right, so a reveal wipes in from the left. Moving
+   back to hidden (scrolling up) starts at once. */
 header a[href="/"] img {
   clip-path: inset(0 100% 0 0);
-  transition: clip-path var(--alt-mask-time) var(--alt-mask-ease) 140ms;
+  transition: clip-path var(--alt-mask-time) var(--alt-mask-ease) 0ms;
 }
 
 header a[href="/"]::after {
@@ -97,23 +110,42 @@ header a[href="/"]::after {
   transform: translateY(-50%);
   white-space: nowrap;
   font-size: var(--type-small);
-  font-weight: 500;
+  font-weight: 600; /* small text needs more weight to match the big titles */
   line-height: 1.3;
   color: var(--ink);
-  clip-path: inset(0 0 0 0);
+  clip-path: inset(-6px -6px -6px -6px);
   /* Part of the home link: the name is clickable, like the logo. Where the mask
      has hidden it, it takes no clicks. */
   pointer-events: auto;
-  transition: clip-path var(--alt-mask-time) var(--alt-mask-ease);
+  /* Coming back (scrolling up): waits for the logo to have gone. */
+  transition: clip-path var(--alt-mask-time) var(--alt-mask-ease)
+    var(--alt-mask-time);
 }
 
+/* The logo wipes in once the name has gone. */
 :root.alt-passed header a[href="/"] img {
   clip-path: inset(0 0 0 0);
+  transition-delay: var(--alt-mask-time);
 }
 
-/* Leaving: clipped from the right, so the name is swiped off to the left. */
+/* Leaving: clipped from the right, so the name is swiped off to the left, at
+   once. */
 :root.alt-passed header a[href="/"]::after {
-  clip-path: inset(0 100% 0 0);
+  clip-path: inset(-6px 100% -6px -6px);
+  transition-delay: 0ms;
+}
+
+/* Keyboard focus. While the name is showing, the ring goes round the name, not
+   round the (hidden) 24px logo box. The mask is padded by 6px so the ring is
+   not cut off. Once the logo is showing, the link's normal ring applies. */
+:root:not(.alt-passed) header a[href="/"]:focus-visible {
+  outline: none;
+}
+
+:root:not(.alt-passed) header a[href="/"]:focus-visible::after {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 /* The nav links sit close on a phone, so the label is the name alone. */
@@ -144,7 +176,7 @@ header a[href="/"]::after {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 48px; /* floor between GANDA and the intro on short screens */
+  gap: calc(48 * var(--u)); /* floor between GANDA and the intro on short screens */
   padding-top: var(--alt-top);
   padding-bottom: var(--alt-gap);
 
@@ -156,11 +188,20 @@ header a[href="/"]::after {
      .gd-row-name) + half the title's 1.15em line. The gap between the intro
      and the list is the hero's own padding, so it is not part of the sum. */
   --alt-fit: calc(
-    var(--gd-header-top) + 24px + var(--gd-header-gap) + 1px +
-      var(--alt-row-pad) + 6.6px + 0.359 * var(--type-list)
+    var(--gd-header-top) + 24 * var(--u) + var(--gd-header-gap) + 1px +
+      var(--alt-row-pad) + 6.6 * var(--u) + 0.359 * var(--type-list)
   );
   min-height: calc(100vh - var(--alt-fit));
   min-height: calc(100svh - var(--alt-fit));
+
+  /* The most empty space allowed between GANDA and the intro. The crop above
+     only governs normal windows: on a tall window, a zoomed-out page or a big
+     monitor the hero stops growing once that gap reaches this, and the page
+     simply shows more of the list. AltHero.tsx turns it into --alt-max (the
+     hero's tallest allowed height). Phones get a deliberately generous 240px
+     (see the 640px rule below), the same on every phone height. */
+  --alt-gap-max: calc(256 * var(--u));
+  min-height: min(calc(100svh - var(--alt-fit)), var(--alt-max, 100svh));
 }
 
 /* GANDA. --alt-wm-ratio is the ink width of the word in em at this weight and
@@ -175,6 +216,7 @@ header a[href="/"]::after {
   font-size: calc(100cqw / var(--alt-wm-ratio));
   line-height: 0.704;
   letter-spacing: -0.02em;
+  text-transform: uppercase; /* the page text is "Ganda"; it is set in capitals */
   white-space: nowrap;
   margin-left: calc(var(--alt-wm-lsb) * -1em);
   color: var(--ink);
@@ -184,14 +226,14 @@ header a[href="/"]::after {
    the list's description column. One column on mobile, as the list. */
 .alt-intro-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) 32px;
-  column-gap: 24px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) calc(32 * var(--u));
+  column-gap: calc(24 * var(--u));
 }
 
 .alt-intro {
   grid-column: 2;
   max-width: 30em;
-  font-size: clamp(22px, 1.9vw, 30px);
+  font-size: clamp(22px, 1.9vw, 54.72px);
   line-height: 1.25;
   font-weight: 300;
   letter-spacing: -0.006em;
@@ -201,10 +243,12 @@ header a[href="/"]::after {
 
 /* ---------- Project list ---------- */
 
-/* Tags ("Product design · Site design") at weight 500, the same as the project
-   names, instead of the list's usual 400. Only on this page. */
-main.alt-home .gd-row-tags {
-  font-weight: 500;
+/* Tags ("Product design · Site design") are 16px (--type-tag) at weight 600,
+   wherever the list appears. Smaller than the body so they read as metadata;
+   the weight stops them looking thin next to the project names. The name in
+   the nav is the one other 600 and it stays at the nav's 20px. */
+.gd-row-tags {
+  font-weight: 600;
 }
 
 /* ---------- Closing statement ---------- */
@@ -219,7 +263,7 @@ main.alt-home .gd-row-tags {
    gap above the closing statement. */
 .alt-talk {
   container-type: inline-size;
-  margin-top: 32px;
+  margin-top: calc(32 * var(--u));
   padding-bottom: var(--alt-gap);
 }
 
@@ -247,6 +291,7 @@ main.alt-home {
   font-size: calc(100cqw / var(--alt-talk-ratio));
   line-height: 0.704;
   letter-spacing: -0.02em;
+  text-transform: uppercase; /* the page text is "Let's talk" */
   white-space: nowrap;
   text-decoration: none;
   color: var(--ink);
@@ -303,10 +348,13 @@ a.alt-talk-link:visited {
 
   main.alt-home {
     --alt-row-pad: 36px;
+    /* 19px nav text: its descender sits 2px lower than at 20px, so 1.3px less. */
+    --alt-top: calc(22px + (100vw - 2 * var(--gd-gutter)) * 0.00239);
   }
 
   .alt-hero {
     gap: 40px;
+    --alt-gap-max: 240px;
   }
 
   .alt-intro-row {

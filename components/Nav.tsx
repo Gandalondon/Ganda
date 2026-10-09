@@ -11,6 +11,7 @@ export default function Nav() {
   // Carwow case study: hide the global Book-a-call link on this page
   // only (About stays).
   const isCarwow = pathname === "/work/carwow";
+
   // Name to logo swap (the styles are in app/alt/alt.css). The name shows at
   // the top left on every page, and the logo takes its place once the page has
   // scrolled: on the home page when GANDA has gone up past the nav, elsewhere
@@ -40,10 +41,10 @@ export default function Nav() {
   const linkStyle = {
     fontSize: "var(--type-small)",
     color: "var(--ink)",
-    fontWeight: 400,
-    // Same height as the 24px logo, so the two centre on one line and the
-    // header is 24px tall under its padding.
-    lineHeight: "24px",
+    fontWeight: 300,
+    // Same height as the logo (24 * --u), so the two centre on one line and
+    // the header is that tall under its padding.
+    lineHeight: "calc(24 * var(--u))",
     display: "block",
   };
 
@@ -70,7 +71,7 @@ export default function Nav() {
     >
       <Link
         href="/"
-        aria-label="Ganda — home"
+        aria-label="Tony Goff-Yu, Product Designer (Ganda home)"
         style={{ display: "block", pointerEvents: "auto" }}
       >
         <Image
@@ -86,7 +87,7 @@ export default function Nav() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 32,
+            gap: "calc(32 * var(--u))",
             listStyle: "none",
           }}
         >

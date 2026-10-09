@@ -12,7 +12,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import StoryblokProvider from "@/components/StoryblokProvider";
 import { SITE_DESCRIPTION } from "@/lib/seo";
 
-const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500"] });
+const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600"] });
 
 export const metadata: Metadata = {
   title: "Ganda — Tony Goff-Yu",
