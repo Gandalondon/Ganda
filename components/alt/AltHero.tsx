@@ -35,6 +35,20 @@ export default function AltHero({
       const n = name.getBoundingClientRect();
       const fit = h.top + (n.top + n.height / 2 - h.bottom);
       el.style.setProperty("--alt-fit", `${Math.round(fit * 10) / 10}px`);
+
+      // The gap between GANDA and the intro. The closing statement uses the
+      // same distance above it (see .alt-talk in alt.css), so the top and the
+      // bottom of the page mirror each other.
+      const word = el.querySelector<HTMLElement>(".alt-wordmark");
+      const intro = el.querySelector<HTMLElement>(".alt-intro");
+      if (word && intro) {
+        const gap =
+          intro.getBoundingClientRect().top - word.getBoundingClientRect().bottom;
+        document.documentElement.style.setProperty(
+          "--alt-hero-gap",
+          `${Math.round(gap * 10) / 10}px`,
+        );
+      }
     };
 
     let frame = 0;
@@ -49,6 +63,7 @@ export default function AltHero({
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", schedule);
+      document.documentElement.style.removeProperty("--alt-hero-gap");
     };
   }, []);
 

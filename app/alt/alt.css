@@ -6,28 +6,40 @@
    the content width. The nav is part of the page, so its top spacing and the
    shared gutter variables are set in globals.css; the home page has no gap
    under the nav, because GANDA sits straight beneath it. */
+:root {
+  /* The gap between the intro and the project list on the home page, and
+     under the closing statement on every page: the same distance at the top
+     and the bottom of the home page. */
+  --alt-gap: 96px;
+}
+
 :root:has(.alt-home) {
-  --gd-header-gap: 8px;
+  --gd-header-gap: 0px;
 }
 
 main.alt-home {
-  --alt-gap: 96px; /* intro to project list */
   --alt-row-pad: 52px; /* project row padding, as .gd-row */
-  --alt-top: 24px; /* nav to GANDA */
+  /* Nav to GANDA: 24px from the bottom of the name's descender (the g in
+     "Designer") to the top of the capitals. The descender hangs 3px above the
+     bottom of the 24px nav row, so the padding under the row is 21px, plus
+     0.0085em (GANDA's size) because the capitals' ink rises that far above
+     the text box. Measured with 3x screenshots at 1920, 1440, 768 and 390. */
+  --alt-top: calc(21px + (100vw - 2 * var(--gd-gutter)) * 0.00239);
 }
 
 /* ---------- Nav label ---------- */
 
 /* On every page: no logo on load. The label "Tony Goff-Yu · Product Designer"
-   (same size and weight as the nav links, not underlined) sits where the logo
-   would be. Both states are set by CSS alone, so the logo is already hidden in
-   the very first paint (no flash, and no waiting for JavaScript). Once the page
-   has scrolled (on the home page, once GANDA has scrolled up past the nav),
-   Nav.tsx adds the alt-passed class and the swap is a mask,
-   not a fade: the label is wiped away left to right and the logo is wiped in
-   behind it, the way nickclement.com unmasks its header text (inverted). The
-   label is generated text, not in the page: the link keeps its own accessible
-   name. The logo keeps its space while hidden, so nothing moves. */
+   (the nav's size, in the weight of the page titles, not underlined) sits where
+   the logo would be. Both states are set by CSS alone, so the logo is already
+   hidden in the very first paint (no flash, and no waiting for JavaScript).
+   Once the page has scrolled (on the home page, once GANDA has scrolled up past
+   the nav), Nav.tsx adds the alt-passed class and the swap is a mask, not a
+   fade, after nickclement.com: the name is swiped off to the left (its end,
+   "Product Designer", goes first) and the logo is wiped in from the left
+   behind it. Scrolling back up reverses both. The label is generated text, not
+   in the page: the link keeps its own accessible name. The logo keeps its
+   space while hidden, so nothing moves. */
 header a[href="/"] {
   --alt-mask-ease: cubic-bezier(0.65, 0, 0.35, 1);
   --alt-mask-time: 480ms;
@@ -48,7 +60,7 @@ header a[href="/"]::after {
   transform: translateY(-50%);
   white-space: nowrap;
   font-size: var(--type-small);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.3;
   color: var(--ink);
   clip-path: inset(0 0 0 0);
@@ -60,9 +72,9 @@ header a[href="/"]::after {
   clip-path: inset(0 0 0 0);
 }
 
-/* Leaving: clipped from the left, so the wipe runs the same way as the reveal. */
+/* Leaving: clipped from the right, so the name is swiped off to the left. */
 :root.alt-passed header a[href="/"]::after {
-  clip-path: inset(0 0 0 100%);
+  clip-path: inset(0 100% 0 0);
 }
 
 /* The nav links sit close on a phone, so the label is the name alone. */
@@ -151,44 +163,58 @@ main.alt-home .gd-row-tags {
 
 /* ---------- Closing statement ---------- */
 
+/* "LET'S TALK" mirrors GANDA: the same heavy capitals, set so the ink runs from
+   the left margin to the right margin. There are more letters, so it is
+   smaller than GANDA. Below it, the same gap as under the intro at the top of
+   the home page (--alt-gap). On the home page the gap above it matches the one
+   between GANDA and the intro: AltHero.tsx measures that and sets
+   --alt-hero-gap. Everywhere else the margins top up each page's <main>
+   padding-bottom (144 desktop, 120 tablet, 96 mobile) to the site's 176px
+   gap above the closing statement. */
 .alt-talk {
   container-type: inline-size;
-  /* Each page's <main> ends with padding-bottom 144 (120 tablet, 96 mobile),
-     so these margins top it up to the site's 176px gap above the closing
-     statement. The footer's own bottom padding gives it room to breathe. */
   margin-top: 32px;
-  padding-bottom: 96px;
+  padding-bottom: var(--alt-gap);
 }
 
-/* "Let's talk": weight 500, the same as the project names (.gd-row-name), at
-   about half of GANDA's size. --alt-talk-ratio sets the size as a share
-   of the content width (font-size = width / ratio), so it scales with GANDA.
-   --alt-talk-lsb is the L's left side bearing in em, pulled back so the stem
-   meets the margin. */
+main.alt-home {
+  padding-bottom: 0 !important;
+}
+
+:root:has(.alt-home) .alt-talk {
+  margin-top: var(--alt-hero-gap, var(--alt-gap));
+}
+
+/* --alt-talk-ratio is the ink width of the line in em at this weight and
+   tracking, so the type size that makes the ink exactly as wide as the
+   content box is width / ratio. --alt-talk-lsb is the L's left side bearing
+   in em, pulled back so the stem meets the margin. line-height .704 is the
+   cap height, as for GANDA, so the box is the capitals; the padding below
+   holds the underline. */
 .alt-talk-link {
-  --alt-talk-ratio: 6.4;
-  --alt-talk-lsb: 0.062;
-  --alt-u-lsb: 0.031;
-  --alt-u-rsb: -0.009;
-  display: inline-block;
+  --alt-talk-ratio: 5.0973;
+  --alt-talk-lsb: 0.0666;
+  --alt-u-lsb: 0.0257;
+  --alt-u-rsb: 0.0063;
+  display: block;
   font-size: calc((100vw - 2 * var(--gd-gutter)) / var(--alt-talk-ratio));
   font-size: calc(100cqw / var(--alt-talk-ratio));
-  font-weight: 500;
-  line-height: 1;
+  line-height: 0.704;
   letter-spacing: -0.02em;
   white-space: nowrap;
   text-decoration: none;
   color: var(--ink);
   margin-left: calc(var(--alt-talk-lsb) * -1em);
+  padding-bottom: 0.11em;
 }
 
 a.alt-talk-link:visited {
   color: var(--ink);
 }
 
-/* Only "talk" is underlined. The line is drawn, not text-decoration, which
-   does not pass through the inline-block letters. It runs from the t's ink to
-   the k's ink. */
+/* Only "TALK" is underlined. The line is drawn, not text-decoration, so its
+   weight and gap are set here. It runs from the T's ink to the K's ink and its
+   bottom edge is the bottom of the link. */
 .alt-talk-u {
   position: relative;
   display: inline-block;
@@ -199,35 +225,37 @@ a.alt-talk-link:visited {
   position: absolute;
   left: calc(var(--alt-u-lsb) * 1em);
   right: calc(var(--alt-u-rsb) * 1em);
-  bottom: 0.075em;
-  height: max(3px, 0.04em);
+  bottom: -0.11em;
+  height: 0.05em;
   background: currentColor;
 }
 
 /* ---------- Breakpoints (match globals.css) ---------- */
 
 @media (max-width: 1024px) {
-  main.alt-home {
+  :root {
     --alt-gap: 80px;
   }
 
   .alt-talk {
     margin-top: 56px;
-    padding-bottom: 72px;
   }
 }
 
 /* Short laptop screens: a tighter gap above the list keeps the project title
    inside the first screen. */
 @media (min-width: 641px) and (max-height: 720px) {
-  main.alt-home {
+  :root {
     --alt-gap: 64px;
   }
 }
 
 @media (max-width: 640px) {
-  main.alt-home {
+  :root {
     --alt-gap: 64px;
+  }
+
+  main.alt-home {
     --alt-row-pad: 36px;
   }
 
@@ -246,6 +274,5 @@ a.alt-talk-link:visited {
 
   .alt-talk {
     margin-top: 80px;
-    padding-bottom: 56px;
   }
 }

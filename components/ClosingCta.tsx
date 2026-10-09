@@ -7,7 +7,7 @@ import AltTalk from "@/components/alt/AltTalk";
 // page's <main>: a large "Let's talk" that links to the booking page
 // (components/alt/AltTalk.tsx, styles in app/alt/alt.css). Spacing above it
 // is set in alt.css (.alt-talk).
-export default function ClosingCta() {
+export default function ClosingCta({ fontClass }: { fontClass: string }) {
   const pathname = usePathname();
 
   // The Carwow case study hides the nav's Book a call link, so the statement
@@ -15,5 +15,5 @@ export default function ClosingCta() {
   // is not a work page, so it ends with the stories instead of a work pitch.
   if (pathname === "/work/carwow" || pathname === "/writing") return null;
 
-  return <AltTalk />;
+  return <AltTalk fontClass={fontClass} />;
 }

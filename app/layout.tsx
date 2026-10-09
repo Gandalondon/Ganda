@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Nav from "@/components/Nav";
 import ClosingCta from "@/components/ClosingCta";
+import { altDisplay } from "@/app/alt/fonts";
 import FadeUp from "@/components/FadeUp";
 import ScrollToTop from "@/components/ScrollToTop";
 import StoryblokProvider from "@/components/StoryblokProvider";
@@ -66,7 +67,7 @@ export default function RootLayout({
           <ScrollToTop />
           <Nav />
           {children}
-          <ClosingCta />
+          <ClosingCta fontClass={altDisplay.className} />
           {FADE_ENABLED && <FadeUp />}
           <Analytics />
           <SpeedInsights />
