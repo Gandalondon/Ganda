@@ -1,0 +1,198 @@
+/* Alternative home B (/hero-b). Every rule is scoped to .hb-* classes or to a
+   page that contains .hb-home (:has), so nothing here touches the home page
+   at "/", the shared nav on any other page, or any other route. Spacing is on
+   the --u scale from globals.css (1px up to 1728px wide). */
+
+/* ---------- Page ---------- */
+
+:root:has(.hb-home) {
+  /* The nav row has 24 under it here, as on the home page. */
+  --gd-header-gap: calc(24 * var(--u));
+  /* Scroll-driven nav state, set by components/alt/HbStage.tsx. Without
+     JavaScript they stay at 0: the name shows, the logo is hidden. */
+  --hb-n: 0;
+  --hb-l: 0;
+}
+
+main.hb-home {
+  --hb-row-pad: calc(52 * var(--u)); /* project row padding, as .gd-row */
+  /* The height of the sticky nav (24 above, the 24 row, the gap under it). */
+  --hb-header: calc(var(--gd-header-top) + 24 * var(--u) + var(--gd-header-gap));
+  /* The work section carries the bottom space, so nothing of the pinned stage
+     can ever show below it. */
+  padding-bottom: 0 !important;
+}
+
+/* ---------- Opening screen (the stage) ---------- */
+
+/* Pinned at the top of the screen (it starts under the nav, pulled up by the
+   nav's own height) while the work section scrolls up over it. A stage taller
+   than the screen (short phone) pins with its foot on the bottom of the
+   screen instead (--hb-h, measured), so GANDA is never out of reach. */
+.hb-stage {
+  container-type: inline-size;
+  position: sticky;
+  top: min(0px, calc(100svh - var(--hb-h, 0px)));
+  z-index: 0;
+  margin-top: calc(-1 * var(--hb-header));
+  display: flex;
+  flex-direction: column;
+  gap: calc(48 * var(--u)); /* the least space between the intro and GANDA */
+  padding-top: calc(var(--hb-header) + 24 * var(--u));
+  padding-bottom: calc(48 * var(--u)); /* GANDA to the top of the work */
+
+  /* Distance from the top of the work section to the middle of the first
+     project title. components/alt/HbStage.tsx replaces this with a
+     measurement of the real page; this is the same sum from the list's own
+     CSS, for the first paint and for JavaScript off. */
+  --hb-fit: calc(
+    1px + var(--hb-row-pad) + 6.6 * var(--u) + 0.359 * var(--type-list)
+  );
+  /* The screen ends halfway through the first title. If the intro and GANDA
+     need more room (a short phone) the stage simply grows: readable content
+     comes before the crop. svh: stable when a phone's browser bars move. */
+  min-height: calc(100vh - var(--hb-fit));
+  min-height: calc(100svh - var(--hb-fit));
+}
+
+/* The introduction: near the top, in a deliberately inset column. On desktop
+   it starts on the middle line of a 12-column grid (column 7), half way across,
+   which is not the project descriptions' line (a third of the way), so it reads
+   as its own statement. Same type as the descriptions. */
+.hb-intro-row {
+  order: 1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: calc(24 * var(--u));
+}
+
+.hb-intro {
+  grid-column: 7 / 13;
+  font-size: var(--type-body);
+  line-height: 1.45;
+  font-weight: 300;
+  letter-spacing: -0.006em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* GANDA, at the foot of the stage. It is first in the page (so first for
+   screen readers and search) and is moved below the intro here. The auto
+   margin takes all the free height, which is the whitespace between the two.
+   --hb-wm-ratio is the ink width of the word in em at this weight and
+   tracking, so width / ratio makes the ink exactly as wide as the content box;
+   --hb-wm-lsb pulls the G's side bearing back so the ink meets the margin.
+   Container query units: it follows the width of the window at every size, with
+   no maximum. */
+.hb-wordmark {
+  --hb-wm-ratio: 3.5526;
+  --hb-wm-lsb: 0.0305;
+  order: 2;
+  margin-top: auto;
+  font-size: calc(100cqw / var(--hb-wm-ratio));
+  line-height: 0.704;
+  letter-spacing: -0.02em;
+  text-transform: uppercase; /* the page text is "Ganda"; it is set in capitals */
+  white-space: nowrap;
+  margin-left: calc(var(--hb-wm-lsb) * -1em);
+  color: var(--ink);
+}
+
+/* ---------- The work, arriving over the stage ---------- */
+
+/* An opaque white sheet above the stage in the stacking order. Scrolling is
+   ordinary; its top edge rises up the screen and covers the stage. */
+.hb-work {
+  position: relative;
+  z-index: 1;
+  background: var(--surface);
+  min-height: 100svh;
+  padding-bottom: calc(144 * var(--u)); /* as every page's <main> */
+}
+
+/* The rows are simply there, with the sheet: no fade or rise on this page. */
+.hb-home .gd-list > li {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* ---------- Nav: vertical masks, driven by scroll ---------- */
+
+/* The name is masked away from the bottom upwards as the work covers GANDA
+   (--hb-n, 0 to 1). When GANDA has gone, the logo is revealed from the top
+   down (--hb-l, 0 to 1). The two never show together: --hb-l is 0 until
+   --hb-n is 1. Same selectors as alt.css with more weight (html, :has), and no
+   transitions: the scroll position is the animation. The nav's size and the
+   links on the right are untouched. */
+html:root:has(.hb-home) header a[href="/"] img {
+  clip-path: inset(0 0 calc((1 - var(--hb-l)) * 100%) 0);
+  transition: none;
+}
+
+html:root:has(.hb-home) header a[href="/"]::after {
+  /* 6px of padding top, bottom and sides (the focus ring), kept at both ends:
+     fully hidden is a zero-height slice. */
+  clip-path: inset(
+    -6px -6px calc(-6px + var(--hb-n) * (100% + 12px)) -6px
+  );
+  transition: none;
+}
+
+/* Keyboard focus follows whichever is showing: the ring goes round the name,
+   and round the logo once it has started to appear. */
+html:root:has(.hb-home):not(.hb-logo) header a[href="/"]:focus-visible {
+  outline: none;
+}
+
+html:root:has(.hb-home):not(.hb-logo) header a[href="/"]:focus-visible::after {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+html:root:has(.hb-home).hb-logo header a[href="/"]:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Breakpoints (match globals.css) ---------- */
+
+@media (max-width: 1024px) {
+  .hb-intro {
+    grid-column: 5 / 13;
+  }
+
+  .hb-work {
+    padding-bottom: 120px;
+  }
+}
+
+@media (max-width: 640px) {
+  main.hb-home {
+    --hb-row-pad: 36px;
+  }
+
+  .hb-stage {
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+
+  .hb-intro {
+    grid-column: 1 / -1;
+  }
+
+  .hb-work {
+    padding-bottom: 96px;
+  }
+}
+
+/* Reduced motion: ordinary scrolling, nothing pinned or covered. The nav swaps
+   in one step (HbStage.tsx) once GANDA has scrolled up past it. */
+@media (prefers-reduced-motion: reduce) {
+  .hb-stage {
+    position: relative;
+    top: auto;
+  }
+}
