@@ -4,9 +4,8 @@
 
 .alt-home,
 .alt-talk {
-  /* Typewriter reveal: each letter appears at once, --alt-step after the one
-     before. GANDA (5 letters, 4 steps of 70ms) is complete in 280ms; "Let's
-     talk" (9 letters, 8 steps of 40ms) in 320ms. */
+  /* Closing statement typewriter: each letter appears at once, --alt-step
+     after the one before ("Let's talk": 9 letters, 8 steps of 40ms, 320ms). */
   --alt-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --alt-step: 70ms;
 }
@@ -228,8 +227,7 @@ a.alt-talk-link:visited {
   display: inline-block;
 }
 
-/* Hero: plays once when the page loads, from the CSS alone (works before and
-   without JavaScript). Closing statement: JavaScript marks it "pending"
+/* Closing statement: JavaScript marks it "pending"
    before first paint and "in" when it scrolls into view. Never applied under
    reduced motion, so the full text is simply there. */
 @keyframes alt-letter-in {
@@ -250,8 +248,25 @@ a.alt-talk-link:visited {
   }
 }
 
+/* GANDA is unmasked rather than typed: a left to right wipe, the same motion
+   the nav swap uses (after nickclement.com). The clip is padded by 0.1em so
+   the round letters' overshoot is never cut. It plays once on load from the
+   CSS alone, so there is no flash and no wait for JavaScript, and it is not
+   applied under reduced motion. */
+@keyframes alt-mask-in {
+  from {
+    clip-path: inset(-0.1em 100% -0.1em -0.1em);
+  }
+  to {
+    clip-path: inset(-0.1em -0.1em -0.1em -0.1em);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal="load"] .alt-l,
+  .alt-wordmark {
+    animation: alt-mask-in 1000ms cubic-bezier(0.65, 0, 0.35, 1) 100ms both;
+  }
+
   [data-reveal="in"] .alt-l {
     animation: alt-letter-in 1ms steps(1, end) both;
     animation-delay: calc(var(--i) * var(--alt-step));

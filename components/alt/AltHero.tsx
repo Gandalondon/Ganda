@@ -1,7 +1,6 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
-import Letters from "@/components/alt/Letters";
 
 // Opening statement for the alternative home (/alt): GANDA across the full
 // width, the introduction at the foot of the opening screen.
@@ -82,9 +81,9 @@ export default function AltHero({
 
   return (
     <section ref={hero} className="alt-hero gd-container">
-      <h1 className={`alt-wordmark ${fontClass}`} data-reveal="load">
+      <h1 className={`alt-wordmark ${fontClass}`}>
         <span className="sr-only">Ganda</span>
-        <Letters text="GANDA" />
+        <span aria-hidden="true">GANDA</span>
       </h1>
       <div className="alt-intro-row">
         <p className="alt-intro">{intro}</p>
