@@ -74,7 +74,7 @@ header > a[href="/"] img {
 /* ---------- Nav label ---------- */
 
 /* On every page: no logo on load. The label "Tony Goff-Yu · Product Designer"
-   (the nav's size, weight 600, not underlined) sits where the logo would be, and
+   (the nav's size and weight, not underlined) sits where the logo would be, and
    is a link home like the logo. As the page scrolls the two swap with vertical
    masks, driven by the scroll position (components/Nav.tsx sets the numbers),
    so there are no timed animations:
@@ -104,7 +104,7 @@ header > a[href="/"]::after {
   transform: translateY(-50%);
   white-space: nowrap;
   font-size: var(--type-small);
-  font-weight: 600; /* small text needs more weight to match the big titles */
+  font-weight: 300; /* same as the other nav links */
   line-height: 1.3;
   color: var(--ink);
   /* 6px of padding all round (room for the focus ring). Fully hidden is a
@@ -219,12 +219,11 @@ header > a[href="/"]::after {
 
 /* ---------- Project list ---------- */
 
-/* Tags ("Product design · Site design") are 16px (--type-tag) at weight 600,
+/* Tags ("Product design · Site design") are 18px (--type-tag) at weight 500,
    wherever the list appears. Smaller than the body so they read as metadata;
-   the weight stops them looking thin next to the project names. The name in
-   the nav is the one other 600 and it stays at the nav's 20px. */
+   the weight stops them looking thin next to the project names. */
 .gd-row-tags {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 /* ---------- Closing statement ---------- */

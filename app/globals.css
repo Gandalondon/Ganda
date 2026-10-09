@@ -41,7 +41,7 @@
   --type-small: calc(20 * var(--u));
   /* Tags are metadata: smaller than the body, at weight 600 (alt.css). 16px
      everywhere, phone included. */
-  --type-tag: calc(16 * var(--u));
+  --type-tag: calc(18 * var(--u));
 }
 
 *,
