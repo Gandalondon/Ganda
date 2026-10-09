@@ -9,7 +9,7 @@ const BOOKING_URL = "https://cal.com/tony-goff-yu-an7khw/intro";
 // is complete with JavaScript off. With JavaScript and motion allowed it is
 // hidden just before first paint and revealed letter by letter, once, when it
 // first scrolls into view. Reduced motion never hides it.
-export default function AltTalk({ fontClass }: { fontClass: string }) {
+export default function AltTalk() {
   const footer = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -41,12 +41,15 @@ export default function AltTalk({ fontClass }: { fontClass: string }) {
         href={BOOKING_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className={`alt-talk-link ${fontClass}`}
+        className="alt-talk-link"
       >
         <span className="sr-only">
           Let’s talk: book a call (opens in new tab)
         </span>
-        <Letters text="Let’s talk" />
+        <Letters text="Let’s" />{" "}
+        <span className="alt-talk-u">
+          <Letters text="talk" start={6} />
+        </span>
       </a>
     </footer>
   );

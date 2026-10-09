@@ -34,7 +34,7 @@ export default async function AltHomePage() {
           <WorkGrid projects={projects} />
         </div>
       </main>
-      <AltTalk fontClass={altDisplay.className} />
+      <AltTalk />
     </>
   );
 }

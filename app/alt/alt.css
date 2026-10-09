@@ -81,20 +81,6 @@ html.alt-nav.alt-top header a[href="/"]::after {
   opacity: 1;
 }
 
-/* The nav has no background, so while GANDA scrolls up beneath it, ink would
-   sit on ink. The nav therefore blends by difference: --ink here is the
-   inverse of the page ink (#231f20 -> #dce0df), which comes out as exactly
-   #231f20 on white and as light grey over the black letters. The logo is
-   inverted to match. */
-:root:has(.alt-home) header {
-  --ink: #dce0df;
-  mix-blend-mode: difference;
-}
-
-:root:has(.alt-home) header img {
-  filter: invert(1);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html.alt-nav header a[href="/"] img,
   html.alt-nav header a[href="/"]::after {
@@ -172,16 +158,20 @@ html.alt-nav.alt-top header a[href="/"]::after {
   padding-bottom: 24px;
 }
 
-/* "Let's talk": fitted to the same width as GANDA, which makes its type size
-   about three quarters of GANDA's (nine characters in the same width). */
+/* "Let's talk": weight 500, the same as the project names (.gd-row-name), at
+   about two thirds of GANDA's size. --alt-talk-ratio sets the size as a share
+   of the content width (font-size = width / ratio), so it scales with GANDA.
+   --alt-talk-lsb is the L's left side bearing in em, pulled back so the stem
+   meets the margin. */
 .alt-talk-link {
-  --alt-talk-ratio: 4.3217;
-  --alt-talk-lsb: 0.0666;
-  --alt-talk-rsb: -0.007;
-  position: relative;
+  --alt-talk-ratio: 5.4;
+  --alt-talk-lsb: 0.062;
+  --alt-u-lsb: 0.031;
+  --alt-u-rsb: -0.009;
   display: inline-block;
   font-size: calc((100vw - 2 * var(--gd-gutter)) / var(--alt-talk-ratio));
   font-size: calc(100cqw / var(--alt-talk-ratio));
+  font-weight: 500;
   line-height: 1;
   letter-spacing: -0.02em;
   white-space: nowrap;
@@ -194,15 +184,21 @@ a.alt-talk-link:visited {
   color: var(--ink);
 }
 
-/* The underline is drawn, not text-decoration: underlines do not pass through
-   the inline-block letters. It runs from the first letter's ink to the last. */
-.alt-talk-link::after {
+/* Only "talk" is underlined. The line is drawn, not text-decoration, which
+   does not pass through the inline-block letters. It runs from the t's ink to
+   the k's ink. */
+.alt-talk-u {
+  position: relative;
+  display: inline-block;
+}
+
+.alt-talk-u::after {
   content: "";
   position: absolute;
-  left: calc(var(--alt-talk-lsb) * 1em);
-  right: calc(var(--alt-talk-rsb) * 1em);
+  left: calc(var(--alt-u-lsb) * 1em);
+  right: calc(var(--alt-u-rsb) * 1em);
   bottom: 0.075em;
-  height: max(3px, 0.035em);
+  height: max(3px, 0.04em);
   background: currentColor;
   transform-origin: left center;
 }
@@ -247,15 +243,17 @@ a.alt-talk-link:visited {
     animation-delay: calc(var(--i) * var(--alt-step));
   }
 
-  [data-reveal="in"] .alt-talk-link::after {
-    animation: alt-line-in calc(8 * var(--alt-step) + 80ms) var(--alt-ease) both;
+  /* The underline draws left to right while "talk" is typed. */
+  [data-reveal="in"] .alt-talk-u::after {
+    animation: alt-line-in calc(4 * var(--alt-step)) linear both;
+    animation-delay: calc(6 * var(--alt-step));
   }
 
   [data-reveal="pending"] .alt-l {
     opacity: 0;
   }
 
-  [data-reveal="pending"] .alt-talk-link::after {
+  [data-reveal="pending"] .alt-talk-u::after {
     transform: scaleX(0);
   }
 }
