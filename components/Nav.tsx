@@ -136,7 +136,10 @@ export default function Nav() {
     >
       <Link
         href="/"
-        aria-label="Tony Goff-Yu, Product Designer (Ganda home)"
+        // The writing page is the one exception to the job title: there the
+        // name reads "Writer" (data-role, styled in alt.css).
+        aria-label={`Tony Goff-Yu, ${isWriting ? "Writer" : "Product Designer"} (Ganda home)`}
+        data-role={isWriting ? "writer" : undefined}
         style={{ display: "block", pointerEvents: "auto" }}
       >
         <Image

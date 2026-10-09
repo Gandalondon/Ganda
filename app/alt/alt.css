@@ -116,6 +116,12 @@ header > a[href="/"]::after {
   pointer-events: auto;
 }
 
+/* The writing page is the one exception: "Writer", not "Product Designer"
+   (Nav.tsx sets data-role there). Its short phone versions follow below. */
+header > a[href="/"][data-role="writer"]::after {
+  content: "Tony Goff-Yu \00b7  Writer";
+}
+
 /* Keyboard focus. While the name is showing, the ring goes round the name, not
    round the (hidden) 24px logo box. Once the logo has started to appear, the
    link's normal ring applies. */
@@ -131,14 +137,16 @@ header > a[href="/"]::after {
 
 /* The nav links sit close on a phone, so the label is the name alone. */
 @media (max-width: 640px) {
-  header > a[href="/"]::after {
+  header > a[href="/"]::after,
+  header > a[href="/"][data-role="writer"]::after {
     content: "Tony Goff-Yu";
   }
 }
 
 /* On the narrowest phones it is the first name only, so it clears the links. */
 @media (max-width: 359px) {
-  header > a[href="/"]::after {
+  header > a[href="/"]::after,
+  header > a[href="/"][data-role="writer"]::after {
     content: "Tony";
   }
 }
