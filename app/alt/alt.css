@@ -1,0 +1,286 @@
+/* Alternative home (/alt). Every rule is scoped to .alt-* classes or to a page
+   that contains .alt-home, so nothing here touches the current home page.
+   Spacing is on the 8px system (optical exceptions are commented). */
+
+.alt-home,
+.alt-talk {
+  /* Letter reveal: a letter takes --alt-dur, each starts --alt-step after the
+     one before. GANDA (5 letters) lands in 4 x 50 + 130 = 330ms; "Let's talk"
+     (9 letters, 8 steps of 32ms) in about 390ms. */
+  --alt-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --alt-dur: 130ms;
+  --alt-step: 50ms;
+}
+
+.alt-talk {
+  --alt-step: 32ms;
+}
+
+/* The shared footer statement of the current home is replaced by .alt-talk. */
+body:has(.alt-home) .gd-closing-cta {
+  display: none;
+}
+
+/* The site gives every <main> bottom padding for its closing CTA. */
+main.alt-home {
+  padding-bottom: 0 !important;
+  --alt-gap: 96px; /* intro to project list */
+  --alt-row-pad: 52px; /* project row padding, as .gd-row */
+  --alt-top: 8px; /* extra space under the nav (nav gap is 40px) */
+}
+
+/* ---------- Nav label ---------- */
+
+/* At the top of the page the logo is hidden and the label "Product Design"
+   (same size and weight as the nav links) sits where it would be; scrolling
+   swaps them. The label is generated text, not in the page: the link keeps
+   its own accessible name, "Ganda, home". The logo stays in the layout while
+   hidden, so nothing moves. */
+html.alt-nav header a[href="/"] {
+  position: relative;
+}
+
+html.alt-nav header a[href="/"] img {
+  transition: opacity 200ms ease;
+}
+
+html.alt-nav header a[href="/"]::after {
+  content: "Product Design";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: var(--type-small);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+html.alt-nav.alt-top header a[href="/"] img {
+  opacity: 0;
+}
+
+html.alt-nav.alt-top header a[href="/"]::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.alt-nav header a[href="/"] img,
+  html.alt-nav header a[href="/"]::after {
+    transition: none;
+  }
+}
+
+/* ---------- Hero ---------- */
+
+.alt-hero {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px; /* floor between GANDA and the intro on short screens */
+  padding-top: var(--alt-top);
+  padding-bottom: var(--alt-gap);
+
+  /* Distance from the top of the page to the crop line (the middle of the
+     first project title). components/alt/AltHero.tsx replaces this with a
+     measurement of the real page; this is the same sum worked out from the
+     list's own CSS, for the first paint and for JavaScript off:
+     nav + 1px list border + row padding + title offset (6.6px - 0.216em, as
+     .gd-row-name) + half the title's 1.15em line. The gap between the intro
+     and the list is the hero's own padding, so it is not part of the sum. */
+  --alt-fit: calc(
+    var(--gd-header-top) + 32px + var(--gd-header-gap) + 1px +
+      var(--alt-row-pad) + 6.6px + 0.359 * var(--type-list)
+  );
+  min-height: calc(100vh - var(--alt-fit));
+  min-height: calc(100svh - var(--alt-fit));
+}
+
+/* GANDA. --alt-wm-ratio is the ink width of the word in em at this weight and
+   tracking, so the type size that makes the ink exactly as wide as the
+   content box is width / ratio. --alt-wm-lsb is the left side bearing of the G
+   in em, pulled back so the ink (not the glyph box) meets the margin.
+   line-height .7 is DM Sans cap height, so the box is the capitals. */
+.alt-wordmark {
+  --alt-wm-ratio: 3.5526;
+  --alt-wm-lsb: 0.0305;
+  font-size: calc((100vw - 2 * var(--gd-gutter)) / var(--alt-wm-ratio));
+  font-size: calc(100cqw / var(--alt-wm-ratio));
+  line-height: 0.704;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  margin-left: calc(var(--alt-wm-lsb) * -1em);
+  color: var(--ink);
+}
+
+/* The intro sits in the same columns as the project list, so its left edge is
+   the list's description column. One column on mobile, as the list. */
+.alt-intro-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) 32px;
+  column-gap: 24px;
+}
+
+.alt-intro {
+  grid-column: 2;
+  max-width: 30em;
+  font-size: clamp(22px, 1.9vw, 30px);
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* ---------- Closing statement ---------- */
+
+.alt-talk {
+  container-type: inline-size;
+  margin-top: 160px;
+  padding-bottom: 64px;
+}
+
+/* "Let's talk": fitted to the same width as GANDA, which makes its type size
+   about three quarters of GANDA's (nine characters in the same width). */
+.alt-talk-link {
+  --alt-talk-ratio: 4.3217;
+  --alt-talk-lsb: 0.0666;
+  --alt-talk-rsb: -0.007;
+  position: relative;
+  display: inline-block;
+  font-size: calc((100vw - 2 * var(--gd-gutter)) / var(--alt-talk-ratio));
+  font-size: calc(100cqw / var(--alt-talk-ratio));
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--ink);
+  margin-left: calc(var(--alt-talk-lsb) * -1em);
+}
+
+a.alt-talk-link:visited {
+  color: var(--ink);
+}
+
+/* The underline is drawn, not text-decoration: underlines do not pass through
+   the inline-block letters. It runs from the first letter's ink to the last. */
+.alt-talk-link::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--alt-talk-lsb) * 1em);
+  right: calc(var(--alt-talk-rsb) * 1em);
+  bottom: 0.075em;
+  height: max(3px, 0.035em);
+  background: currentColor;
+  transform-origin: left center;
+}
+
+/* ---------- Letter reveal ---------- */
+
+.alt-w {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.alt-l {
+  display: inline-block;
+}
+
+/* Hero: plays once when the page loads, from the CSS alone (works before and
+   without JavaScript). Closing statement: JavaScript marks it "pending"
+   before first paint and "in" when it scrolls into view. Never applied under
+   reduced motion, so the full text is simply there. */
+@keyframes alt-letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.14em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes alt-line-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal="load"] .alt-l,
+  [data-reveal="in"] .alt-l {
+    animation: alt-letter-in var(--alt-dur) var(--alt-ease) both;
+    animation-delay: calc(var(--i) * var(--alt-step));
+  }
+
+  [data-reveal="in"] .alt-talk-link::after {
+    animation: alt-line-in calc(var(--alt-dur) + 8 * var(--alt-step))
+      var(--alt-ease) both;
+  }
+
+  [data-reveal="pending"] .alt-l {
+    opacity: 0;
+    transform: translateY(0.14em);
+  }
+
+  [data-reveal="pending"] .alt-talk-link::after {
+    transform: scaleX(0);
+  }
+}
+
+/* ---------- Breakpoints (match globals.css) ---------- */
+
+@media (max-width: 1024px) {
+  main.alt-home {
+    --alt-gap: 80px;
+    --alt-top: 40px;
+  }
+
+  .alt-talk {
+    margin-top: 120px;
+    padding-bottom: 56px;
+  }
+}
+
+/* Short laptop screens: a tighter gap above the list keeps the project title
+   inside the first screen. */
+@media (min-width: 641px) and (max-height: 720px) {
+  main.alt-home {
+    --alt-gap: 64px;
+  }
+}
+
+@media (max-width: 640px) {
+  main.alt-home {
+    --alt-gap: 64px;
+    --alt-row-pad: 36px;
+    --alt-top: 40px;
+  }
+
+  .alt-hero {
+    gap: 40px;
+  }
+
+  .alt-intro-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .alt-intro {
+    grid-column: 1;
+    font-size: 22px;
+  }
+
+  .alt-talk {
+    margin-top: 96px;
+    padding-bottom: 48px;
+  }
+}
