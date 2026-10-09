@@ -232,8 +232,10 @@ header a[href="/"]::after {
 
 .alt-intro {
   grid-column: 2;
-  max-width: 30em;
-  font-size: calc(22 * var(--u)); /* 22px up to 1728px wide, then scales with the page */
+  /* No max-width: the intro runs the full width of its column, the same as the
+     project descriptions below it. Same size as them (--type-body: 20px, 19px on
+     a phone, scaled on big screens). */
+  font-size: var(--type-body);
   line-height: 1.25;
   font-weight: 300;
   letter-spacing: -0.006em;
@@ -363,7 +365,6 @@ a.alt-talk-link:visited {
 
   .alt-intro {
     grid-column: 1;
-    font-size: 22px;
   }
 
   .alt-talk {
