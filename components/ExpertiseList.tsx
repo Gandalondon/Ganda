@@ -59,8 +59,12 @@ function splitBlocks(value: unknown): { text: string; gap: boolean }[] {
 
 export default function ExpertiseList({
   story,
+  statementAbove = false,
 }: {
   story: ISbStoryData<unknown>;
+  // True when a page statement (the page's h1) sits above the list, so the
+  // first group is an h2 like the rest.
+  statementAbove?: boolean;
 }) {
   const liveStory = useStoryblokState(story);
   const content =
@@ -84,8 +88,8 @@ export default function ExpertiseList({
     return (
       <>
         {groups.map((group, i) => {
-          // The page has no other title, so the first group is the h1.
-          const Heading = i === 0 ? "h1" : "h2";
+          // With no statement above, the first group is the page's h1.
+          const Heading = i === 0 && !statementAbove ? "h1" : "h2";
           return (
             <div
               key={group._uid ?? i}

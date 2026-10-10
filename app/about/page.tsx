@@ -1,6 +1,7 @@
 import { getStory } from "@/lib/storyblok";
 import { renderInlineLinks } from "@/lib/inline";
 import ExpertiseList from "@/components/ExpertiseList";
+import PageStatement from "@/components/PageStatement";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 
@@ -30,6 +31,11 @@ export default async function AboutPage() {
   const story = await getStory("about").catch(() => null);
   const content = story?.content ?? {};
 
+  // Optional opening statement ("hero_text" on the About Page type in
+  // Storyblok). When set it is the page's h1 above everything else.
+  const statement =
+    typeof content.hero_text === "string" ? content.hero_text.trim() : "";
+
   const bio = (content.bio as string) || DEFAULT_BIO;
   const clients: string[] = (content.clients as string)
     ? (content.clients as string).split("\n").filter(Boolean)
@@ -46,10 +52,20 @@ export default async function AboutPage() {
     return (
       <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
         {/* Each row carries a 96px top margin; 32px more matches the 128px
-            the old title sat at. */}
-        <div style={{ paddingTop: "calc(32 * var(--u))" }}>
-          <ExpertiseList story={story} />
-        </div>
+            the old title sat at. With a statement above, it sits 128 from the
+            nav and the first row 128 under it (32 + the row's 96). */}
+        {statement ? (
+          <>
+            <PageStatement marginBottom="calc(32 * var(--u))">
+              {statement}
+            </PageStatement>
+            <ExpertiseList story={story} statementAbove />
+          </>
+        ) : (
+          <div style={{ paddingTop: "calc(32 * var(--u))" }}>
+            <ExpertiseList story={story} />
+          </div>
+        )}
       </main>
     );
   }
