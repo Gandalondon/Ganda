@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "About — Ganda",
+  title: "About | Ganda",
   description:
     "Tony Goff-Yu — product design, strategy and digital experience.",
   path: "/about",

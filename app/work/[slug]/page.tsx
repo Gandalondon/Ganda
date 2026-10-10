@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Unlisted pages stay reachable at their direct URL but are kept out of
   // search results.
   return pageMetadata({
-    title: `${title} — Ganda`,
+    title: `${title} | Ganda`,
     description: content.summary ?? undefined,
     path: `/work/${slug}`,
     noindex: Boolean(content.hide_from_work_grid),

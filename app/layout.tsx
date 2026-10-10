@@ -15,11 +15,11 @@ import { SITE_DESCRIPTION } from "@/lib/seo";
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600"] });
 
 export const metadata: Metadata = {
-  title: "Ganda — Tony Goff-Yu",
+  title: "Ganda | Tony Goff-Yu, Product Designer",
   description: SITE_DESCRIPTION,
   metadataBase: new URL("https://gandalondon.com"),
   openGraph: {
-    title: "Ganda — Tony Goff-Yu",
+    title: "Ganda | Tony Goff-Yu, Product Designer",
     description: SITE_DESCRIPTION,
     url: "https://gandalondon.com",
     siteName: "Ganda",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ganda — Tony Goff-Yu",
+    title: "Ganda | Tony Goff-Yu, Product Designer",
     description: SITE_DESCRIPTION,
   },
 };

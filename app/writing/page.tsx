@@ -13,7 +13,7 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata: Metadata = pageMetadata({
-  title: "Writing — Ganda",
+  title: "Writing | Ganda",
   description:
     "Short science-fiction stories about work, judgement and what happens when automation still needs a human.",
   path: "/writing",
