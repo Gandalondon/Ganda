@@ -144,6 +144,29 @@ header > a[href="/"][data-role="writer"]::after {
   }
 }
 
+/* Work, About and Book a call share the row with the name on a phone: the
+   links sit 24 apart and the third reads "Book" (the rest of its text is
+   hidden from sight only; its accessible name is still "Book a call"). */
+.gd-nav-list {
+  gap: calc(32 * var(--u));
+}
+
+@media (max-width: 640px) {
+  .gd-nav-list {
+    gap: 24px;
+  }
+
+  .gd-nav-more {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .gd-nav-list {
+    gap: 20px;
+  }
+}
+
 /* On the narrowest phones it is the first name only, so it clears the links. */
 @media (max-width: 359px) {
   header > a[href="/"]::after,

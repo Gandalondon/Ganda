@@ -140,10 +140,10 @@ export default function Nav() {
 
   const links = (
     <ul
+      className="gd-nav-list"
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "calc(32 * var(--u))",
         listStyle: "none",
       }}
     >
@@ -156,7 +156,20 @@ export default function Nav() {
       ) : (
         <>
           <li>
-            <Link href="/about" style={linkStyle}>
+            <Link
+              href="/work"
+              aria-current={pathname === "/work" ? "page" : undefined}
+              style={linkStyle}
+            >
+              Work
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/about"
+              aria-current={pathname === "/about" ? "page" : undefined}
+              style={linkStyle}
+            >
               About
             </Link>
           </li>
@@ -169,7 +182,7 @@ export default function Nav() {
                 aria-label="Book a call (opens in new tab)"
                 style={linkStyle}
               >
-                Book a call
+                Book<span className="gd-nav-more"> a call</span>
               </a>
             </li>
           )}
