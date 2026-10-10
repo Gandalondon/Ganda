@@ -15,27 +15,24 @@ export default function Nav() {
 
   // Name to logo swap (the styles are in app/alt/alt.css). The name shows at
   // the top left on every page and the logo takes its place as the page
-  // scrolls, as two masks that run one after the other, never together:
+  // scrolls, as one wipe: both are masked from the bottom upwards along the
+  // same line, so above the line it is still the name and below it already
+  // the logo. Two variables, both from the live scroll position (scrolling
+  // back up runs it backwards):
   //
-  //   --nav-n  0 to 1: the name is masked away from the bottom upwards.
-  //   --nav-l  0 to 1: starts when --nav-n has finished; the logo is revealed
-  //            from the bottom upwards.
+  //   --nav-n  0 to 1: how far up the name has been masked away.
+  //   --nav-l  0 to 1: how far up the logo has been revealed, worked out from
+  //            --nav-n so that the two edges are on the same line.
   //
-  // Both come from the live scroll position, so scrolling back up runs it
-  // backwards. Neither starts until the page has caught up with the nav: on
-  // every page but the home page, until the first block of content does (and
-  // never before 64px of scrolling). So the first part of a scroll, when a
-  // phone's browser bar is collapsing and the page is moving up under the
-  // finger, changes nothing in the nav. After that point it takes 128px of
-  // scrolling for the name, then 96px for the logo (both scaled up with the
-  // page above 1728px wide, as --u in globals.css). Reduced motion: no
-  // in-between, one step at the same point.
-  //
-  // The writing page (black on black, so no sheet to do it) has the same
-  // single wipe on a scroll distance of its own: the name and the logo
-  // are both masked from the bottom upwards along one line, white name above it
-  // and white logo below it, over 80px of scrolling after the same start as the
-  // other pages.
+  // It does not start until the page has caught up with the nav: until the
+  // first block of content (heading, text or image, not the wrapper round it,
+  // whose padding is empty space) reaches it, and never before 64px of
+  // scrolling. So the first part of a scroll, when a phone's browser bar is
+  // collapsing and the page is moving up under the finger, changes nothing in
+  // the nav. Then it takes 80px of scrolling (scaled up with the page above
+  // 1728px wide, as --u in globals.css). Reduced motion: no in-between, one
+  // step at the same point. The colours are the page's own (white on the
+  // black Writing page, dark on the white pages).
   //
   // The home page does it differently, with no scroll distances of its own:
   // the nav is transparent over the dark opening screen, white name and
@@ -74,12 +71,7 @@ export default function Nav() {
         return;
       }
       const scale = Math.min(2, Math.max(1, window.innerWidth / 1728));
-      const dist = 128 * scale; // the name's mask
-      const ramp = 96 * scale; // the logo's mask
       const navBottom = header.getBoundingClientRect().bottom;
-      // The first heading, text or image against the nav (not the wrapper
-      // round it, whose padding is empty space), with at least 64px of
-      // scrolling before anything changes.
       const first = document.querySelector(
         "main h1, main h2, main h3, main p, main img, main video",
       );
@@ -88,17 +80,16 @@ export default function Nav() {
         ? first.getBoundingClientRect().top + y
         : navBottom;
       const past = y - Math.max(64 * scale, contentTop - navBottom);
-      let n = reduce.matches ? (past > 0 ? 1 : 0) : clamp(past / dist);
-      let l = reduce.matches ? n : clamp((past - dist) / ramp);
-      if (window.location.pathname === "/writing") {
-        // One wipe: the line where the name is cut off (its mask reaches 6px
-        // past its box each way) is the line where the logo starts, so the two
-        // meet along it. h is the height of both, the 24 * --u nav row.
-        const h = 24 * scale;
-        n = reduce.matches ? (past > 0 ? 1 : 0) : clamp(past / (80 * scale));
-        const edge = (1 - n) * (h + 12) - 6;
-        l = clamp(1 - edge / h);
-      }
+      // The line where the name is cut off (its mask reaches 6px past its box
+      // each way) is the line where the logo starts, so the two meet along it.
+      // h is the height of both: the 24 * --u nav row.
+      const h = 24 * scale;
+      const n = reduce.matches
+        ? past > 0
+          ? 1
+          : 0
+        : clamp(past / (80 * scale));
+      const l = clamp(1 - ((1 - n) * (h + 12) - 6) / h);
       root.style.setProperty("--nav-n", String(round(n)));
       root.style.setProperty("--nav-l", String(round(l)));
       root.classList.toggle("nav-logo", l > 0);
