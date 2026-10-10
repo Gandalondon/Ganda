@@ -355,6 +355,10 @@ main.alt-home {
   text-decoration: none;
   color: var(--ink);
   margin-left: calc(var(--alt-talk-lsb) * -1em);
+  /* The underline sits 0.11em below the letters, so the letters have that
+     much more black under them than the block's padding. The same amount
+     above them keeps the black equal above and below the letters. */
+  margin-top: 0.11em;
   padding-bottom: 0.11em;
 }
 
@@ -385,10 +389,6 @@ a.alt-talk-link:visited {
 @media (max-width: 1024px) {
   :root {
     --alt-gap: 80px;
-  }
-
-  .alt-talk {
-    padding-top: 56px;
   }
 }
 
