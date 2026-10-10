@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Work — Ganda",
+  title: "Work | Ganda",
   description:
     "Recent product design work by Tony Goff-Yu: experimentation, conversion and the use of AI in the design process.",
   path: "/work",
@@ -28,7 +28,7 @@ export default async function WorkIndexPage() {
   const statement = content.hero_text || DEFAULT_STATEMENT;
 
   return (
-    <main id="main" style={{ paddingBottom: "calc(144 * var(--u))" }}>
+    <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
       <PageStatement>{statement}</PageStatement>
       <div className="gd-container">
         <WorkGrid projects={projects} />

@@ -168,7 +168,7 @@ main.hb-home {
   z-index: 1;
   background: var(--surface);
   min-height: 100svh;
-  padding-bottom: calc(144 * var(--u)); /* as every page's <main> */
+  padding-bottom: calc(96 * var(--u)); /* as About's <main>: the last project to the black block */
 }
 
 /* The rows are simply there, with the sheet: no fade or rise on this page. */

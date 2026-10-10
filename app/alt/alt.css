@@ -301,6 +301,12 @@ header > a[href="/"][data-role="writer"]::after {
   border-bottom: 0;
 }
 
+/* ...and no padding under it either, so the space from the last project to
+   the black block is the page's own bottom space, the same as on About. */
+:root:has(.alt-talk) .gd-list > li:last-child > .gd-row {
+  padding-bottom: 0;
+}
+
 body:not(:has(.gd-writing-page)) main {
   position: relative;
   z-index: 1;
