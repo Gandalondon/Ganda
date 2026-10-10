@@ -82,12 +82,13 @@ header > a[href="/"] img {
      --nav-l  0 to 1  once the name has gone, the logo is revealed from the bottom
                       upwards. It starts at 0 until --nav-n is 1, so the two are
                       never visible together.
-   Scrolling up runs it backwards. On the home page they follow how much of
-   GANDA the work has covered; elsewhere, the first screens of scrolling. Both
-   states are set by CSS alone before any script runs (the name shows, the logo
-   is hidden), so there is no flash and no waiting for JavaScript. The label is
-   generated text, not in the page: the link keeps its own accessible name. The
-   logo keeps its space while hidden, so nothing moves. */
+   Scrolling up runs it backwards. Neither starts until the page has caught up
+   with the nav (the work section on the home page, the first block of content
+   elsewhere), so nothing changes while a phone's browser bar is collapsing.
+   Both states are set by CSS alone before any script runs (the name shows, the
+   logo is hidden), so there is no flash and no waiting for JavaScript. The
+   label is generated text, not in the page: the link keeps its own accessible
+   name. The logo keeps its space while hidden, so nothing moves. */
 header > a[href="/"] {
   position: relative;
 }

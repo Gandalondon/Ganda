@@ -162,7 +162,7 @@ main.hb-home {
 }
 
 /* Reduced motion: ordinary scrolling, nothing pinned or covered. The nav swaps
-   in one step (HbStage.tsx) once GANDA has scrolled up past it. */
+   in one step (components/Nav.tsx) once the work section reaches the nav. */
 @media (prefers-reduced-motion: reduce) {
   .hb-stage {
     position: relative;

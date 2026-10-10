@@ -21,19 +21,22 @@ export default function Nav() {
   //            from the bottom upwards.
   //
   // Both come from the live scroll position, so scrolling back up runs it
-  // backwards. On the home page the position is where the work section is on
-  // top of GANDA (the name goes as the letters are covered, then the logo);
-  // on every other page it is the distance scrolled: 128px for the name, then
-  // 96px for the logo (both scaled up with the page above 1728px wide, as
-  // --u in globals.css). Reduced motion: no in-between, one step. The class
-  // nav-logo is on <html> once the logo has started, so the keyboard focus
-  // ring and the screen reader label follow whichever is showing. Everything
-  // is removed on leaving the page.
+  // backwards. Neither starts until the page has caught up with the nav: on
+  // the home page, until the work section (which rises over GANDA) reaches the
+  // bottom of the nav; on every other page, until the first block of content
+  // does (and never before 64px of scrolling). So the first part of a scroll,
+  // when a phone's browser bar is collapsing and the page is moving up under
+  // the finger, changes nothing in the nav. After that point it takes 128px of
+  // scrolling for the name, then 96px for the logo (both scaled up with the
+  // page above 1728px wide, as --u in globals.css). Reduced motion: no
+  // in-between, one step at the same point. The class nav-logo is on <html>
+  // once the logo has started, so the keyboard focus ring and the screen
+  // reader label follow whichever is showing. Everything is removed on
+  // leaving the page.
   useLayoutEffect(() => {
     const root = document.documentElement;
     const header = document.querySelector("header");
     if (!header) return;
-    const word = document.querySelector<HTMLElement>(".hb-wordmark");
     const work = document.querySelector<HTMLElement>(".hb-work");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     const round = (v: number) => Math.round(v * 1000) / 1000;
@@ -41,38 +44,29 @@ export default function Nav() {
 
     const update = () => {
       const scale = Math.min(2, Math.max(1, window.innerWidth / 1728));
-      const ramp = 96 * scale;
-      let n: number;
-      let l: number;
-      if (word && work) {
-        const w = word.getBoundingClientRect();
-        if (reduce.matches) {
-          const gone = w.bottom <= header.getBoundingClientRect().bottom;
-          n = gone ? 1 : 0;
-          l = n;
-        } else {
-          // The letters' ink, not the text box: the round G rises about
-          // 0.022em above the box (and sinks 0.004em below it), so "covered"
-          // is counted between those and the word is completely covered, with
-          // no sliver left, exactly when n reaches 1.
-          const fs = parseFloat(getComputedStyle(word).fontSize);
-          const inkBottom = w.bottom + 0.004 * fs;
-          const ink = w.height + 0.026 * fs;
-          const covered = inkBottom - work.getBoundingClientRect().top;
-          n = clamp(covered / ink);
-          l = clamp((covered - ink) / ramp);
-        }
+      const dist = 128 * scale; // the name's mask
+      const ramp = 96 * scale; // the logo's mask
+      const navBottom = header.getBoundingClientRect().bottom;
+      // How far the page has gone on after it reached the nav, in px.
+      let past: number;
+      if (work) {
+        // Home: the top edge of the work section against the bottom of the nav.
+        past = navBottom - work.getBoundingClientRect().top;
       } else {
+        // Other pages: the first heading, text or image against the nav (not
+        // the wrapper round it, whose padding is empty space), with at least
+        // 64px of scrolling before anything changes.
+        const first = document.querySelector(
+          "main h1, main h2, main h3, main p, main img, main video",
+        );
         const y = window.scrollY;
-        if (reduce.matches) {
-          n = y > 64 ? 1 : 0;
-          l = n;
-        } else {
-          const dist = 128 * scale;
-          n = clamp(y / dist);
-          l = clamp((y - dist) / ramp);
-        }
+        const contentTop = first
+          ? first.getBoundingClientRect().top + y
+          : navBottom;
+        past = y - Math.max(64 * scale, contentTop - navBottom);
       }
+      const n = reduce.matches ? (past > 0 ? 1 : 0) : clamp(past / dist);
+      const l = reduce.matches ? n : clamp((past - dist) / ramp);
       root.style.setProperty("--nav-n", String(round(n)));
       root.style.setProperty("--nav-l", String(round(l)));
       root.classList.toggle("nav-logo", l > 0);
