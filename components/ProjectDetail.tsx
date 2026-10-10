@@ -149,7 +149,7 @@ function PrototypeEmbed({
       {showPrototype && block.prototype_url ? (
         <iframe
           src={block.prototype_url}
-          title={block.title ?? "Interactive prototype"}
+          title={block.title || "Interactive prototype"}
           data-fade-media
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
           // The export centers its content vertically within the
@@ -354,6 +354,7 @@ export default function ProjectDetail({
 
           if (block.component === "text_block_sections") {
             const sections = block.sections ?? [];
+            const SubTag = block.title ? "h3" : "h2";
             return (
               <div key={i} className="gd-container" style={{ marginTop: "calc(176 * var(--u))" }}>
                 <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
@@ -377,7 +378,9 @@ export default function ProjectDetail({
                         style={{ marginTop: si === 0 ? 0 : "calc(32 * var(--u))" }}
                       >
                         {sec.subtitle && (
-                          <h3
+                          // h3 under a block title; h2 when the block has
+                          // none, so headings never skip a level.
+                          <SubTag
                             style={{
                               fontSize: "var(--type-body)",
                               letterSpacing: "-0.0048em",
@@ -387,7 +390,7 @@ export default function ProjectDetail({
                             }}
                           >
                             {sec.subtitle}
-                          </h3>
+                          </SubTag>
                         )}
                         {sec.body &&
                           sec.body.split("\n\n").map((para, j) => (
