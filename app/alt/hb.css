@@ -55,13 +55,14 @@ main.hb-home {
   --hb-dark: var(--ink); /* the dark of the opening screen */
   --hb-row-pad: calc(48 * var(--u)); /* project row padding, as .gd-row */
   /* How much of the work shows under the opening screen at rest: the row's
-     top padding plus the top of the first title (about half of its height),
-     so there is always a sliver of white and the start of FINN to scroll to.
+     top padding plus the first title (all of it) and a hint of the line under
+     it, so there is always a strip of white and the start of FINN to scroll
+     to.
      The one number to change for more or less. */
-  --hb-peek: calc(var(--hb-row-pad) + 16 * var(--u));
+  --hb-peek: calc(var(--hb-row-pad) + 32 * var(--u));
   /* How far the foot of GANDA runs under the white sheet (it is cut off by it
-     that much above the baseline). */
-  --hb-bleed: calc(8 * var(--u));
+     that much above the baseline). Nothing: the baseline is the edge. */
+  --hb-bleed: 0px;
   /* The height of the sticky nav (24 above, the 24 row, the gap under it). */
   --hb-header: calc(var(--gd-header-top) + 24 * var(--u) + var(--gd-header-gap));
   /* The work section carries the bottom space, so nothing of the pinned stage
@@ -145,9 +146,9 @@ main.hb-home {
   white-space: nowrap;
   margin-left: calc(var(--hb-wm-lsb) * -1em);
   /* The baseline is where the opening screen ends (the box runs about 1% of
-     the font size plus 1 under it, pulled off the stage), and then the letters
-     are pushed on down by --hb-bleed, so the white sheet cuts the foot of
-     them off a little above the baseline and they bleed into the work. */
+     the font size plus 1 under it, pulled off the stage). Any --hb-bleed
+     pushes the letters on down, so the white sheet cuts the foot of them off
+     above the baseline; at 0 they stand exactly on the edge. */
   margin-bottom: calc(-0.0105em - 1 * var(--u) - var(--hb-bleed));
   color: var(--ink);
 }
