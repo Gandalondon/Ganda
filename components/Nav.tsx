@@ -31,6 +31,12 @@ export default function Nav() {
   // page above 1728px wide, as --u in globals.css). Reduced motion: no
   // in-between, one step at the same point.
   //
+  // The writing page (black on black, so no sheet to do it) has the same
+  // single wipe on a scroll distance of its own: the name and the logo
+  // are both masked from the bottom upwards along one line, white name above it
+  // and white logo below it, over 80px of scrolling after the same start as the
+  // other pages.
+  //
   // The home page does it differently, with no scroll distances of its own:
   // the nav is transparent over the dark opening screen, white name and
   // links, and the white work section rising up through it is the mask. A
@@ -82,8 +88,17 @@ export default function Nav() {
         ? first.getBoundingClientRect().top + y
         : navBottom;
       const past = y - Math.max(64 * scale, contentTop - navBottom);
-      const n = reduce.matches ? (past > 0 ? 1 : 0) : clamp(past / dist);
-      const l = reduce.matches ? n : clamp((past - dist) / ramp);
+      let n = reduce.matches ? (past > 0 ? 1 : 0) : clamp(past / dist);
+      let l = reduce.matches ? n : clamp((past - dist) / ramp);
+      if (window.location.pathname === "/writing") {
+        // One wipe: the line where the name is cut off (its mask reaches 6px
+        // past its box each way) is the line where the logo starts, so the two
+        // meet along it. h is the height of both, the 24 * --u nav row.
+        const h = 24 * scale;
+        n = reduce.matches ? (past > 0 ? 1 : 0) : clamp(past / (80 * scale));
+        const edge = (1 - n) * (h + 12) - 6;
+        l = clamp(1 - edge / h);
+      }
       root.style.setProperty("--nav-n", String(round(n)));
       root.style.setProperty("--nav-l", String(round(l)));
       root.classList.toggle("nav-logo", l > 0);
