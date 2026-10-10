@@ -29,7 +29,10 @@ export default function Nav() {
   // the finger, changes nothing in the nav. After that point it takes 128px of
   // scrolling for the name, then 96px for the logo (both scaled up with the
   // page above 1728px wide, as --u in globals.css). Reduced motion: no
-  // in-between, one step at the same point. The class nav-logo is on <html>
+  // in-between, one step at the same point. On the home page the nav is also
+  // dark over the dark opening screen and turns white (nav-light on <html>)
+  // when the work section reaches it, just before the name starts to go. The
+  // class nav-logo is on <html>
   // once the logo has started, so the keyboard focus ring and the screen
   // reader label follow whichever is showing. Everything is removed on
   // leaving the page.
@@ -70,6 +73,9 @@ export default function Nav() {
       root.style.setProperty("--nav-n", String(round(n)));
       root.style.setProperty("--nav-l", String(round(l)));
       root.classList.toggle("nav-logo", l > 0);
+      // Home page only: the nav is dark over the dark opening screen and turns
+      // white at the moment the white work section reaches its lower edge.
+      if (work) root.classList.toggle("nav-light", past >= 0);
     };
 
     let frame = 0;
@@ -93,7 +99,7 @@ export default function Nav() {
       reduce.removeEventListener("change", onScroll);
       root.style.removeProperty("--nav-n");
       root.style.removeProperty("--nav-l");
-      root.classList.remove("nav-logo");
+      root.classList.remove("nav-logo", "nav-light");
     };
   }, [pathname]);
 
