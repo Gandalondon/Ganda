@@ -33,7 +33,7 @@ If the dev server will not start, send Claude the first error. Do not fall back 
 
 - Check `content-snapshot/` first. If it is missing or old, ask for a new one rather than guessing at copy.
 - Edit files in `~/Ganda` directly when the link to the computer is up, so changes show on localhost.
-- If the Mac is asleep or unreachable, do not give Tony scripts or terminal commands to run later. Prepare the work, say it is ready, and do it (including the push) once the Mac is back. He is a designer, not a developer: keep every instruction to plain steps.
+- If the Mac is asleep or unreachable, do not give Tony scripts or terminal commands to run later. Prepare the work, say it is ready, and do it once the Mac is back. Claude has no GitHub login on the Mac, so the push to GitHub is the one step Tony does himself. He is a designer, not a developer: keep every instruction to plain steps.
 - Test at 320, 390, 768, 1024, 1440, 1920 and 2560 wide. Run axe (WCAG AA), check keyboard focus, reduced motion and the text-spacing overrides.
 - If Tony is repeating the same manual process several times (pushing to Vercel to preview, re-checking the same page by hand, copying the same values around), say so and suggest the better way. Do not wait to be asked.
 - Copy rules: UK English, no em dashes, "site" not "website", no "'d" contractions.
