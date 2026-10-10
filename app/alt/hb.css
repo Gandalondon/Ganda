@@ -63,6 +63,8 @@ main.hb-home {
   /* How far the foot of GANDA runs under the white sheet (it is cut off by it
      that much above the baseline). Nothing: the baseline is the edge. */
   --hb-bleed: 0px;
+  /* The gap under the nav on every other page (globals.css --gd-header-gap). */
+  --hb-title-gap: calc(64 * var(--u));
   /* The height of the sticky nav (24 above, the 24 row, the gap under it). */
   --hb-header: calc(var(--gd-header-top) + 24 * var(--u) + var(--gd-header-gap));
   /* The work section carries the bottom space, so nothing of the pinned stage
@@ -95,7 +97,12 @@ main.hb-home {
   display: flex;
   flex-direction: column;
   gap: calc(48 * var(--u)); /* the least space between the intro and GANDA */
-  padding-top: calc(var(--hb-header) + 64 * var(--u));
+  /* The title starts where it does on Work, About and the case studies: the
+     nav row, the gap those pages leave under it (--hb-title-gap, since this
+     page's own nav gap is smaller) and 80. */
+  padding-top: calc(
+    var(--gd-header-top) + 24 * var(--u) + var(--hb-title-gap) + 80 * var(--u)
+  );
   padding-bottom: 0; /* GANDA stands on the foot of the screen (see .hb-wordmark) */
 
   /* The opening screen is the screen less the sliver of work (--hb-peek): the
@@ -108,24 +115,18 @@ main.hb-home {
   min-height: calc(100svh - var(--hb-peek));
 }
 
-/* The introduction: near the top, in a deliberately inset column. On desktop
-   it starts on the middle line of a 12-column grid (column 7), half way across,
-   which is not the project descriptions' line (a third of the way), so it reads
-   as its own statement. Same type as the descriptions. */
+/* The introduction: the same statement as the Work, About and case study
+   pages: left margin, 80px under the nav, display size, weight 500, set in
+   white (--ink on the dark stage). */
 .hb-intro-row {
   order: 1;
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: calc(24 * var(--u));
 }
 
 .hb-intro {
-  /* Columns 7 to 10: starts on the middle line and ends where all the body
-     text ends (the end of column 10, see Reading width in globals.css). */
-  grid-column: 7 / 11;
-  font-size: var(--type-body);
-  line-height: 1.45;
-  font-weight: 300;
+  max-width: calc(960 * var(--u));
+  font-size: var(--type-display);
+  line-height: 1.2;
+  font-weight: 500;
   letter-spacing: -0.006em;
   color: var(--ink);
   text-wrap: pretty;
@@ -187,13 +188,8 @@ main.hb-home {
 /* ---------- Breakpoints (match globals.css) ---------- */
 
 @media (max-width: 1024px) {
-  .hb-intro {
-    grid-column: 5 / 13;
-    /* Column 5 starts a third of the width plus 8px in; the description column
-       starts 2.667px short of a third. Pulled back 10.667px so the text starts
-       where the descriptions do. */
-    margin-left: -10.667px;
-    max-width: min(var(--wrap), calc(100% - 45.333px));
+  main.hb-home {
+    --hb-title-gap: 32px;
   }
 
   .hb-work {
@@ -203,18 +199,13 @@ main.hb-home {
 
 @media (max-width: 640px) {
   main.hb-home {
+    --hb-title-gap: 16px;
     --hb-row-pad: 32px;
   }
 
   .hb-stage {
     gap: 40px;
     padding-bottom: 0;
-  }
-
-  .hb-intro {
-    grid-column: 1 / -1;
-    margin-left: 0;
-    max-width: var(--wrap);
   }
 
   .hb-work {

@@ -337,10 +337,10 @@ a.gd-row:visited {
 }
 
 /* Case study with no hero text: the first block is the page title, so it
-   sits 128px below the nav, matching the homepage hero and the About title.
+   sits 80px below the nav, matching the homepage intro and the About title.
    Blocks carry a 176px top margin inline, hence !important. */
 .gd-body-first > :first-child {
-  margin-top: calc(128 * var(--u)) !important;
+  margin-top: calc(80 * var(--u)) !important;
 }
 
 /* Closing CTA (root layout footer). Each page's <main> ends with

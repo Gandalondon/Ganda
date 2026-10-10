@@ -298,7 +298,7 @@ export default function ProjectDetail({
           <h1
             style={{
               maxWidth: "calc(960 * var(--u))",
-              marginTop: "calc(128 * var(--u))",
+              marginTop: "calc(80 * var(--u))",
               marginBottom: "calc(128 * var(--u))",
               fontSize: "var(--type-display)",
               lineHeight: 1.2,
@@ -314,8 +314,8 @@ export default function ProjectDetail({
       )}
 
       {/* Body blocks. With no hero text above them, the first block is the
-          page title, so it sits at the same 128px from the nav as the
-          homepage hero and the About title (every block otherwise carries a
+          page title, so it sits at the same 80px from the nav as the
+          homepage intro and the About title (every block otherwise carries a
           176px top margin). See .gd-body-first in globals.css. */}
       {!content.hero_text && firstHeadingIndex === -1 && (
         <h1 className="sr-only">

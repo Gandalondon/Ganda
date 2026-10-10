@@ -1,5 +1,5 @@
 // The big opening statement at the top of a page (Work, About): the page's one
-// h1, set as the case studies' hero text, 128px from the nav. marginBottom is
+// h1, set as the case studies' hero text, 80px from the nav (the same start as the home intro). marginBottom is
 // the space under it (Work: 128 before the list; About: 32, since the first row
 // under it carries its own 96 top margin, which makes the same 128).
 export default function PageStatement({
@@ -14,7 +14,7 @@ export default function PageStatement({
       <h1
         style={{
           maxWidth: "calc(960 * var(--u))",
-          marginTop: "calc(128 * var(--u))",
+          marginTop: "calc(80 * var(--u))",
           marginBottom,
           fontSize: "var(--type-display)",
           lineHeight: 1.2,

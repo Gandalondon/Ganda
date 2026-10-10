@@ -68,8 +68,8 @@ export default async function AboutPage() {
   if (story && hasGroups) {
     return (
       <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
-        {/* Each row carries a 96px top margin; 32px more matches the 128px
-            the old title sat at. With a statement above, it sits 128 from the
+        {/* Each row carries a 96px top margin; 16px less puts the first title at
+            the shared 80px from the nav. With a statement above, it sits 128 from the
             nav and the first row 128 under it (32 + the row's 96). */}
         {statement ? (
           <>
@@ -79,7 +79,7 @@ export default async function AboutPage() {
             <ExpertiseList story={story} statementAbove />
           </>
         ) : (
-          <div style={{ paddingTop: "calc(32 * var(--u))" }}>
+          <div style={{ display: "flow-root", marginTop: "calc(-16 * var(--u))" }}>
             <ExpertiseList story={story} />
           </div>
         )}
@@ -92,7 +92,7 @@ export default async function AboutPage() {
       {/* Title — full width, above the split */}
       <div
         className="gd-container"
-        style={{ paddingTop: "calc(128 * var(--u))", paddingBottom: 0 }}
+        style={{ paddingTop: "calc(80 * var(--u))", paddingBottom: 0 }}
       >
         <div className="gd-split" style={{ gap: "calc(24 * var(--u))" }}>
           <h1
