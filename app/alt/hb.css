@@ -54,6 +54,11 @@
 main.hb-home {
   --hb-dark: var(--ink); /* the dark of the opening screen */
   --hb-row-pad: calc(48 * var(--u)); /* project row padding, as .gd-row */
+  /* How much of the work shows under the opening screen at rest: the row's
+     top padding plus the top of the first title (about a third of its height),
+     so there is always a sliver of white and the start of FINN to scroll to.
+     The one number to change for more or less. */
+  --hb-peek: calc(var(--hb-row-pad) + 8 * var(--u));
   /* The height of the sticky nav (24 above, the 24 row, the gap under it). */
   --hb-header: calc(var(--gd-header-top) + 24 * var(--u) + var(--gd-header-gap));
   /* The work section carries the bottom space, so nothing of the pinned stage
@@ -84,13 +89,14 @@ main.hb-home {
   padding-top: calc(var(--hb-header) + 64 * var(--u));
   padding-bottom: 0; /* GANDA stands on the foot of the screen (see .hb-wordmark) */
 
-  /* The opening screen is the whole screen: the work section begins at the
-     fold, so the first project is below it and the page has to be scrolled
-     to reach it. svh: the screen with a phone's browser bars showing, so it
-     does not change as they move. If the intro and GANDA need more room (a
-     short phone) the stage simply grows. */
-  min-height: 100vh;
-  min-height: 100svh;
+  /* The opening screen is the screen less the sliver of work (--hb-peek): the
+     work section begins that far above the fold, so the top of the first
+     project shows under GANDA and the page can be seen to scroll. svh: the
+     screen with a phone's browser bars showing, so it does not change as
+     they move. If the intro and GANDA need more room (a short phone) the
+     stage simply grows. */
+  min-height: calc(100vh - var(--hb-peek));
+  min-height: calc(100svh - var(--hb-peek));
 }
 
 /* The introduction: near the top, in a deliberately inset column. On desktop
