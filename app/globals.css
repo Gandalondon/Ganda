@@ -32,7 +32,7 @@
   --border: #e2e2e2;
 
   /* Type scale */
-  --type-display: clamp(28px, 2.6vw, calc(38 * var(--u)));
+  --type-display: clamp(28px, 2.6vw, calc(32 * var(--u)));
   /* Home intro and closing CTA (feat/project-list trial) */
   --type-hero: clamp(34px, 3.15vw, calc(46 * var(--u)));
   /* Project list names */
