@@ -23,6 +23,9 @@ const DEFAULT_CLIENTS = [
   "Client Name",
 ];
 
+// The gap under the last row is the gap between the rows (96), and then the
+// black closing block begins (main's own 144 elsewhere is for pages that end
+// on a list).
 export default async function AboutPage() {
   const story = await getStory("about").catch(() => null);
   const content = story?.content ?? {};
@@ -41,7 +44,7 @@ export default async function AboutPage() {
     groups.some((g) => typeof g === "object" && g !== null && g.title);
   if (story && hasGroups) {
     return (
-      <main id="main" style={{ paddingBottom: "calc(144 * var(--u))" }}>
+      <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
         {/* Each row carries a 96px top margin; 32px more matches the 128px
             the old title sat at. */}
         <div style={{ paddingTop: "calc(32 * var(--u))" }}>
@@ -52,7 +55,7 @@ export default async function AboutPage() {
   }
 
   return (
-    <main id="main" style={{ paddingBottom: "calc(144 * var(--u))" }}>
+    <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
       {/* Title — full width, above the split */}
       <div
         className="gd-container"

@@ -40,6 +40,7 @@ main.alt-home {
    dark writing page swaps the colour. */
 :root {
   --alt-nav-bg: #ffffff;
+  --alt-dark: #231f20; /* the closing block, as the ink */
 }
 
 body:has(.gd-writing-page) {
@@ -270,7 +271,13 @@ header > a[href="/"][data-role="writer"]::after {
    gap above the closing statement. */
 .alt-talk {
   container-type: inline-size;
-  margin-top: calc(32 * var(--u));
+  /* A black block: the white page lifts away from it, and the closing
+     statement is white on the black. The gap above the statement is padding
+     inside the block (not a margin, which would be white page showing between
+     the page and the block). */
+  background: var(--alt-dark);
+  --ink: #ffffff;
+  padding-top: var(--alt-gap);
   padding-bottom: var(--alt-gap);
 }
 
@@ -286,6 +293,12 @@ header > a[href="/"][data-role="writer"]::after {
   position: sticky;
   bottom: 0;
   z-index: 0;
+}
+
+/* The last project row has no line under it (the first has none above it), so
+   the white page simply ends on the black block. */
+.gd-list > li:last-child > .gd-row {
+  border-bottom: 0;
 }
 
 body:not(:has(.gd-writing-page)) main {
@@ -310,7 +323,7 @@ main.alt-home {
 }
 
 :root:has(.alt-home) .alt-talk {
-  margin-top: var(--alt-hero-gap, var(--alt-gap));
+  padding-top: var(--alt-hero-gap, var(--alt-gap));
 }
 
 /* --alt-talk-ratio is the ink width of the line in em at this weight and
@@ -367,7 +380,7 @@ a.alt-talk-link:visited {
   }
 
   .alt-talk {
-    margin-top: 56px;
+    padding-top: 56px;
   }
 }
 
@@ -404,6 +417,6 @@ a.alt-talk-link:visited {
   }
 
   .alt-talk {
-    margin-top: 80px;
+    padding-top: 64px;
   }
 }
