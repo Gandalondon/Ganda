@@ -1,5 +1,4 @@
-import { getStory, getWorkProjects } from "@/lib/storyblok";
-import WorkGrid from "@/components/WorkGrid";
+import { getStory } from "@/lib/storyblok";
 import { renderInlineLinks } from "@/lib/inline";
 import ExpertiseList from "@/components/ExpertiseList";
 import type { Metadata } from "next";
@@ -25,10 +24,7 @@ const DEFAULT_CLIENTS = [
 ];
 
 export default async function AboutPage() {
-  const [story, projects] = await Promise.all([
-    getStory("about").catch(() => null),
-    getWorkProjects().catch(() => []),
-  ]);
+  const story = await getStory("about").catch(() => null);
   const content = story?.content ?? {};
 
   const bio = (content.bio as string) || DEFAULT_BIO;
@@ -50,9 +46,6 @@ export default async function AboutPage() {
             the old title sat at. */}
         <div style={{ paddingTop: "calc(32 * var(--u))" }}>
           <ExpertiseList story={story} />
-        </div>
-        <div className="gd-container" style={{ marginTop: "calc(200 * var(--u))" }}>
-          <WorkGrid projects={projects} />
         </div>
       </main>
     );
@@ -131,11 +124,6 @@ export default async function AboutPage() {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Work grid */}
-      <div className="gd-container" style={{ marginTop: "calc(200 * var(--u))" }}>
-        <WorkGrid projects={projects} />
       </div>
     </main>
   );
