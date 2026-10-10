@@ -27,13 +27,14 @@ If the dev server will not start, send Claude the first error. Do not fall back 
 - `main` is live. Keep a tag before big releases (for example `live-backup-YYYY-MM-DD`).
 - One branch per piece of work. Separate commits for separate changes.
 - Never commit `package-lock.json` changes, `_backup/`, `Claude outputs/` or `.claude/settings.local.json`.
-- After every commit: `git push origin <branch>`.
+- After every commit: push the branch to GitHub. Claude does this (see below); Tony does not need to.
 
 ## Rules for Claude
 
 - Check `content-snapshot/` first. If it is missing or old, ask for a new one rather than guessing at copy.
 - Edit files in `~/Ganda` directly when the link to the computer is up, so changes show on localhost.
-- If the Mac is asleep or unreachable, do not give Tony scripts or terminal commands to run later. Prepare the work, say it is ready, and do it once the Mac is back. Claude has no GitHub login on the Mac, so the push to GitHub is the one step Tony does himself. He is a designer, not a developer: keep every instruction to plain steps.
+- If the Mac is asleep or unreachable, do not give Tony scripts or terminal commands to run later. Prepare the work, say it is ready, and do it once the Mac is back. He is a designer, not a developer: keep every instruction to plain steps.
+- Pushing: when Tony says push (or go live, ship it and so on), Claude pushes. The Mac has no GitHub login, so Claude commits on the Mac, pushes the same change to GitHub from its own session through Tony's GitHub connection, then lines the Mac branch up with GitHub (`git reset --keep origin/<branch>`). Branch pushes work. Tag pushes were refused on 10 Oct 2026 and pushing `main` is untested: if either is refused, give Tony the one line to paste, for example `cd ~/Ganda && git push origin main live-backup-2026-10-10`.
 - Test at 320, 390, 768, 1024, 1440, 1920 and 2560 wide. Run axe (WCAG AA), check keyboard focus, reduced motion and the text-spacing overrides.
 - If Tony is repeating the same manual process several times (pushing to Vercel to preview, re-checking the same page by hand, copying the same values around), say so and suggest the better way. Do not wait to be asked.
 - Copy rules: UK English, no em dashes, "site" not "website", no "'d" contractions.
