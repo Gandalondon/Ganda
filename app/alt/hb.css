@@ -59,7 +59,7 @@ main.hb-home {
      it, so there is always a strip of white and the start of FINN to scroll
      to.
      The one number to change for more or less. */
-  --hb-peek: calc(var(--hb-row-pad) + 32 * var(--u));
+  --hb-peek: 0px;
   /* How far the foot of GANDA runs under the white sheet (it is cut off by it
      that much above the baseline). Nothing: the baseline is the edge. */
   --hb-bleed: 0px;
