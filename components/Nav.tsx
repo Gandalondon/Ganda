@@ -124,7 +124,7 @@ export default function Nav() {
   const linkStyle = {
     fontSize: "var(--type-small)",
     color: "var(--ink)",
-    fontWeight: 300,
+    fontWeight: 500,
     // Same height as the logo (24 * --u), so the two centre on one line and
     // the header is that tall under its padding.
     lineHeight: "calc(24 * var(--u))",

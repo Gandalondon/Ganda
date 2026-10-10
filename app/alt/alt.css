@@ -106,7 +106,7 @@ header > a[href="/"]::after {
   transform: translateY(-50%);
   white-space: nowrap;
   font-size: var(--type-small);
-  font-weight: 300; /* same as the other nav links */
+  font-weight: 500; /* same as the other nav links */
   line-height: 1.3;
   color: var(--ink);
   /* 6px of padding all round (room for the focus ring). Fully hidden is a
@@ -169,7 +169,7 @@ header > a[href="/"][data-role="writer"]::after {
 }
 
 /* On the narrowest phones it is the first name only, so it clears the links. */
-@media (max-width: 359px) {
+@media (max-width: 369px) {
   header > a[href="/"]::after,
   header > a[href="/"][data-role="writer"]::after {
     content: "Tony";
