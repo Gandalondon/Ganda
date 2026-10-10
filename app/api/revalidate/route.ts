@@ -7,10 +7,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
   }
 
-  revalidatePath("/");
-  revalidatePath("/about");
-  revalidatePath("/work/[slug]", "page");
-  revalidatePath("/writing");
+  // Every page, so a new page (like /work) can never be missed again.
+  revalidatePath("/", "layout");
 
   return NextResponse.json({ revalidated: true });
 }
