@@ -14,6 +14,9 @@
 
 main.hb-home {
   --hb-row-pad: calc(48 * var(--u)); /* project row padding, as .gd-row */
+  /* Lines in the first project's description, for the estimate above only
+     (the real number is measured). Wider screens, fewer lines. */
+  --hb-lines: 1;
   /* The height of the sticky nav (24 above, the 24 row, the gap under it). */
   --hb-header: calc(var(--gd-header-top) + 24 * var(--u) + var(--gd-header-gap));
   /* The work section carries the bottom space, so nothing of the pinned stage
@@ -39,16 +42,21 @@ main.hb-home {
   padding-top: calc(var(--hb-header) + 40 * var(--u));
   padding-bottom: calc(48 * var(--u)); /* GANDA to the top of the work */
 
-  /* Distance from the top of the work section to the middle of the first
-     project title. components/alt/HbStage.tsx replaces this with a
-     measurement of the real page; this is the same sum from the list's own
-     CSS, for the first paint and for JavaScript off. */
+  /* Distance from the top of the work section to the foot of the first
+     project row (name, description, tags and arrow all in view, so the first
+     project can be tapped without scrolling). components/alt/HbStage.tsx
+     replaces this with a measurement of the real page; this is an estimate of
+     the same sum from the list's own CSS, for the first paint and for
+     JavaScript off: the row's padding, the description's lines (--hb-lines,
+     below), the gap and the tags, plus the name above them on a phone. */
   --hb-fit: calc(
-    1px + var(--hb-row-pad) + 6.6 * var(--u) + 0.359 * var(--type-list)
+    1px + 2 * var(--hb-row-pad) + var(--hb-lines) * 1.45 * var(--type-body) +
+      16 * var(--u) + 24 * var(--u) + var(--hb-name, 0px)
   );
-  /* The screen ends halfway through the first title. If the intro and GANDA
-     need more room (a short phone) the stage simply grows: readable content
-     comes before the crop. svh: stable when a phone's browser bars move. */
+  /* The screen ends at the foot of the first project row. If the intro and
+     GANDA need more room (a short screen) the stage simply grows: readable
+     content comes before the crop. svh: stable when a phone's browser bars
+     move. */
   min-height: calc(100vh - var(--hb-fit));
   min-height: calc(100svh - var(--hb-fit));
 }
@@ -125,6 +133,18 @@ main.hb-home {
 
 /* ---------- Breakpoints (match globals.css) ---------- */
 
+@media (max-width: 1510px) {
+  main.hb-home {
+    --hb-lines: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  main.hb-home {
+    --hb-lines: 3;
+  }
+}
+
 @media (max-width: 1024px) {
   .hb-intro {
     grid-column: 5 / 13;
@@ -143,6 +163,8 @@ main.hb-home {
 @media (max-width: 640px) {
   main.hb-home {
     --hb-row-pad: 32px;
+    /* The name sits above the description here, with an 8px gap. */
+    --hb-name: calc(1.15 * var(--type-list) + 8px);
   }
 
   .hb-stage {

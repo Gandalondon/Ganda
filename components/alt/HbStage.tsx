@@ -31,16 +31,16 @@ export default function HbStage({
     const round = (v: number) => Math.round(v * 10) / 10;
 
     // Layout values (change on resize and when the font arrives). --hb-fit:
-    // from the top of the work section to the middle of the first project
-    // title, so the opening screen ends halfway through that title. --hb-h:
-    // the stage's own height, so a stage taller than the screen (a short
-    // phone) still pins with its foot at the bottom of the screen.
+    // from the top of the work section to the foot of the first project row,
+    // so the opening screen ends with that whole row in view. --hb-h: the
+    // stage's own height, so a stage taller than the screen (a short phone)
+    // still pins with its foot at the bottom of the screen.
     const measure = () => {
-      const name = work.querySelector<HTMLElement>(".gd-row-name");
-      if (name) {
+      const row = work.querySelector<HTMLElement>(".gd-row");
+      if (row) {
         const w = work.getBoundingClientRect();
-        const n = name.getBoundingClientRect();
-        el.style.setProperty("--hb-fit", `${round(n.top + n.height / 2 - w.top)}px`);
+        const r = row.getBoundingClientRect();
+        el.style.setProperty("--hb-fit", `${round(r.bottom - w.top)}px`);
       }
       el.style.setProperty("--hb-h", `${el.offsetHeight}px`);
     };
