@@ -18,10 +18,12 @@ export default async function HomePage() {
     getStory("home").catch(() => null),
     getWorkProjects().catch(() => []),
   ]);
-  // The intro is the Home story's Hero Text, the same field the live site
-  // reads, so the copy is edited in Storyblok.
-  const heroText = (story as { content?: { hero_text?: unknown } } | null)
-    ?.content?.hero_text;
+  // The intro is edited in Storyblok: the Home story's "hero" field (the one
+  // the editor shows), or the older "hero_text" field if "hero" is empty.
+  const content = (story as { content?: { hero?: unknown; hero_text?: unknown } } | null)
+    ?.content;
+  const pick = (v: unknown) => (typeof v === "string" && v.trim() ? v : undefined);
+  const heroText = pick(content?.hero) ?? pick(content?.hero_text);
   const intro =
     typeof heroText === "string" && heroText.trim() ? heroText.trim() : INTRO;
 
