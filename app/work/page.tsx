@@ -1,7 +1,7 @@
 import { getStory, getWorkProjects } from "@/lib/storyblok";
 import WorkGrid from "@/components/WorkGrid";
 import PageStatement from "@/components/PageStatement";
-import { noWidow } from "@/lib/inline";
+import { typeset } from "@/lib/inline";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 
@@ -30,7 +30,7 @@ export default async function WorkIndexPage() {
 
   return (
     <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
-      <PageStatement>{noWidow(statement)}</PageStatement>
+      <PageStatement>{typeset(statement)}</PageStatement>
       <div className="gd-container">
         <WorkGrid projects={projects} />
       </div>
