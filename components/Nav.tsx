@@ -182,7 +182,7 @@ export default function Nav() {
                 aria-label="Book a call (opens in new tab)"
                 style={linkStyle}
               >
-                Book<span className="gd-nav-more"> a call</span>
+                Book a call
               </a>
             </li>
           )}

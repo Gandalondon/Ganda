@@ -137,17 +137,31 @@ header > a[href="/"][data-role="writer"]::after {
   border-radius: 2px;
 }
 
-/* The nav links sit close on a phone, so the label is the name alone. */
+/* On a phone it is the logo, not the name: the logo shows from the start and
+   the name never does, so the links can read in full (Work, About, Book a
+   call). The link keeps its accessible name ("Tony Goff-Yu, Product Designer
+   (Ganda home)"), and the keyboard ring goes round the logo. */
 @media (max-width: 640px) {
   header > a[href="/"]::after,
   header > a[href="/"][data-role="writer"]::after {
-    content: "Tony Goff-Yu";
+    content: none;
+  }
+
+  header > a[href="/"] img {
+    clip-path: none;
+  }
+
+  :root:not(.nav-logo) header > a[href="/"]:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  /* Home, over the dark opening screen: the logo is white, like the links. */
+  :root:has(.hb-home):not(.nav-light) header:not(.nav-ghost) > a[href="/"] img {
+    filter: brightness(0) invert(1);
   }
 }
 
-/* Work, About and Book a call share the row with the name on a phone: the
-   links sit 24 apart and the third reads "Book" (the rest of its text is
-   hidden from sight only; its accessible name is still "Book a call"). */
 .gd-nav-list {
   gap: calc(32 * var(--u));
 }
@@ -156,23 +170,11 @@ header > a[href="/"][data-role="writer"]::after {
   .gd-nav-list {
     gap: 24px;
   }
-
-  .gd-nav-more {
-    display: none;
-  }
 }
 
 @media (max-width: 380px) {
   .gd-nav-list {
     gap: 20px;
-  }
-}
-
-/* On the narrowest phones it is the first name only, so it clears the links. */
-@media (max-width: 369px) {
-  header > a[href="/"]::after,
-  header > a[href="/"][data-role="writer"]::after {
-    content: "Tony";
   }
 }
 
