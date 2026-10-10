@@ -30,6 +30,10 @@
 
 .nav-ghost {
   display: none !important;
+  /* The ghost is the logo and no name (the real nav shows the name until the
+     work section has gone up through it, Nav.tsx). */
+  --nav-n: 1;
+  --nav-l: 1;
   --alt-nav-bg: transparent;
   clip-path: inset(var(--nav-sheet, 100vh) 0 0 0);
 }
@@ -131,11 +135,11 @@ main.hb-home {
   text-transform: uppercase; /* the page text is "Ganda"; it is set in capitals */
   white-space: nowrap;
   margin-left: calc(var(--hb-wm-lsb) * -1em);
-  /* The letters stand on the foot of the screen, like a wordmark sitting on
-     the browser line: the box runs 4 below the baseline, 2 of that is pulled
-     off the stage, so the baseline is 2 above the edge (the round letters'
-     overshoot just meets it). */
-  margin-bottom: calc(-2 * var(--u));
+  /* The letters stand exactly on the foot of the screen, where the white
+     work section begins: the box runs a little under the baseline (about
+     1% of the font size plus 1), pulled off the stage, so the baseline is the
+     edge. The round letters' overshoot goes under the white. */
+  margin-bottom: calc(-0.0105em - 1 * var(--u));
   color: var(--ink);
 }
 
@@ -152,6 +156,13 @@ main.hb-home {
 }
 
 /* The rows are simply there, with the sheet: no fade or rise on this page. */
+/* The list's 1px top line is dropped here: the opening screen's wordmark stands
+   straight on the white of the work section, so the work comes out of the
+   word with nothing between them. (The rows keep their own bottom lines.) */
+.hb-home .gd-list {
+  border-top: 0;
+}
+
 .hb-home .gd-list > li {
   opacity: 1 !important;
   transform: none !important;
