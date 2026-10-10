@@ -477,7 +477,7 @@ export default function ProjectDetail({
                 {block.byline && (
                   <p
                     style={{
-                      maxWidth: "calc(816 * var(--u))",
+                      maxWidth: "var(--wrap)",
                       marginTop: "calc(24 * var(--u))",
                       fontSize: "var(--type-body)",
                       fontWeight: 300,

@@ -295,6 +295,7 @@ a.gd-row:visited {
 }
 
 .gd-row-text {
+  max-width: var(--wrap); /* the site's right-hand text edge (see --wrap) */
   text-wrap: pretty;
   font-size: var(--type-body);
   font-weight: 300;
@@ -352,18 +353,21 @@ a.gd-row:visited {
   padding-bottom: calc(144 * var(--u));
 }
 
-/* Reading width. One wrap point for the site's intro text: the home intro and
-   the About text end at the same place as the longest line of a project
-   description in the work list (the FINN line, "...product design and
-   experimentation."), measured from where the description column starts.
-   It is in ems of the paragraph's own text, so it scales with the type.
-   Descriptions in the work list are not capped. */
+/* Reading width. One right-hand edge for all body text: it is measured from
+   where the description column of a project row starts (the second column of
+   .gd-split starts at the same place) and is 44 body-text ems wide, 880px at
+   the 20px body size (on the 8px grid). Project descriptions, the home intro
+   and the About / Writing / case study text all stop at it, so their right
+   edges line up. It is in ems of the paragraph's own text, so it scales with
+   the type. */
 :root {
-  --wrap: 45em;
+  --wrap: 44em;
 }
 
 .gd-split p {
-  max-width: var(--wrap);
+  /* Never past the end of a description column (the arrow track is 32px with a
+     24px gap), where the work list's text stops on a narrower screen. */
+  max-width: min(var(--wrap), calc(100% - 56 * var(--u)));
 }
 
 /* The second column starts exactly where the description column of a project
