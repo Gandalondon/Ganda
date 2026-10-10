@@ -11,6 +11,7 @@ export default function Nav() {
   // Carwow case study: hide the global Book-a-call link on this page
   // only (About stays).
   const isCarwow = pathname === "/work/carwow";
+  const isHome = pathname === "/";
 
   // Name to logo swap (the styles are in app/alt/alt.css). The name shows at
   // the top left on every page and the logo takes its place as the page
@@ -30,9 +31,14 @@ export default function Nav() {
   // scrolling for the name, then 96px for the logo (both scaled up with the
   // page above 1728px wide, as --u in globals.css). Reduced motion: no
   // in-between, one step at the same point. On the home page the nav is also
-  // dark over the dark opening screen and turns white (nav-light on <html>)
-  // when the work section reaches it, just before the name starts to go. The
-  // class nav-logo is on <html>
+  // transparent over the dark opening screen, and the white work section
+  // passes behind it: a second, dark copy of the nav (the ghost, hidden from
+  // everything but the eye) is cut off at the work section's top edge, so
+  // each pixel of the nav is white-on-black above the edge and dark-on-white
+  // below it, all the way up. When the edge reaches the top of the screen the
+  // nav itself turns to the usual white one (nav-light on <html>) and the
+  // ghost is dropped. That is the same moment and the same scroll as the name
+  // to logo swap, which both copies share. The class nav-logo is on <html>
   // once the logo has started, so the keyboard focus ring and the screen
   // reader label follow whichever is showing. Everything is removed on
   // leaving the page.
@@ -73,9 +79,15 @@ export default function Nav() {
       root.style.setProperty("--nav-n", String(round(n)));
       root.style.setProperty("--nav-l", String(round(l)));
       root.classList.toggle("nav-logo", l > 0);
-      // Home page only: the nav is dark over the dark opening screen and turns
-      // white at the moment the white work section reaches its lower edge.
-      if (work) root.classList.toggle("nav-light", past >= 0);
+      // Home page only: where the white work section's top edge is on the
+      // screen (the ghost nav is cut off above it), and the switch to the
+      // white nav once that edge has gone up past the top of the screen.
+      if (work) {
+        const top = work.getBoundingClientRect().top;
+        root.style.setProperty("--nav-sheet", `${round(Math.max(0, top))}px`);
+        root.classList.add("nav-glass");
+        root.classList.toggle("nav-light", top <= 0);
+      }
     };
 
     let frame = 0;
@@ -99,7 +111,8 @@ export default function Nav() {
       reduce.removeEventListener("change", onScroll);
       root.style.removeProperty("--nav-n");
       root.style.removeProperty("--nav-l");
-      root.classList.remove("nav-logo", "nav-light");
+      root.style.removeProperty("--nav-sheet");
+      root.classList.remove("nav-logo", "nav-light", "nav-glass");
     };
   }, [pathname]);
 
@@ -113,82 +126,122 @@ export default function Nav() {
     display: "block",
   };
 
-  return (
-    <header
-      className="gd-container"
+  const headerStyle = {
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: "var(--gd-header-top)",
+    paddingBottom: "var(--gd-header-gap)",
+  } as const;
+
+  const links = (
+    <ul
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        paddingTop: "var(--gd-header-top)",
-        paddingBottom: "var(--gd-header-gap)",
-        // Sticky header. It sits at the same distance from the top of the
-        // screen at rest and when stuck (--gd-header-top), so it never
-        // moves. The white band behind it is header::before in alt.css (not
-        // a background here, so the spacer under the nav stays see-through).
-        // The header itself ignores clicks so the empty strip between the
-        // logo and the links never blocks the content underneath.
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
-        pointerEvents: "none",
+        gap: "calc(32 * var(--u))",
+        listStyle: "none",
       }}
     >
-      <Link
-        href="/"
-        // The writing page is the one exception to the job title: there the
-        // name reads "Writer" (data-role, styled in alt.css).
-        aria-label={`Tony Goff-Yu, ${isWriting ? "Writer" : "Product Designer"} (Ganda home)`}
-        data-role={isWriting ? "writer" : undefined}
-        style={{ display: "block", pointerEvents: "auto" }}
+      {isWriting ? (
+        <li>
+          <Link href="/" style={linkStyle}>
+            Folio
+          </Link>
+        </li>
+      ) : (
+        <>
+          <li>
+            <Link href="/about" style={linkStyle}>
+              About
+            </Link>
+          </li>
+          {!isCarwow && (
+            <li>
+              <a
+                href="https://cal.com/tony-goff-yu-an7khw/intro"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Book a call (opens in new tab)"
+                style={linkStyle}
+              >
+                Book a call
+              </a>
+            </li>
+          )}
+        </>
+      )}
+    </ul>
+  );
+
+  return (
+    <>
+      <header
+        className="gd-container"
+        style={{
+          ...headerStyle,
+          display: "flex",
+          // Sticky header. It sits at the same distance from the top of the
+          // screen at rest and when stuck (--gd-header-top), so it never
+          // moves. The white band behind it is header::before in alt.css (not
+          // a background here, so the spacer under the nav stays see-through).
+          // The header itself ignores clicks so the empty strip between the
+          // logo and the links never blocks the content underneath.
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+          pointerEvents: "none",
+        }}
       >
-        <Image
-          src="/logo-mark.svg"
-          alt="Ganda"
-          width={24}
-          height={24}
-          priority
-        />
-      </Link>
-      <nav aria-label="Site navigation" style={{ pointerEvents: "auto" }}>
-        <ul
+        <Link
+          href="/"
+          // The writing page is the one exception to the job title: there the
+          // name reads "Writer" (data-role, styled in alt.css).
+          aria-label={`Tony Goff-Yu, ${isWriting ? "Writer" : "Product Designer"} (Ganda home)`}
+          data-role={isWriting ? "writer" : undefined}
+          style={{ display: "block", pointerEvents: "auto" }}
+        >
+          <Image
+            src="/logo-mark.svg"
+            alt="Ganda"
+            width={24}
+            height={24}
+            priority
+          />
+        </Link>
+        <nav aria-label="Site navigation" style={{ pointerEvents: "auto" }}>
+          {links}
+        </nav>
+      </header>
+      {isHome && (
+        // The ghost: the same nav in the dark, fixed in the same place, shown
+        // only while the work section is passing behind the nav, and cut off
+        // above that section's top edge (alt.css / hb.css). It is only for
+        // the eye: hidden from screen readers, not focusable, not clickable.
+        <header
+          className="gd-container nav-ghost"
+          aria-hidden="true"
+          inert
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "calc(32 * var(--u))",
-            listStyle: "none",
+            ...headerStyle,
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 51,
+            pointerEvents: "none",
           }}
         >
-          {isWriting ? (
-            <li>
-              <Link href="/" style={linkStyle}>
-                Folio
-              </Link>
-            </li>
-          ) : (
-            <>
-              <li>
-                <Link href="/about" style={linkStyle}>
-                  About
-                </Link>
-              </li>
-              {!isCarwow && (
-                <li>
-                  <a
-                    href="https://cal.com/tony-goff-yu-an7khw/intro"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Book a call (opens in new tab)"
-                    style={linkStyle}
-                  >
-                    Book a call
-                  </a>
-                </li>
-              )}
-            </>
-          )}
-        </ul>
-      </nav>
-    </header>
+          <Link
+            href="/"
+            tabIndex={-1}
+            aria-hidden="true"
+            style={{ display: "block" }}
+          >
+            <Image src="/logo-mark.svg" alt="" width={24} height={24} />
+          </Link>
+          <nav aria-hidden="true">{links}</nav>
+        </header>
+      )}
+    </>
   );
 }

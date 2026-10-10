@@ -13,9 +13,33 @@
    dark state is the default, in CSS, so there is no white flash before any
    script runs. The nav takes its colours from --ink and --alt-nav-bg (alt.css),
    as the dark Writing page does. */
-:root:has(.hb-home):not(.nav-light) header {
+:root:has(.hb-home):not(.nav-light) header:not(.nav-ghost) {
   --ink: #ffffff;
   --alt-nav-bg: #231f20;
+}
+
+/* With script running, the dark nav has no band of its own (the opening screen
+   shows through) and the white work section passes behind it. The ghost, a
+   dark copy of the nav in the same place, is cut off above the work section's
+   top edge (--nav-sheet, set in Nav.tsx), so the colours turn over pixel by
+   pixel as the edge goes up through the nav. Without script nothing here
+   applies: the nav is the dark band above, which turns white at the top. */
+:root.nav-glass:has(.hb-home):not(.nav-light) header:not(.nav-ghost) {
+  --alt-nav-bg: transparent;
+}
+
+.nav-ghost {
+  display: none !important;
+  --alt-nav-bg: transparent;
+  clip-path: inset(var(--nav-sheet, 100vh) 0 0 0);
+}
+
+.nav-ghost::before {
+  display: none;
+}
+
+:root.nav-glass:not(.nav-light) .nav-ghost {
+  display: flex !important;
 }
 
 :root:has(.hb-home) {
@@ -53,8 +77,8 @@ main.hb-home {
   display: flex;
   flex-direction: column;
   gap: calc(48 * var(--u)); /* the least space between the intro and GANDA */
-  padding-top: calc(var(--hb-header) + 40 * var(--u));
-  padding-bottom: calc(48 * var(--u)); /* GANDA to the top of the work */
+  padding-top: calc(var(--hb-header) + 64 * var(--u));
+  padding-bottom: 0; /* GANDA stands on the foot of the screen (see .hb-wordmark) */
 
   /* The opening screen is the whole screen: the work section begins at the
      fold, so the first project is below it and the page has to be scrolled
@@ -107,6 +131,11 @@ main.hb-home {
   text-transform: uppercase; /* the page text is "Ganda"; it is set in capitals */
   white-space: nowrap;
   margin-left: calc(var(--hb-wm-lsb) * -1em);
+  /* The letters stand on the foot of the screen, like a wordmark sitting on
+     the browser line: the box runs 4 below the baseline, 2 of that is pulled
+     off the stage, so the baseline is 2 above the edge (the round letters'
+     overshoot just meets it). */
+  margin-bottom: calc(-2 * var(--u));
   color: var(--ink);
 }
 
@@ -153,7 +182,7 @@ main.hb-home {
 
   .hb-stage {
     gap: 40px;
-    padding-bottom: 40px;
+    padding-bottom: 0;
   }
 
   .hb-intro {
