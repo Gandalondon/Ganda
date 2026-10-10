@@ -73,15 +73,9 @@ main.hb-home {
 }
 
 .hb-intro {
-  grid-column: 7 / 13;
-  /* Starts at column 7 and ends at the site's wrap point (globals.css), which
-     is measured from where a project description starts (a third of the width
-     less 2.667px, against column 7 at half the width plus 12px). It never
-     runs into the arrow track at the right (56px: arrow plus gap). */
-  max-width: min(
-    calc(var(--wrap) - 100cqw / 6 - 14.667 * var(--u)),
-    calc(100% - 56 * var(--u))
-  );
+  /* Columns 7 to 10: starts on the middle line and ends where all the body
+     text ends (the end of column 10, see Reading width in globals.css). */
+  grid-column: 7 / 11;
   font-size: var(--type-body);
   line-height: 1.45;
   font-weight: 300;

@@ -295,7 +295,6 @@ a.gd-row:visited {
 }
 
 .gd-row-text {
-  max-width: var(--wrap); /* the site's right-hand text edge (see --wrap) */
   text-wrap: pretty;
   font-size: var(--type-body);
   font-weight: 300;
@@ -353,21 +352,25 @@ a.gd-row:visited {
   padding-bottom: calc(144 * var(--u));
 }
 
-/* Reading width. One right-hand edge for all body text: it is measured from
-   where the description column of a project row starts (the second column of
-   .gd-split starts at the same place) and is 44 body-text ems wide, 880px at
-   the 20px body size (on the 8px grid). Project descriptions, the home intro
-   and the About / Writing / case study text all stop at it, so their right
-   edges line up. It is in ems of the paragraph's own text, so it scales with
-   the type. */
+/* Reading width. On a desktop screen all body text stops at the same right-hand
+   edge: the end of column 10 of a 12-column grid (24px gaps) across the
+   content width. The home intro (columns 7 to 10), the work list's
+   descriptions, and the text in the second column of About, Writing and the
+   case studies all end there, so their right edges line up, as their left
+   edges do (the description column starts at a third of the width). The
+   percentages below are of each block's own column, which makes that edge the
+   same whatever the screen: the work list's description column is
+   2/3 of the width less 53.3px, and the second column of .gd-split 2/3 plus
+   2.7px, so 75% of either, with a small correction, reaches the line. Below
+   1025px the layout is stacked or narrow and the text simply fills its column.
+   --wrap (44 body-text ems, 880px at the 20px size) is the fallback measure
+   for any other paragraph. */
 :root {
   --wrap: 44em;
 }
 
 .gd-split p {
-  /* Never past the end of a description column (the arrow track is 32px with a
-     24px gap), where the work list's text stops on a narrower screen. */
-  max-width: min(var(--wrap), calc(100% - 56 * var(--u)));
+  max-width: var(--wrap);
 }
 
 /* The second column starts exactly where the description column of a project
@@ -415,6 +418,23 @@ a.gd-row:visited {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Desktop: body text ends at the end of column 10 (see Reading width). */
+@media (min-width: 1025px) {
+  .gd-row-text {
+    max-width: calc(75% + 38.667 * var(--u));
+  }
+
+  .gd-split > :nth-child(2) p {
+    max-width: calc(75% - 3.333 * var(--u));
+  }
+
+  /* The Writing page's story text has its own column inside the second
+     column, and its own width (576px). */
+  .gd-story-row p {
+    max-width: none;
+  }
 }
 
 /* Tablet (<1024px) — reduce gutters, stack grids */
