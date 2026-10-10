@@ -31,11 +31,6 @@ export default async function AboutPage() {
   const story = await getStory("about").catch(() => null);
   const content = story?.content ?? {};
 
-  // Optional opening statement ("hero_text" on the About Page type in
-  // Storyblok). When set it is the page's h1 above everything else.
-  const statement =
-    typeof content.hero_text === "string" ? content.hero_text.trim() : "";
-
   const bio = (content.bio as string) || DEFAULT_BIO;
   const clients: string[] = (content.clients as string)
     ? (content.clients as string).split("\n").filter(Boolean)
@@ -45,6 +40,28 @@ export default async function AboutPage() {
   // body (About, Expertise and Clients): each group is one row. The old
   // layout below stays as the fallback until groups exist.
   const groups = content.expertise_groups;
+
+  // Optional opening statement, set from Storyblok in either of two ways: a
+  // "hero_text" field on the About Page type, or a Hero Block (its Text field)
+  // added to the Expertise Groups list. Either becomes the page's h1 above
+  // everything else; the groups list skips the Hero Block itself (it has no
+  // title), so it can sit anywhere in the list.
+  const heroBlock = Array.isArray(groups)
+    ? groups.find(
+        (g) =>
+          typeof g === "object" &&
+          g !== null &&
+          g.component === "hero_block" &&
+          typeof g.text === "string" &&
+          g.text.trim() !== "",
+      )
+    : undefined;
+  const statement =
+    typeof content.hero_text === "string" && content.hero_text.trim()
+      ? content.hero_text.trim()
+      : typeof heroBlock?.text === "string"
+        ? heroBlock.text.trim()
+        : "";
   const hasGroups =
     Array.isArray(groups) &&
     groups.some((g) => typeof g === "object" && g !== null && g.title);
@@ -57,7 +74,7 @@ export default async function AboutPage() {
         {statement ? (
           <>
             <PageStatement marginBottom="calc(32 * var(--u))">
-              {statement}
+              {renderInlineLinks(statement)}
             </PageStatement>
             <ExpertiseList story={story} statementAbove />
           </>
