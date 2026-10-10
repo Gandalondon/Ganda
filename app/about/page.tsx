@@ -8,12 +8,12 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: "About | Ganda",
   description:
-    "Tony Goff-Yu — product design, strategy and digital experience.",
+    "Tony Goff-Yu is a London-based product designer with over 20 years of experience working with startups, agencies and established businesses.",
   path: "/about",
 });
 
 const DEFAULT_BIO =
-  "Studio introduction goes here. A short statement describing the studio or individual, the focus of the work and the approach taken.\n\nA second paragraph with more detail — the kinds of clients, sectors or disciplines covered, and the way projects are typically run.\n\nA closing line, for example an invitation to get in touch about new work.";
+  "I am a London-based product designer with over 20 years of experience working with startups, agencies and established businesses.\n\nI work from defining the problem through to detailed design and delivery, collaborating closely with product and engineering. My focus is making complex customer journeys clearer and improving them through research, data and experimentation.";
 
 const DEFAULT_CLIENTS = [
   "Client Name",
@@ -73,7 +73,7 @@ export default async function AboutPage() {
             nav and the first row 128 under it (32 + the row's 96). */}
         {statement ? (
           <>
-            <PageStatement marginBottom="calc(32 * var(--u))">
+            <PageStatement>
               {renderInlineLinks(statement)}
             </PageStatement>
             <ExpertiseList story={story} statementAbove />

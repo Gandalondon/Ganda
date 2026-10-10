@@ -4,7 +4,7 @@
 // under it carries its own 96 top margin, which makes the same 128).
 export default function PageStatement({
   children,
-  marginBottom = "calc(128 * var(--u))",
+  marginBottom = "var(--gd-statement-gap)",
 }: {
   children: React.ReactNode;
   marginBottom?: string;

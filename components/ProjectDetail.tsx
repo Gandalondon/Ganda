@@ -299,7 +299,7 @@ export default function ProjectDetail({
             style={{
               maxWidth: "calc(960 * var(--u))",
               marginTop: "calc(80 * var(--u))",
-              marginBottom: "calc(128 * var(--u))",
+              marginBottom: "var(--gd-statement-gap)",
               fontSize: "var(--type-display)",
               lineHeight: 1.2,
               fontWeight: 500,
@@ -324,7 +324,7 @@ export default function ProjectDetail({
             (story as { name?: string } | null)?.name}
         </h1>
       )}
-      <div className={content.hero_text ? undefined : "gd-body-first"}>
+      <div className={content.hero_text ? "gd-body-after-hero" : "gd-body-first"}>
         {blocks.map((block, i) => {
           // The page's h1: its hero text, or when there is none, the first
           // block title (so every case study has exactly one h1).
