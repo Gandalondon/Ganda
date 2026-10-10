@@ -190,3 +190,9 @@ git push origin main
 - Prefer modifying existing components over creating new ones.
 - Preserve the existing design language unless asked otherwise.
 - If unsure, ask rather than guessing.
+
+---
+
+# Ways of working
+
+Read WORKFLOW.md before starting work: how content, code and schema changes differ, how to run the site locally against the live Storyblok content, and the content snapshot for testing.
