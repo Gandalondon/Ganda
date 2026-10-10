@@ -36,7 +36,7 @@
   /* Home intro and closing CTA (feat/project-list trial) */
   --type-hero: clamp(34px, 3.15vw, calc(46 * var(--u)));
   /* Project list names */
-  --type-list: clamp(26px, 2.7vw, calc(39 * var(--u)));
+  --type-list: var(--type-display);
   --type-body: calc(20 * var(--u));
   --type-small: calc(20 * var(--u));
   /* Tags are metadata: smaller than the body, at weight 600 (alt.css). 16px
