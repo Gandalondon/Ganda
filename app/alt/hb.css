@@ -83,6 +83,11 @@ main.hb-home {
   background: var(--hb-dark);
   --ink: var(--surface);
   container-type: inline-size;
+  /* Nothing of the stage may show outside its own box: the wordmark is pulled
+     a little below it (so its baseline is the edge), and without this its foot
+     painted over the black closing block at the end of the page. clip, not
+     hidden, so the stage stays a plain sticky layer. */
+  overflow: clip;
   position: sticky;
   top: min(0px, calc(100svh - var(--hb-h, 0px)));
   z-index: 0;
