@@ -292,7 +292,7 @@ export default function ProjectDetail({
   });
 
   return (
-    <main id="main" style={{ paddingBottom: "calc(144 * var(--u))" }}>
+    <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
       {content.hero_text && (
         <div className="gd-container">
           <h1
