@@ -1,11 +1,12 @@
 import { getStory, getWorkProjects } from "@/lib/storyblok";
 import WorkGrid from "@/components/WorkGrid";
 import PageStatement from "@/components/PageStatement";
+import { noWidow } from "@/lib/inline";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Work | Ganda",
+  title: "Work — Ganda",
   description:
     "Recent product design work by Tony Goff-Yu: experimentation, conversion and the use of AI in the design process.",
   path: "/work",
@@ -29,7 +30,7 @@ export default async function WorkIndexPage() {
 
   return (
     <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
-      <PageStatement>{statement}</PageStatement>
+      <PageStatement>{noWidow(statement)}</PageStatement>
       <div className="gd-container">
         <WorkGrid projects={projects} />
       </div>

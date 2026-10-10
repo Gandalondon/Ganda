@@ -4,7 +4,7 @@ import { useStoryblokState } from "@storyblok/react";
 import { useEffect, useState } from "react";
 import WorkGrid from "@/components/WorkGrid";
 import BlurImage from "@/components/BlurImage";
-import { renderInlineLinks } from "@/lib/inline";
+import { noWidow, renderInlineLinks } from "@/lib/inline";
 import type { WorkProject } from "@/lib/storyblok";
 
 type TextBlock = {
@@ -308,7 +308,7 @@ export default function ProjectDetail({
               textWrap: "pretty",
             }}
           >
-            {content.hero_text}
+            {noWidow(content.hero_text)}
           </h1>
         </div>
       )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
+import { noWidow } from "@/lib/inline";
 
 // Opening screen for the home page: dark, the introduction near the top and
 // GANDA at the foot of the screen, with the work (the first project is below
@@ -47,7 +48,7 @@ export default function HbStage({
     <section ref={stage} className="hb-stage gd-container">
       <h1 className={`hb-wordmark ${fontClass}`}>Ganda</h1>
       <div className="hb-intro-row">
-        <p className="hb-intro">{intro}</p>
+        <p className="hb-intro">{noWidow(intro)}</p>
       </div>
     </section>
   );

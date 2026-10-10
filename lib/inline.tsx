@@ -1,5 +1,12 @@
 import type { ReactNode } from "react";
 
+// The house no-widow rule: the last two words of a block of text are joined
+// with a non-breaking space, so the last line is never a single word.
+// (text-wrap: pretty is only a hint and browsers often ignore it.)
+export function noWidow(text: string): string {
+  return text.replace(/\s+(\S+)\s*$/, "\u00a0$1");
+}
+
 // Handles two inline markdown patterns within body copy: [label](href) links
 // and **bold** emphasis. Both are matched in a single pass so ordering stays
 // correct regardless of which appears first in the text.
@@ -35,6 +42,6 @@ export function renderInlineLinks(text: string): ReactNode[] {
     lastIndex = match.index + markdown.length;
   }
 
-  parts.push(text.slice(lastIndex));
+  parts.push(noWidow(text.slice(lastIndex)));
   return parts;
 }
