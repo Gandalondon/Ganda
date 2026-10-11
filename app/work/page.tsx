@@ -29,7 +29,7 @@ export default async function WorkIndexPage() {
   const statement = content.hero_text || DEFAULT_STATEMENT;
 
   return (
-    <main id="main" style={{ paddingBottom: "calc(96 * var(--u))" }}>
+    <main id="main" className="gd-work-index" style={{ paddingBottom: "calc(96 * var(--u))" }}>
       <PageStatement>{typeset(statement)}</PageStatement>
       <div className="gd-container">
         <WorkGrid projects={projects} />

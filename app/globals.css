@@ -276,6 +276,17 @@ b {
   text-decoration: none;
 }
 
+/* Work page: no line above the first project and no padding over it, so FINN
+   starts the same distance under the opening statement as "Expertise" does on
+   About (the statement gap alone). */
+.gd-work-index .gd-list {
+  border-top: 0;
+}
+
+.gd-work-index .gd-list > li:first-child > .gd-row {
+  padding-top: 0;
+}
+
 a.gd-row:visited {
   color: var(--ink);
 }
