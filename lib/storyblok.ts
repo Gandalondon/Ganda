@@ -3,7 +3,11 @@ import { draftMode } from "next/headers";
 
 const Storyblok = new StoryblokClient({
   accessToken: process.env.NEXT_PUBLIC_STORYBLOK_PREVIEW_TOKEN,
-  cache: { clear: "auto", type: "memory" },
+  // No in-memory cache: it lived on inside each server instance, so a page
+  // rebuilt after a Storyblok publish could still get the old content (the
+  // home page kept showing a hidden project). Next.js caches the pages
+  // themselves, and the publish webhook refreshes them.
+  cache: { type: "none" },
 });
 
 export default Storyblok;
