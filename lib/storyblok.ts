@@ -68,6 +68,8 @@ export async function getWorkProjects(): Promise<WorkProject[]> {
     starts_with: "work/",
     version: isEnabled ? "draft" : "published",
     per_page: 50,
+    // The order you drag the stories into in Storyblok's Work folder.
+    sort_by: "position:asc",
   });
   // Unlisted pages (hide_from_work_grid) stay reachable by direct URL but
   // are dropped here, which keeps them out of every grid, related-project
