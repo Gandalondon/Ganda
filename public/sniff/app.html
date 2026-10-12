@@ -2791,7 +2791,7 @@ class Component extends DCLogic {
         const on = cur === id;
         return {
           label, icon, on: on ? 'true' : 'false', iconColor: on ? ACCENT : MUTE,
-          st: 'height:48px;padding:0 4px;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;font:400 16px/1 \'Figtree\',sans-serif;color:' + INK + ';background:#FFFFFF;border:' + (on ? '2px solid ' + ACCENT : '1px solid ' + LINE_UI),
+          st: 'height:48px;padding:0 4px;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;font:400 16px/1 \'Figtree\',sans-serif;color:' + INK + ';background:#FFFFFF;border:1px solid ' + (on ? ACCENT : LINE_UI) + ';box-shadow:' + (on ? 'inset 0 0 0 1px ' + ACCENT : 'none'),
           pick: () => { const d = this.state.data; const moods = Object.assign({}, d.moods || {}); if (moods[k] === id) delete moods[k]; else moods[k] = id; this.commit(Object.assign({}, d, { moods })); }
         };
       })
@@ -2836,7 +2836,7 @@ class Component extends DCLogic {
     const dn = d.name.trim() || 'your dog';
     const si = STEPS.indexOf(step);
     const blocked = this.blocked();
-    const optSt = (on, h) => 'min-height:' + h + 'px;padding:' + (on ? '7px 15px' : '8px 16px') + ';border-radius:8px;display:flex;align-items:center;gap:16px;text-align:left;font:400 17px/1.25 \'Figtree\',sans-serif;background:#FFFFFF;border:' + (on ? '2px solid ' + ACCENT : '1px solid ' + LINE_UI);
+    const optSt = (on, h) => 'min-height:' + h + 'px;padding:' + (on ? '7px 15px' : '8px 16px') + ';border-radius:8px;display:flex;align-items:center;gap:16px;text-align:left;font:400 17px/1.25 \'Figtree\',sans-serif;background:#FFFFFF;border:1px solid ' + (on ? ACCENT : LINE_UI) + ';box-shadow:' + (on ? 'inset 0 0 0 1px ' + ACCENT : 'none');
     const boxSt = (on, round) => 'flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:' + (round ? '50%' : '4px') + ';background:' + (on ? ACCENT : '#FFFFFF') + ';border:1px solid ' + (on ? ACCENT : LINE_UI);
     const markSt = (on, round) => !on ? 'display:none' : round ? 'display:block;width:8px;height:8px;border-radius:50%;background:#FFFFFF' : 'display:block;width:6px;height:10px;margin-top:-3px;border-right:2px solid #FFFFFF;border-bottom:2px solid #FFFFFF;transform:rotate(45deg)';
     const sexBtn = (on, small) => optSt(on, small ? 48 : 64);
@@ -3123,7 +3123,7 @@ class Component extends DCLogic {
     vals.summary = sum.slice(0, 4).join(' ') || sent.slice(0, 2).join(' ');
 
     // walk sheet
-    const chipSt = on => 'flex:1;min-width:0;height:48px;padding:0 4px;border-radius:24px;display:flex;align-items:center;justify-content:center;font:' + (on ? 600 : 400) + ' 16px/1 \'Figtree\',sans-serif;color:' + INK + ';background:#FFFFFF;border:' + (on ? '2px solid ' + ACCENT : '1px solid ' + LINE_UI);
+    const chipSt = on => 'flex:1;min-width:0;height:48px;padding:0 4px;border-radius:24px;display:flex;align-items:center;justify-content:center;font:' + (on ? 600 : 400) + ' 16px/1 \'Figtree\',sans-serif;color:' + INK + ';background:#FFFFFF;border:1px solid ' + (on ? ACCENT : LINE_UI) + ';box-shadow:' + (on ? 'inset 0 0 0 1px ' + ACCENT : 'none');
     if (s.walkOpen) {
       const C = 140, R = 116, dur = Math.round(s.walkDur / 5) * 5, raw = Math.max(5, Math.min(120, s.walkDur));
       const end = new Date(s.walkEnd), endM = end.getMinutes() + end.getSeconds() / 60;
@@ -3170,7 +3170,7 @@ class Component extends DCLogic {
     Object.assign(vals, {
       isPlayMode: pm, isWalkMode: !pm, walkTitle: pm ? 'Play' : 'Walk', walkHint: pm ? 'Drag back to when you started playing.' : 'Drag the walker back to when you set off.',
       dialLabel: pm ? 'Play start' : 'Walk start', walkIcon: pm ? 'sports_tennis' : 'directions_walk', startLabel: pm ? 'Started' : 'Set off', endLabel: pm ? 'Finished' : 'Back home', saveLabel: pm ? 'Save play' : 'Save walk',
-      playOpts: PLAYS.map(([id, label]) => { const on = s.walkPlay === id; return { label, on: on ? 'true' : 'false', st: 'flex:1;min-width:0;height:48px;padding:0 4px;border-radius:24px;display:flex;align-items:center;justify-content:center;font:' + (on ? 600 : 400) + ' 16px/1 \'Figtree\',sans-serif;color:' + INK + ';background:#FFFFFF;border:' + (on ? '2px solid ' + ACCENT : '1px solid ' + LINE_UI), pick: () => this.setState(st => ({ walkPlay: st.walkPlay === id ? null : id })) }; })
+      playOpts: PLAYS.map(([id, label]) => { const on = s.walkPlay === id; return { label, on: on ? 'true' : 'false', st: 'flex:1;min-width:0;height:48px;padding:0 4px;border-radius:24px;display:flex;align-items:center;justify-content:center;font:' + (on ? 600 : 400) + ' 16px/1 \'Figtree\',sans-serif;color:' + INK + ';background:#FFFFFF;border:1px solid ' + (on ? ACCENT : LINE_UI) + ';box-shadow:' + (on ? 'inset 0 0 0 1px ' + ACCENT : 'none'), pick: () => this.setState(st => ({ walkPlay: st.walkPlay === id ? null : id })) }; })
     });
     Object.assign(vals, { walkOpen: !!s.walkOpen, closeWalk: this.closeWalk, saveWalk: this.saveWalk, dialRef: this.dialRef, dialDown: this.dialDown, dialMove: this.dialMove, dialUp: this.dialUp, dialKey: this.dialKey,
       backdropCloseWalk: e => { if (e.target === e.currentTarget) this.closeWalk(); } });
