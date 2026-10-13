@@ -1941,7 +1941,11 @@
 @keyframes nzSniffB{0%,30%,60%,100%{transform:none}15%,45%{transform:scale(1.25,.35)}}
 @keyframes nzTipA{0%,100%{transform:none}15%,45%{transform:rotate(-5deg) translateY(-1px)}30%{transform:rotate(-2deg)}}
 @keyframes nzTipB{0%,100%{transform:none}15%,45%{transform:rotate(-5deg) translateY(-1px)}30%{transform:rotate(-2deg)}}
-@media (prefers-reduced-motion:reduce){.nz,.nz .nh{animation:none!important}}
+.splnz{transform-origin:50% 80%;animation:nzTip 1s ease-in-out .25s 1 both}
+.splnz .nh{transform-box:fill-box;transform-origin:50% 50%;animation:nzSniff 1s ease-in-out .25s 1 both}
+.spl{animation:splOut .3s ease-in 1.6s 1 forwards}
+@keyframes splOut{to{opacity:0}}
+@media (prefers-reduced-motion:reduce){.nz,.nz .nh,.splnz,.splnz .nh{animation:none!important}.spl{animation:splOut .2s ease-in .6s 1 forwards!important}}
 html,body{margin:0;padding:0;background:#FFFFFF;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 *{box-sizing:border-box}
 body{font-family:'Figtree',system-ui,sans-serif;color:#2A2B26}
@@ -1952,6 +1956,7 @@ button:disabled{cursor:default}
 h1,h2,h3{text-wrap:balance}
 p{text-wrap:pretty}
 :focus-visible{outline:2px solid #2A2B26;outline-offset:2px}
+.pager{scrollbar-width:none}.pager::-webkit-scrollbar{display:none}
 .avatar-edit:focus-within{outline:2px solid #2A2B26;outline-offset:4px}
 input::placeholder{color:#8A8B84}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
@@ -1965,6 +1970,7 @@ input::placeholder{color:#8A8B84}
 .sec:not(:disabled):active,label.btn:active,.ib:not(:disabled):active{background:#EFEDE7!important}
 .soft:not(:disabled):active{background:#EFEDE7!important}
 button.cta:not(:disabled):active{background:#E5532F!important}
+.tb .ms{transition:transform .12s ease}.tb:active .ms{transform:scale(.82)}
 button.dark:active{background:#3A3B35!important}
 .avatar-edit:active .cam{background:#EFEDE7!important}
 .dial{touch-action:none;-webkit-user-select:none;user-select:none}
@@ -1978,6 +1984,11 @@ button.dark:active{background:#3A3B35!important}
 <div style="{{ screenSt }}">
 <div ref="{{ scrollRef }}" style="{{ scrollSt }}">
 <div style="min-height:{{ fullH }};max-width:560px;margin:0 auto;background:#FFFFFF;color:#2A2B26;font-family:'Figtree',system-ui,sans-serif">
+<sc-if value="{{ showSplash }}" hint-placeholder-val="{{ false }}">
+<div class="spl" role="img" aria-label="Sniff" style="position:fixed;inset:0;z-index:50;background:#FFFFFF;display:flex;align-items:center;justify-content:center">
+<div style="display:flex;align-items:center;gap:16px;color:#2A2B26"><svg width="70" height="56" viewBox="0 0 100 80" aria-hidden="true" class="splnz"><mask id="snNoseSpl"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="5" stroke-linecap="round"></path><circle class="nh" cx="34" cy="42" r="7.5" fill="#000000"></circle><circle class="nh" cx="66" cy="42" r="7.5" fill="#000000"></circle></mask><path d="M50 12C78 12 95 17 95 34C95 50 84 60 70 63C62 65 56 68 50 76C44 68 38 65 30 63C16 60 5 50 5 34C5 17 22 12 50 12Z" fill="#EE6040" mask="url(#snNoseSpl)"></path></svg><span style="font:800 56px/1 'Figtree',sans-serif;letter-spacing:-.03em">Sniff</span></div>
+</div>
+</sc-if>
 
 <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
 <div style="min-height:{{ fullH }};background:#FFFFFF;display:flex;flex-direction:column;padding:0 24px calc(24px + env(safe-area-inset-bottom))">
@@ -2104,7 +2115,7 @@ button.dark:active{background:#3A3B35!important}
 
 <sc-if value="{{ isActs }}" hint-placeholder-val="{{ false }}">
 <div class="fade">
-<h1 style="margin:0 0 32px;font:800 40px/1 'Figtree',sans-serif;letter-spacing:-.03em">What helps your dog settle? Pick up to six.</h1>
+<h1 style="margin:0 0 32px;font:800 40px/1 'Figtree',sans-serif;letter-spacing:-.03em">What helps your dog settle? Pick two or more.</h1>
 <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:8px">
 <sc-for list="{{ actOpts }}" as="o" hint-placeholder-count="8">
 <button class="sec" onClick="{{ o.toggle }}" aria-pressed="{{ o.on }}" disabled="{{ o.blocked }}" style="{{ o.st }}"><span aria-hidden="true" style="{{ o.boxSt }}"><span style="{{ o.markSt }}"></span></span><span>{{ o.label }}</span></button>
@@ -2141,7 +2152,7 @@ button.dark:active{background:#3A3B35!important}
 </sc-if>
 
 <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
-<div style="height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between"><button onClick="{{ toIntro }}" aria-label="Sniff, back to start" style="height:48px;padding:0;border:0;background:none;display:flex;align-items:center;gap:8px;color:#2A2B26"><svg width="30" height="24" viewBox="0 0 100 80" aria-hidden="true" class="nz {{ noseCls }}"><mask id="snNose3"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="5" stroke-linecap="round"></path><circle class="nh" cx="34" cy="42" r="7.5" fill="#000000"></circle><circle class="nh" cx="66" cy="42" r="7.5" fill="#000000"></circle></mask><path d="M50 12C78 12 95 17 95 34C95 50 84 60 70 63C62 65 56 68 50 76C44 68 38 65 30 63C16 60 5 50 5 34C5 17 22 12 50 12Z" fill="#EE6040" mask="url(#snNose3)"></path></svg><span style="font:800 26px/1 'Figtree',sans-serif;letter-spacing:-.03em">Sniff</span></button><button class="ib" onClick="{{ goEdit }}" aria-label="Settings" style="width:48px;height:48px;padding:0;margin-right:-16px;border:0;border-radius:24px;background:none;display:flex;align-items:center;justify-content:center;transform:translateY(4px)"><span class="ms" aria-hidden="true" style="color:#2A2B26;font-size:24px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24">settings</span></button></div>
+<div style="height:48px;padding:0 24px;display:flex;align-items:center;justify-content:flex-end"><button class="ib" onClick="{{ goEdit }}" aria-label="Settings" style="width:48px;height:48px;padding:0;margin-right:-16px;border:0;border-radius:24px;background:none;display:flex;align-items:center;justify-content:center;transform:translateY(4px)"><span class="ms" aria-hidden="true" style="color:#2A2B26;font-size:24px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24">settings</span></button></div>
 <div style="width:100%;max-width:{{ maxW }};margin:0 auto;padding-bottom:{{ padBottom }}">
 
 
@@ -2160,8 +2171,10 @@ button.dark:active{background:#3A3B35!important}
 
 <sc-if value="{{ tabToday }}" hint-placeholder-val="{{ true }}">
 <sc-if value="{{ hasActs }}" hint-placeholder-val="{{ true }}">
-<div style="{{ gridSt }}">
-<sc-for list="{{ tiles }}" as="t" hint-placeholder-count="4">
+<div class="pager" ref="{{ pagerRef }}" onScroll="{{ onPager }}" style="{{ gridSt }}">
+<sc-for list="{{ pages }}" as="pg" hint-placeholder-count="1">
+<div style="{{ pg.st }}">
+<sc-for list="{{ pg.tiles }}" as="t" hint-placeholder-count="4">
 <section class="tile" aria-label="{{ t.name }}" style="{{ t.st }}">
 <div>
 <h2 style="margin:0;font:600 {{ t.nameSize }}/1.15 'Figtree',sans-serif;letter-spacing:-.015em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.name }}</h2>
@@ -2173,17 +2186,26 @@ button.dark:active{background:#3A3B35!important}
 <sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
 <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px">
 <sc-if value="{{ t.showInline }}" hint-placeholder-val="{{ false }}">
-<p class="num" aria-live="polite" aria-label="{{ t.countLabel }}" style="margin:0 auto 0 0;font:700 40px/.9 'Figtree',sans-serif;letter-spacing:-.025em;color:{{ t.countColor }}">{{ t.count }}</p>
+<p class="num" aria-live="polite" aria-label="{{ t.countLabel }}" style="flex:1;min-width:0;margin:0;font:700 40px/.9 'Figtree',sans-serif;letter-spacing:-.025em;color:{{ t.countColor }}">{{ t.count }}</p>
 </sc-if>
 <sc-if value="{{ t.hasAny }}" hint-placeholder-val="{{ true }}">
-<button class="soft" onClick="{{ t.minus }}" aria-label="{{ t.minusLabel }}" style="{{ t.minusSt }}"><span class="ms" aria-hidden="true" style="color:#2A2B26;font-size:26px">remove</span></button>
+<button class="tb" onClick="{{ t.minus }}" aria-label="{{ t.minusLabel }}" style="{{ t.minusSt }}"><span class="ms" aria-hidden="true" style="color:{{ t.plusIcon }};font-size:40px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40">remove</span></button>
 </sc-if>
-<button class="cta" onClick="{{ t.plus }}" aria-label="Record {{ t.name }}" style="{{ t.plusSt }}"><span class="ms" aria-hidden="true" style="color:{{ t.plusIcon }};font-size:28px">add</span></button>
+<button class="tb" onClick="{{ t.plus }}" aria-label="Record {{ t.name }}" style="{{ t.plusSt }}"><span class="ms" aria-hidden="true" style="color:{{ t.plusIcon }};font-size:40px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 40">add</span></button>
 </div>
 </sc-if>
 </section>
 </sc-for>
 </div>
+</sc-for>
+</div>
+<sc-if value="{{ multiPage }}" hint-placeholder-val="{{ false }}">
+<div style="height:24px;display:flex;justify-content:center;align-items:flex-end">
+<sc-for list="{{ dots }}" as="d" hint-placeholder-count="2">
+<button onClick="{{ d.go }}" aria-label="{{ d.label }}" aria-current="{{ d.cur }}" style="width:16px;height:16px;padding:0;border:0;background:none;display:flex;align-items:center;justify-content:center"><span style="{{ d.st }}"></span></button>
+</sc-for>
+</div>
+</sc-if>
 
 </sc-if>
 <sc-if value="{{ noActs }}" hint-placeholder-val="{{ false }}">
@@ -2288,9 +2310,6 @@ button.dark:active{background:#3A3B35!important}
 </ol>
 
 <h3 style="margin:0 0 16px;font:700 20px/1.2 'Figtree',sans-serif">Add an activity</h3>
-<sc-if value="{{ atMax }}" hint-placeholder-val="{{ false }}">
-<p style="margin:0 0 16px;font:400 17px/1.45 'Figtree',sans-serif;color:#5E6058">Six is the maximum. Remove one to add another.</p>
-</sc-if>
 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">
 <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="4">
 <button class="sec" onClick="{{ s.add }}" disabled="{{ atMax }}" style="height:48px;padding:0 16px;border:1px solid #B5B1A5;border-radius:24px;background:{{ sugBg }};color:{{ sugFg }};font:400 16px/1 'Figtree',sans-serif;display:flex;align-items:center;gap:8px"><span class="ms" aria-hidden="true" style="color:{{ sugFg }};font-size:18px">add</span>{{ s.name }}</button>
@@ -2558,17 +2577,20 @@ function exampleData(nowTs) {
   return { v: 1, dog: { name: '', photo: '' }, acts, events, weather, startedAt: dayKey(new Date(now.getFullYear(), now.getMonth(), now.getDate() - (DAYSX.length - 1))) };
 }
 
+const SPLASH = true;
+
 class Component extends DCLogic {
   state = (() => {
     const data = load();
     return {
-      data, step: data ? 'done' : 'intro', draft: blankDraft(), custom: '', tab: 'today', sel: null, weekAnchor: null,
+      data, splash: SPLASH && !data, step: data ? 'done' : 'intro', draft: blankDraft(), custom: '', tab: 'today', sel: null, weekAnchor: null,
       toast: null, flash: {}, now: Date.now(), w: window.innerWidth || 390, introPage: 0, h: window.innerHeight || 844, editNew: '', confirmReset: false, walkOpen: false, walkDur: 30, walkFeel: null, walkEnd: 0, persistOk: storageOk()
     };
   })();
 
   componentDidMount() {
     try { document.title = 'Sniff'; } catch (e) {}
+    if (this.state.splash) { let rm = false; try { rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {} this.splashT = setTimeout(() => this.setState({ splash: false }), rm ? 800 : 1900); }
     this.tick = setInterval(() => this.setState({ now: Date.now() }), 15000);
     this.onResize = () => this.setState({ w: window.innerWidth, h: window.innerHeight });
     window.addEventListener('resize', this.onResize);
@@ -2576,7 +2598,7 @@ class Component extends DCLogic {
     document.addEventListener('visibilitychange', this.onVis);
   }
   componentWillUnmount() {
-    clearInterval(this.tick); clearTimeout(this.tt);
+    clearInterval(this.tick); clearTimeout(this.tt); clearTimeout(this.splashT);
     window.removeEventListener('resize', this.onResize);
     document.removeEventListener('visibilitychange', this.onVis);
   }
@@ -2622,13 +2644,13 @@ class Component extends DCLogic {
     if (st === 'age') return !d.age;
     if (st === 'weight') return !d.weight;
     if (st === 'photo') return !d.photo;
-    if (st === 'acts') return d.acts.length < 2 || d.acts.length > 6;
+    if (st === 'acts') return d.acts.length < 2;
     return false;
   }
   addCustom = () => {
     const name = this.state.custom.trim().slice(0, 24);
     const acts = this.state.draft.acts;
-    if (!name || acts.length >= 6) return;
+    if (!name) return;
     if (!acts.some(a => a.toLowerCase() === name.toLowerCase())) this.setDraft({ acts: acts.concat([name]) });
     this.setState({ custom: '' });
   };
@@ -2747,7 +2769,7 @@ class Component extends DCLogic {
   addAct(raw) {
     const name = String(raw || '').trim().slice(0, 24);
     const data = this.state.data;
-    if (!name || this.activeActs().length >= 6) return;
+    if (!name) return;
     if (this.activeActs().some(a => a.name.toLowerCase() === name.toLowerCase())) return;
     const old = data.acts.find(a => a.archived && a.name.toLowerCase() === name.toLowerCase());
     const active = this.activeActs(), archived = data.acts.filter(a => a.archived && a !== old);
@@ -2766,7 +2788,6 @@ class Component extends DCLogic {
   unarchive(id, pos) {
     const acts = this.state.data.acts;
     const active = acts.filter(a => !a.archived);
-    if (active.length >= 6) return;
     const it = acts.find(a => a.id === id);
     active.splice(Math.max(0, pos), 0, Object.assign({}, it, { archived: false }));
     this.patchActs(active.concat(acts.filter(a => a.archived && a.id !== id)));
@@ -2807,7 +2828,7 @@ class Component extends DCLogic {
     const isWide = false, isMid = false;
     const step = s.step;
     const vals = {
-      isIntro: step === 'intro', isSetup: STEPS.indexOf(step) > -1, isApp: step === 'done' && !!s.data,
+      showSplash: !!s.splash, isIntro: step === 'intro', isSetup: STEPS.indexOf(step) > -1, isApp: step === 'done' && !!s.data,
       isName: step === 'name', isSex: step === 'sex', isAge: step === 'age', isWeight: step === 'weight', isPhoto: step === 'photo', isActs: step === 'acts', isReady: step === 'ready',
       heroImg: HERO, poseRelax: POSE_RELAX, poseLook: POSE_LOOK,
       introP0: (s.introPage || 0) === 0, introP1: s.introPage === 1, introP2: s.introPage === 2, introNotLast: (s.introPage || 0) < 2,
@@ -2862,14 +2883,14 @@ class Component extends DCLogic {
       onCustom: e => this.setState({ custom: e.target.value }),
       customKey: e => { if (e.key === 'Enter') this.addCustom(); },
       addCustom: this.addCustom,
-      customBlocked: !s.custom.trim() || d.acts.length >= 6,
-      customOp: 1, draftFull: d.acts.length >= 6, customBg: d.acts.length >= 6 ? 'transparent' : '#FFFFFF', customPh: d.acts.length >= 6 ? 'Untick one to add your own' : 'Add your own', customFg: !s.custom.trim() || d.acts.length >= 6 ? FAINT : INK,
-      actCountTxt: d.acts.length === 0 ? 'None picked yet.' : d.acts.length === 1 ? '1 picked. Pick at least one more.' : d.acts.length >= 6 ? '6 picked. That is the maximum, so untick one to swap it.' : d.acts.length + ' picked.'
+      customBlocked: !s.custom.trim(),
+      customOp: 1, draftFull: false, customBg: '#FFFFFF', customPh: 'Add your own', customFg: !s.custom.trim() ? FAINT : INK,
+      actCountTxt: d.acts.length === 0 ? 'None picked yet.' : d.acts.length === 1 ? '1 picked. Pick at least one more.' : d.acts.length + ' picked.'
     });
     const optNames = EXAMPLES.concat(d.acts.filter(a => !EXAMPLES.some(x => x.toLowerCase() === a.toLowerCase())));
     vals.actOpts = optNames.map(label => {
       const on = d.acts.some(a => a.toLowerCase() === label.toLowerCase());
-      const blockedOpt = !on && d.acts.length >= 6;
+      const blockedOpt = false;
       return {
         label, on, blocked: blockedOpt,
         st: optSt(on, 56) + (blockedOpt ? ';background:transparent;color:' + FAINT : ''),
@@ -2877,7 +2898,7 @@ class Component extends DCLogic {
         toggle: () => {
           const cur = this.state.draft.acts;
           if (on) this.setDraft({ acts: cur.filter(a => a.toLowerCase() !== label.toLowerCase()) });
-          else if (cur.length < 6) this.setDraft({ acts: cur.concat([label]) });
+          else this.setDraft({ acts: cur.concat([label]) });
         }
       };
     });
@@ -2932,8 +2953,8 @@ class Component extends DCLogic {
       toastBottom: 'calc(80px + env(safe-area-inset-bottom))'
     });
 
-    const ICONS = { today: 'home', week: 'auto_awesome' };
-    vals.tabs = [['today', 'Today'], ['week', 'Insights']].map(([id, label]) => {
+    const ICONS = { today: 'add_circle', week: 'auto_awesome' };
+    vals.tabs = [['today', 'Record'], ['week', 'Insights']].map(([id, label]) => {
       const on = s.tab === id;
       return {
         label, icon: ICONS[id], current: on ? 'page' : 'false', color: on ? ACCENT : INK, iconColor: on ? ACCENT : INK, iconFill: on ? ACCENT : 'none', iconFv: on ? "'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24" : "'FILL' 0,'wght' 500,'GRAD' 0,'opsz' 24", weight: 600,
@@ -2945,10 +2966,20 @@ class Component extends DCLogic {
 
     // tiles
     const screenH = (s.w || 0) >= 600 ? 844 : (s.h || 844);
-    const fitH = screenH - 64 - 100 - 72 + 6;
+    const fitH = screenH - 48 - 100 - 72 + 6;
     const lay = this.layout(active.length, w, isMid, false, fitH);
-    vals.gridSt = lay.grid + ';padding:0 16px';
-    vals.tiles = active.map((a, i) => {
+    const per = lay.per || active.length || 1, nPages = Math.max(1, Math.ceil(active.length / per));
+    const page = Math.min(s.page || 0, nPages - 1);
+    vals.multiPage = nPages > 1;
+    vals.gridSt = vals.multiPage ? 'display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain' : lay.grid + ';padding:0 16px';
+    vals.pagerRef = el => { this.pager = el; };
+    vals.onPager = e => { const el = e.currentTarget; const p = Math.round(el.scrollLeft / Math.max(1, el.clientWidth)); if (p !== (this.state.page || 0)) this.setState({ page: p }); };
+    vals.dots = Array.from({ length: nPages }, (_, i) => ({
+      label: 'Page ' + (i + 1) + ' of ' + nPages, cur: i === page ? 'true' : 'false',
+      st: 'width:8px;height:8px;border-radius:4px;background:' + (i === page ? INK : LINE_UI) + ';transition:background .2s',
+      go: () => { this.setState({ page: i }); try { this.pager.scrollTo({ left: i * this.pager.clientWidth, behavior: 'smooth' }); } catch (e) {} }
+    }));
+    const tilesAll = active.map((a, i) => {
       const evs = dayEvents.filter(e => e.actId === a.id);
       const n = evs.length, lit = !!s.flash[a.id];
       const lastTs = n ? evs[evs.length - 1].ts : null;
@@ -2957,17 +2988,22 @@ class Component extends DCLogic {
         countLabel: n + ' ' + (isWalk(a) ? (n === 1 ? 'walk' : 'walks') : a.name) + ' ' + (isToday ? 'today' : 'on ' + shortDay(sel)),
         last: lastTs ? (isWalk(a) ? 'Back at ' + hhmm(lastTs) : isPlay(a) && evs[evs.length - 1].dur ? durTxt(evs[evs.length - 1].dur) + ', at ' + hhmm(lastTs) : 'Last at ' + hhmm(lastTs)) : (isToday ? 'Not yet today' : 'None this day'),
         subColor: MUTE,
-        countColor: n === 0 ? LINE_UI : !isToday ? MUTE : INK,
+        countColor: n === 0 ? '#DAD7CE' : !isToday ? MUTE : INK,
         countSize: lay.count, nameSize: lay.nameSize,
-        st: lay.tile(i) + ';padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;outline:2px solid ' + (lit ? ACCENT : 'transparent') + ';outline-offset:-2px;background:' + (isToday ? '#F3F1EC' : '#F8F7F3'),
-        minusSt: 'width:56px;height:56px;border-radius:28px;border:0;background:#FFFFFF;display:flex;align-items:center;justify-content:center;opacity:' + (n === 0 ? OFF : 1),
-        plusSt: 'width:' + lay.plusW + ';height:56px;border-radius:28px;border:0;background:' + ACCENT + ';display:flex;align-items:center;justify-content:center',
-        plusIcon: '#FFFFFF', hasAny: n > 0, showBig: !lay.compact || !isToday, showInline: lay.compact && isToday,
+        st: lay.tile(i % per, Math.min(per, active.length - Math.floor(i / per) * per)) + ';padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;outline:2px solid ' + (lit ? ACCENT : 'transparent') + ';outline-offset:-2px;background:' + (isToday ? '#F3F1EC' : '#F8F7F3'),
+        minusSt: 'flex:0 0 48px;width:48px;height:56px;padding:0;border:0;background:none;display:flex;align-items:center;justify-content:center',
+        plusSt: 'flex:0 0 48px;width:48px;height:56px;padding:0;border:0;background:none;display:flex;align-items:center;justify-content:center;margin-right:-8px',
+        plusIcon: ACCENT, hasAny: n > 0, showBig: !lay.compact || !isToday, showInline: lay.compact && isToday,
         minusLabel: isWalk(a) ? 'Remove latest walk' : 'Remove latest ' + a.name,
         plus: () => this.record(a.id),
         minus: () => this.unrecord(a.id)
       };
     });
+    vals.tiles = tilesAll;
+    vals.pages = Array.from({ length: nPages }, (_, p) => ({
+      tiles: tilesAll.slice(p * per, p * per + per),
+      st: vals.multiPage ? lay.grid + ';align-content:start;flex:0 0 100%;box-sizing:border-box;padding:0 16px;scroll-snap-align:start;scroll-snap-stop:always' : 'display:contents'
+    }));
 
     // log
     vals.logEmpty = dayEvents.length === 0; vals.logHas = dayEvents.length > 0;
@@ -3101,23 +3137,32 @@ class Component extends DCLogic {
     // Sniff summary: lead with what is working, then the evidence, in plain words
     const sum = [];
     const times = n => n === 1 ? 'once' : n === 2 ? 'twice' : n + ' times';
+    const durs2 = walks.filter(e => e.dur).map(e => e.dur), avgD2 = durs2.length ? Math.round(durs2.reduce((x, y) => x + y, 0) / durs2.length / 5) * 5 : 0;
+    const durW = m => { const h = Math.floor(m / 60), r = m % 60; return (h ? h + (h === 1 ? ' hour' : ' hours') : '') + (h && r ? ' ' : '') + (r || !h ? r + ' minutes' : ''); };
+    let walkDone = false;
     if (rated.length) {
-      const good = rated.filter(e => e.cope === 'settled').length, notGood = rated.length - good;
-      const busySet = busyW.filter(e => e.cope === 'settled').length, busyHard = busyW.length - busySet;
+      const good = rated.filter(e => e.cope === 'settled').length, n = rated.length;
+      const busySet = busyW.filter(e => e.cope === 'settled').length;
       const quietWins = calmW.length >= 3 && busyW.length >= 2 && calmSet / calmW.length >= 0.75 && calmSet / calmW.length - busySet / busyW.length >= 0.25;
       if (quietWins) {
         sum.push('Quieter walks are working.');
         sum.push((calmSet === calmW.length ? 'All ' + calmW.length : calmSet + ' of ' + calmW.length) + ' walks with 2 dogs or fewer went well, but ' + (busySet === 0 ? 'none of the ' + busyW.length : 'only ' + busySet + ' of the ' + busyW.length) + ' with 3 or more dogs did.');
-      } else if (good === rated.length) {
-        sum.push('Walks are going well: all ' + rated.length + ' went well this week.');
+      } else if (n === 1 && walks.length === 1) {
+        sum.push('You walked once' + (avgD2 ? ', for about ' + durW(avgD2) : '') + ', and it ' + (good ? 'went well.' : 'did not go well.'));
+        walkDone = true;
+      } else if (n === 1) {
+        sum.push('Your one rated walk ' + (good ? 'went well.' : 'did not go well.'));
+      } else if (good === n) {
+        sum.push(n === 2 ? 'Both walks went well this week.' : 'All ' + n + ' walks went well this week.');
+      } else if (good === 0) {
+        sum.push(n === 2 ? 'Neither walk went well this week.' : 'None of the ' + n + ' walks went well this week.');
       } else {
-        sum.push(good + ' of ' + rated.length + ' walks went well this week' + (notGood ? ' and ' + notGood + (notGood === 1 ? ' did not.' : ' did not.') : '.'));
+        sum.push(good + ' of ' + n + ' walks went well this week.');
       }
     }
-    if (top && enrichTotal) sum.push(top.a.name + ' was your most-used activity, ' + times(top.n) + '.');
-    if (walks.length) {
-      const durs2 = walks.filter(e => e.dur).map(e => e.dur), avgD2 = durs2.length ? Math.round(durs2.reduce((x, y) => x + y, 0) / durs2.length / 5) * 5 : 0;
-      if (sum.length < 3) sum.push('You walked ' + times(walks.length) + (avgD2 ? ', about ' + durTxt(avgD2).replace(' min', ' minutes') + ' each.' : '.'));
+    if (top && enrichTotal && top.n >= 2) sum.push(top.a.name + ' was your most-used activity, ' + times(top.n) + '.');
+    if (walks.length && !walkDone && sum.length < 3) {
+      sum.push(walks.length === 1 ? 'You walked once' + (avgD2 ? ', for about ' + durW(avgD2) + '.' : '.') : 'You walked ' + times(walks.length) + (avgD2 ? ', about ' + durW(avgD2) + ' each.' : '.'));
     }
     if (plays.length && sum.length < 4) { const pm = plays.reduce((x, e) => x + e.dur, 0); sum.push(durTxt(pm).replace(' min', ' minutes') + ' of play over ' + plays.length + (plays.length === 1 ? ' session.' : ' sessions.')); }
     vals.summary = sum.slice(0, 4).join(' ') || sent.slice(0, 2).join(' ');
@@ -3191,8 +3236,8 @@ class Component extends DCLogic {
 
     // edit
     const nAct = active.length;
-    vals.editCountTxt = nAct + ' of 6 on the dashboard.';
-    vals.atMax = nAct >= 6; vals.sugBg = nAct >= 6 ? '#F8F7F3' : '#FFFFFF'; vals.sugFg = nAct >= 6 ? FAINT : INK; vals.editPh = 'Add your own';
+    vals.editCountTxt = nAct + ' on the dashboard.';
+    vals.atMax = false; vals.sugBg = '#FFFFFF'; vals.sugFg = INK; vals.editPh = 'Add your own';
     vals.toIntro = () => { clearTimeout(this.tt); this.setState({ step: 'intro', profileOpen: false, toast: null, sel: null, weekAnchor: null, tab: 'today' }); this.toTop(); };
     vals.goDog = () => this.setState({ actsOpen: true, editNew: '' });
     vals.leaveDog = () => this.setState({ profileOpen: false, confirmReset: false });
@@ -3211,7 +3256,7 @@ class Component extends DCLogic {
     const sugg = archivedNames.concat(EXAMPLES).filter((n, i, arr) => arr.findIndex(x => x.toLowerCase() === n.toLowerCase()) === i && activeLower.indexOf(n.toLowerCase()) < 0);
     vals.suggestions = sugg.map(name => ({ name, add: () => this.addAct(name) }));
     vals.editNew = s.editNew;
-    const enBlocked = !s.editNew.trim() || nAct >= 6;
+    const enBlocked = !s.editNew.trim();
     vals.editNewBlocked = enBlocked; vals.editNewFg = enBlocked ? FAINT : INK;
     vals.onEditNew = e => this.setState({ editNew: e.target.value });
     vals.addEditNew = () => { this.addAct(this.state.editNew); this.setState({ editNew: '' }); };
@@ -3234,17 +3279,23 @@ class Component extends DCLogic {
 
   // tile layout by count; heights in 8px steps
   layout(n, avail, wide, mini, fitH) {
-    let cols, h;
+    let cols, h, per = 0;
     if (mini) { cols = n <= 3 ? 1 : 2; h = n <= 2 ? 80 : n <= 3 ? 56 : 64; }
     else if (wide) { cols = n <= 3 ? Math.max(1, n) : n === 4 ? 2 : 3; h = n <= 3 ? 360 : 264; }
     else { cols = n <= 3 ? 1 : 2; h = n <= 1 ? 400 : n === 2 ? 296 : n === 3 ? 216 : n === 4 ? 248 : 200;
-      if (fitH) { const rows = cols === 1 ? n : Math.ceil(n / 2); h = Math.max(136, Math.min(n <= 1 ? 420 : 340, Math.floor((fitH - (rows - 1) * 8) / rows))); } }
-    const span = i => (n === 5 && i === 4 ? (wide ? 2 : 2) : 1);
+      if (fitH) {
+        // as many rows as fit at the minimum tile height; beyond that, swipe to another page
+        const maxRows = Math.max(3, Math.floor((fitH + 8) / (136 + 8)));
+        if (n > maxRows * 2) { const pr = Math.max(3, Math.floor((fitH - 24 + 8) / (136 + 8))); per = pr * 2; h = Math.floor((fitH - 24 - (pr - 1) * 8) / pr); }
+        else { const rows = cols === 1 ? n : Math.ceil(n / 2); h = Math.max(136, Math.min(n <= 1 ? 420 : 340, Math.floor((fitH - (rows - 1) * 8) / rows))); }
+      } }
+    const pn = per ? Math.min(per, n) : n;
+    const span = (i, cnt) => { const c = cnt == null ? pn : cnt; return (cols === 2 && c >= 5 && c % 2 === 1 && i === c - 1) || (cols === 3 && c === 5 && i === 4) ? 2 : 1; };
     const compact = !mini && h < 190;
     const big = (compact ? 40 : Math.max(36, Math.min(128, h - 152))) + 'px';
     return {
       grid: 'display:grid;grid-template-columns:repeat(' + cols + ',minmax(0,1fr));gap:8px',
-      tile: i => 'grid-column:span ' + span(i) + ';height:' + h + 'px;border-radius:8px;border:0;background:#F3F1EC',
+      per, tile: (i, cnt) => 'grid-column:span ' + span(i, cnt) + ';height:' + h + 'px;border-radius:8px;border:0;background:#F3F1EC',
       count: big, compact, roomy: !compact,
       nameSize: h >= 280 && cols === 1 ? '24px' : '20px',
       plusW: '56px'
