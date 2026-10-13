@@ -1986,41 +1986,40 @@ button.dark:active{background:#3A3B35!important}
 <div style="min-height:{{ fullH }};max-width:560px;margin:0 auto;background:#FFFFFF;color:#2A2B26;font-family:'Figtree',system-ui,sans-serif">
 <sc-if value="{{ showSplash }}" hint-placeholder-val="{{ false }}">
 <div class="spl" role="img" aria-label="Sniff" style="position:fixed;inset:0;z-index:50;background:#FFFFFF;display:flex;align-items:center;justify-content:center">
-<div style="display:flex;align-items:center;gap:16px;color:#2A2B26"><svg width="70" height="56" viewBox="0 0 100 80" aria-hidden="true" class="splnz"><mask id="snNoseSpl"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="5" stroke-linecap="round"></path><circle class="nh" cx="34" cy="42" r="7.5" fill="#000000"></circle><circle class="nh" cx="66" cy="42" r="7.5" fill="#000000"></circle></mask><path d="M50 12C78 12 95 17 95 34C95 50 84 60 70 63C62 65 56 68 50 76C44 68 38 65 30 63C16 60 5 50 5 34C5 17 22 12 50 12Z" fill="#EE6040" mask="url(#snNoseSpl)"></path></svg><span style="font:800 56px/1 'Figtree',sans-serif;letter-spacing:-.03em">Sniff</span></div>
+<div style="display:flex;align-items:center;gap:16px;color:#2A2B26"><svg width="70" height="56" viewBox="0 0 100 80" aria-hidden="true" class="splnz"><mask id="snNoseSpl"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="5" stroke-linecap="round"></path><circle class="nh" cx="35" cy="42" r="7.5" fill="#000000"></circle><circle class="nh" cx="65" cy="42" r="7.5" fill="#000000"></circle></mask><path d="M50 11C74 11 89 18 89 36C89 52 79 61 68 64C60 66 55 69 50 77C45 69 40 66 32 64C21 61 11 52 11 36C11 18 26 11 50 11Z" fill="#EE6040" mask="url(#snNoseSpl)"></path></svg><span style="font:800 56px/1 'Figtree',sans-serif;letter-spacing:-.03em">Sniff</span></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
-<div style="min-height:{{ fullH }};background:#FFFFFF;display:flex;flex-direction:column;padding:0 24px calc(24px + env(safe-area-inset-bottom))">
-<header style="height:64px;display:flex;align-items:center;justify-content:space-between"><button onClick="{{ toIntro }}" aria-label="Sniff, back to start" style="height:48px;padding:0;border:0;background:none;display:flex;align-items:center;gap:8px;color:#2A2B26"><svg width="30" height="24" viewBox="0 0 100 80" aria-hidden="true" class="nz"><mask id="snNose1"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="5" stroke-linecap="round"></path><circle class="nh" cx="34" cy="42" r="7.5" fill="#000000"></circle><circle class="nh" cx="66" cy="42" r="7.5" fill="#000000"></circle></mask><path d="M50 12C78 12 95 17 95 34C95 50 84 60 70 63C62 65 56 68 50 76C44 68 38 65 30 63C16 60 5 50 5 34C5 17 22 12 50 12Z" fill="#EE6040" mask="url(#snNose1)"></path></svg><span style="font:800 26px/1 'Figtree',sans-serif;letter-spacing:-.03em">Sniff</span></button>
-<sc-if value="{{ introNotLast }}" hint-placeholder-val="{{ true }}"><button class="ib" onClick="{{ introSkip }}" style="height:48px;padding:0 16px;margin-right:-16px;border:0;border-radius:24px;background:none;font:500 16px/1 'Figtree',sans-serif;color:#5E6058">Skip</button></sc-if>
+<div style="height:{{ fullH }};min-height:560px;background:#FFFFFF;display:flex;flex-direction:column;padding:0 24px calc(24px + env(safe-area-inset-bottom))">
+<header style="height:64px;display:flex;align-items:center;justify-content:space-between"><button onClick="{{ toIntro }}" aria-label="Sniff, back to start" style="height:48px;padding:0;border:0;background:none;display:flex;align-items:center;gap:8px;color:#2A2B26"><svg width="30" height="24" viewBox="0 0 100 80" aria-hidden="true" class="nz"><mask id="snNose1"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="5" stroke-linecap="round"></path><circle class="nh" cx="35" cy="42" r="7.5" fill="#000000"></circle><circle class="nh" cx="65" cy="42" r="7.5" fill="#000000"></circle></mask><path d="M50 11C74 11 89 18 89 36C89 52 79 61 68 64C60 66 55 69 50 77C45 69 40 66 32 64C21 61 11 52 11 36C11 18 26 11 50 11Z" fill="#EE6040" mask="url(#snNose1)"></path></svg><span style="font:800 26px/1 'Figtree',sans-serif;letter-spacing:-.03em">Sniff</span></button>
 </header>
-<div style="flex:1;display:flex;flex-direction:column;padding:16px 0 24px">
+<div style="flex:1 1 0;min-height:0;display:flex;flex-direction:column;padding:16px 0 24px">
 <sc-if value="{{ introP0 }}" hint-placeholder-val="{{ true }}">
-<div class="fade" style="flex:1;display:flex;flex-direction:column">
+<div class="fade" style="flex:1 1 0;min-height:0;display:flex;flex-direction:column">
 <h1 style="margin:0;font:800 40px/1 'Figtree',sans-serif;letter-spacing:-.03em">Every chew. Every sniff.</h1>
 <p style="margin:16px 0 0;font:400 19px/1.45 'Figtree',sans-serif;color:#5E6058">Log every chew, sniff and walk. One tap each time.</p>
-<div style="flex:1;display:flex;align-items:center;margin:0 -24px;padding-top:24px"><img src="{{ heroImg }}" alt="Fenrir, the Sniff beagle, trotting towards you" style="display:block;width:100%;margin:0;height:auto;aspect-ratio:3/2;object-fit:cover"></div>
+<div style="flex:1 1 0;min-height:0;display:flex;align-items:center;justify-content:center;margin:0 -24px;padding-top:24px"><img src="{{ heroImg }}" alt="Fenrir, the Sniff beagle, trotting towards you" style="display:block;width:100%;max-height:100%;margin:0;height:auto;object-fit:contain"></div>
 
 </div>
 </sc-if>
 <sc-if value="{{ introP1 }}" hint-placeholder-val="{{ false }}">
-<div class="fade" style="flex:1;display:flex;flex-direction:column">
+<div class="fade" style="flex:1 1 0;min-height:0;display:flex;flex-direction:column">
 <h1 style="margin:0;font:800 40px/1 'Figtree',sans-serif;letter-spacing:-.03em">A recap every morning.</h1>
 <p style="margin:16px 0 0;font:400 19px/1.45 'Figtree',sans-serif;color:#5E6058">See what you gave yesterday, then carry on logging today.</p>
 <div aria-hidden="true" style="display:flex;padding-top:40px">
 <div style="width:100%;background:#FFFFFF;border:1px solid #DAD7CE;border-radius:20px;padding:16px">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="width:24px;height:24px;border-radius:50%;background:#FFFFFF;border:1px solid #DAD7CE;display:flex;align-items:center;justify-content:center"><svg width="16" height="13" viewBox="0 0 100 80"><mask id="inN"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="6" stroke-linecap="round"></path><circle cx="34" cy="42" r="8" fill="#000000"></circle><circle cx="66" cy="42" r="8" fill="#000000"></circle></mask><path d="M50 12C78 12 95 17 95 34C95 50 84 60 70 63C62 65 56 68 50 76C44 68 38 65 30 63C16 60 5 50 5 34C5 17 22 12 50 12Z" fill="#EE6040" mask="url(#inN)"></path></svg></span><span style="font:500 13px/1 'Figtree',sans-serif;color:#5E6058">Sniff · 9:00</span></div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="width:24px;height:24px;border-radius:50%;background:#FFFFFF;border:1px solid #DAD7CE;display:flex;align-items:center;justify-content:center"><svg width="16" height="13" viewBox="0 0 100 80"><mask id="inN"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="6" stroke-linecap="round"></path><circle cx="35" cy="42" r="8" fill="#000000"></circle><circle cx="65" cy="42" r="8" fill="#000000"></circle></mask><path d="M50 11C74 11 89 18 89 36C89 52 79 61 68 64C60 66 55 69 50 77C45 69 40 66 32 64C21 61 11 52 11 36C11 18 26 11 50 11Z" fill="#EE6040" mask="url(#inN)"></path></svg></span><span style="font:500 13px/1 'Figtree',sans-serif;color:#5E6058">Sniff · 9:00</span></div>
 <p style="margin:0 0 4px;font:600 16px/1.3 'Figtree',sans-serif">Yesterday: 2 walks, 6 activities</p>
 <p style="margin:0;font:400 16px/1.4 'Figtree',sans-serif;color:#5E6058">Both walks settled. 3 LickiMats, 2 chews and 1 snuffle mat.</p>
 </div>
 </div>
 
-<div aria-hidden="true" style="flex:1;display:flex;align-items:center;justify-content:center;padding-top:24px"><img src="{{ poseRelax }}" alt="" style="display:block;width:296px;max-width:100%;height:auto"></div>
+<div aria-hidden="true" style="flex:1 1 0;min-height:0;display:flex;align-items:center;justify-content:center;padding-top:24px"><img src="{{ poseRelax }}" alt="" style="display:block;width:296px;max-width:100%;max-height:100%;height:auto;object-fit:contain"></div>
 </div>
 </sc-if>
 <sc-if value="{{ introP2 }}" hint-placeholder-val="{{ false }}">
-<div class="fade" style="flex:1;display:flex;flex-direction:column">
+<div class="fade" style="flex:1 1 0;min-height:0;display:flex;flex-direction:column">
 <h1 style="margin:0;font:800 40px/1 'Figtree',sans-serif;letter-spacing:-.03em">See what helps.</h1>
 <p style="margin:16px 0 0;font:400 19px/1.45 'Figtree',sans-serif;color:#5E6058">Sniff spots the patterns in what you log, week by week.</p>
 <div aria-hidden="true" style="display:flex;padding-top:40px">
@@ -2031,7 +2030,7 @@ button.dark:active{background:#3A3B35!important}
 </div>
 </div>
 
-<div aria-hidden="true" style="flex:1;display:flex;align-items:flex-end;justify-content:center;margin-top:-24px;padding-bottom:8px"><img src="{{ poseLook }}" alt="" style="display:block;width:216px;max-width:100%;height:auto"></div>
+<div aria-hidden="true" style="flex:1 1 0;min-height:0;display:flex;align-items:flex-end;justify-content:center;margin-top:-24px;padding-bottom:8px"><img src="{{ poseLook }}" alt="" style="display:block;width:216px;max-width:100%;max-height:100%;height:auto;object-fit:contain"></div>
 </div>
 </sc-if>
 </div>
@@ -2049,7 +2048,7 @@ button.dark:active{background:#3A3B35!important}
 <div style="min-height:{{ fullH }};display:flex;flex-direction:column">
 <header style="position:sticky;top:0;z-index:4;background:#FFFFFF">
 <div style="max-width:1280px;margin:0 auto;height:64px;padding:0 {{ pagePad }};display:flex;align-items:center;justify-content:space-between;gap:16px">
-<button onClick="{{ toIntro }}" aria-label="Sniff, back to start" style="height:48px;padding:0;border:0;background:none;display:flex;align-items:center;gap:8px;color:#2A2B26"><svg width="30" height="24" viewBox="0 0 100 80" aria-hidden="true" class="nz"><mask id="snNose2"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="5" stroke-linecap="round"></path><circle class="nh" cx="34" cy="42" r="7.5" fill="#000000"></circle><circle class="nh" cx="66" cy="42" r="7.5" fill="#000000"></circle></mask><path d="M50 12C78 12 95 17 95 34C95 50 84 60 70 63C62 65 56 68 50 76C44 68 38 65 30 63C16 60 5 50 5 34C5 17 22 12 50 12Z" fill="#EE6040" mask="url(#snNose2)"></path></svg><span style="font:800 26px/1 'Figtree',sans-serif;letter-spacing:-.03em">Sniff</span></button>
+<button onClick="{{ toIntro }}" aria-label="Sniff, back to start" style="height:48px;padding:0;border:0;background:none;display:flex;align-items:center;gap:8px;color:#2A2B26"><svg width="30" height="24" viewBox="0 0 100 80" aria-hidden="true" class="nz"><mask id="snNose2"><rect width="100" height="80" fill="#FFFFFF"></rect><path d="M50 53V77" stroke="#000000" stroke-width="5" stroke-linecap="round"></path><circle class="nh" cx="35" cy="42" r="7.5" fill="#000000"></circle><circle class="nh" cx="65" cy="42" r="7.5" fill="#000000"></circle></mask><path d="M50 11C74 11 89 18 89 36C89 52 79 61 68 64C60 66 55 69 50 77C45 69 40 66 32 64C21 61 11 52 11 36C11 18 26 11 50 11Z" fill="#EE6040" mask="url(#snNose2)"></path></svg><span style="font:800 26px/1 'Figtree',sans-serif;letter-spacing:-.03em">Sniff</span></button>
 </div>
 </header>
 
@@ -2846,7 +2845,7 @@ class Component extends DCLogic {
           frameSt: 'flex:0 0 auto;width:434px;height:888px;padding:24px;border-radius:50px;background:#2A2B26;box-sizing:border-box',
           screenSt: 'width:390px;height:844px;border-radius:28px;overflow:hidden;transform:translateZ(0);background:#FFFFFF',
           scrollSt: 'height:100%;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none'
-        } : { fullH: '100vh', showPanel: false, pageSt: '', stageSt: '', frameSt: '', screenSt: '', scrollSt: '' };
+        } : { fullH: '100svh', showPanel: false, pageSt: '', stageSt: '', frameSt: '', screenSt: '', scrollSt: '' };
       })(), toIntro: this.toIntro, pagePad: '24px', heroPad: isMid ? '40px 0 64px' : '8px 0 40px', ctaMax: isMid ? '260px' : 'none', btnFlex: isMid ? '0 0 auto' : '1', btnFlexMain: isMid ? '0 0 auto' : '2', tabGap: isMid ? '32px' : '20px', startSetup: this.startSetup, loadExample: this.loadExample, back: this.back, next: this.next, skip: this.skip,
       hasToast: !!s.toast, toast: s.toast || { msg: '', canUndo: false }, undo: this.undo,
       isWide, isNarrow: !isWide
